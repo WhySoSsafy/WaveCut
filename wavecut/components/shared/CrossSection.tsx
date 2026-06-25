@@ -1,6 +1,6 @@
 "use client";
 import { useState, useRef, useEffect, useCallback, useMemo } from "react";
-import { LEVELS, levelOf } from "@/lib/bsm/levels";
+import { levelOf } from "@/lib/bsm/levels";
 import {
   profileFromTransect,
   profileFromGrid,
@@ -238,7 +238,7 @@ export function CrossSection({
             </g>
           ))}
           {/* 위험 시작 표시 */}
-          {a.dangerStart && (
+          {a.dangerStart != null && (
             <g>
               <line
                 x1={xOf(a.dangerStart)}

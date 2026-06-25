@@ -151,3 +151,38 @@ clean (no output)
 - SHA: `97a7b76`
 - Subject: `fix: fully harden API parsers against malformed input (total parser contract)`
 - Branch: `feat/wavecut-impl`
+
+---
+
+## Fix 3 — parseTide Record Validation (2026-06-25)
+
+### Changes Applied
+
+- `parseTide`: Added filter before sort to ensure only records with `typeof record_time === "string"` AND `record.tide_level != null` are processed. Prevents `.localeCompare()` and `parseFloat()` calls on invalid records. Returns `null` if no usable records remain after filtering.
+
+### Test case added
+
+```ts
+it("record_time이 비문자열인 레코드가 있어도 throw하지 않고 처리한다", () => {
+  expect(() => parseTide({ result: { data: [{ record_time: 123, tide_level: "100" }] } }, "2026-06-25 14:00:00")).not.toThrow();
+  expect(parseTide({ result: { data: [{}] } }, "2026-06-25 14:00:00")).toBeNull();
+  expect(parseTide({ result: { data: [{ record_time: 123, tide_level: "100" }] } }, "2026-06-25 14:00:00")).toBeNull();
+});
+```
+
+### Vitest output
+
+```
+parsers.test.ts: Tests  52 passed (52)
+Full suite:      Test Files  6 passed (6), Tests  97 passed (97)
+```
+
+### tsc output
+
+clean (no output)
+
+### Commit
+
+- SHA: `6efed7f`
+- Subject: `fix: parseTide ignores records with non-string record_time (never throws)`
+- Branch: `feat/wavecut-impl`
