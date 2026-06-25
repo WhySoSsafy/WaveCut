@@ -1,5 +1,5 @@
-import type { SafetyStatus } from "@/lib/bsm/types";
 import { Stat } from "@/components/shared/Stat";
+import { waveStatus, ripStatus, familyStatus } from "@/lib/bsm/safety";
 import styles from "./web.module.css";
 
 interface OceanSafetyPanelProps {
@@ -10,16 +10,10 @@ interface OceanSafetyPanelProps {
   family: boolean;
 }
 
-function ripStatus(rip: string): SafetyStatus {
-  if (rip === "위험") return "danger";
-  if (rip === "주의" || rip === "경계" || rip === "관심") return "caution";
-  return "safe";
-}
-
 export function OceanSafetyPanel({ wave, tide, tideTrend, rip, family }: OceanSafetyPanelProps) {
-  const waveStatus: SafetyStatus = wave > 1 ? "caution" : "safe";
+  const waveS = waveStatus(wave);
   const ripS = ripStatus(rip);
-  const famStatus: SafetyStatus = family ? "safe" : "caution";
+  const famStatus = familyStatus(family);
 
   return (
     <div className={styles.panel}>
@@ -28,7 +22,7 @@ export function OceanSafetyPanel({ wave, tide, tideTrend, rip, family }: OceanSa
         <span className="mono">전문 지표</span>
       </div>
       <div className={styles.safetyMetrics}>
-        <Stat icon="wave" label="파고" value={wave} unit="m" status={waveStatus} />
+        <Stat icon="wave" label="파고" value={wave} unit="m" status={waveS} />
         <Stat
           icon="tide"
           label="조위"

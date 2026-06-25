@@ -1,5 +1,5 @@
-import type { SafetyStatus } from "@/lib/bsm/types";
 import { Stat } from "@/components/shared/Stat";
+import { waveStatus, ripStatus, familyStatus } from "@/lib/bsm/safety";
 import styles from "./mobile.module.css";
 
 interface AppOceanPanelProps {
@@ -10,16 +10,10 @@ interface AppOceanPanelProps {
   family: boolean;
 }
 
-function ripStatus(rip: string): SafetyStatus {
-  if (rip === "위험") return "danger";
-  if (rip === "주의" || rip === "경계" || rip === "관심") return "caution";
-  return "safe";
-}
-
 export function AppOceanPanel({ wave, tide, tideTrend, rip, family }: AppOceanPanelProps) {
-  const waveStatus: SafetyStatus = wave > 1 ? "caution" : "safe";
+  const waveS = waveStatus(wave);
   const ripS = ripStatus(rip);
-  const famStatus: SafetyStatus = family ? "safe" : "caution";
+  const famStatus = familyStatus(family);
 
   return (
     <div className={styles.aPanel}>
@@ -29,7 +23,7 @@ export function AppOceanPanel({ wave, tide, tideTrend, rip, family }: AppOceanPa
       </div>
       {/* 2×2 grid — mirrors web OceanSafetyPanel */}
       <div className={styles.aMetricGrid}>
-        <Stat icon="wave" label="파고" value={wave} unit="m" status={waveStatus} />
+        <Stat icon="wave" label="파고" value={wave} unit="m" status={waveS} />
         <Stat
           icon="tide"
           label="조위"
