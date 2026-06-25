@@ -1,0 +1,6 @@
+# Repo-root ignores (the Next.js app has its own wavecut/.gitignore)
+node_modules/
+.vite/
+.next/
+# SDD scratch (ledger, briefs, reports, review packages) — regenerable
+.superpowers/
