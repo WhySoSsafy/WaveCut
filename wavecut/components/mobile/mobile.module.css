@@ -1,0 +1,86 @@
+/* ===== Mobile shell frame ===== */
+
+/* Phone-frame wrapper: center the 390px phone in the viewport */
+.mobileFrame {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+/* The 390px phone container */
+.phone {
+  width: 390px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ===== App Header (top brand bar) ===== */
+.appHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px 12px;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* ===== Scrollable content area ===== */
+.mobileContent {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ===== Bottom Tab Bar ===== */
+.bottomTabBar {
+  display: flex;
+  align-items: stretch;
+  border-top: 1px solid var(--line);
+  background: #fff;
+  flex-shrink: 0;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  /* Safe area inset for iOS */
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px 4px 8px;
+  text-decoration: none;
+  color: var(--ink-3);
+  font-size: 11px;
+  font-weight: 500;
+  transition: color 0.12s;
+}
+
+.tab:hover {
+  color: var(--ink-2);
+}
+
+.tabOn {
+  color: var(--blue-600);
+  font-weight: 700;
+}
+
+.tabLabel {
+  font-size: 11px;
+  line-height: 1.2;
+  white-space: nowrap;
+}

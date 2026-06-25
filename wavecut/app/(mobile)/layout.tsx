@@ -1,0 +1,15 @@
+import { AppHeader } from "@/components/mobile/AppHeader";
+import { BottomTabBar } from "@/components/mobile/BottomTabBar";
+import styles from "@/components/mobile/mobile.module.css";
+
+export default function MobileLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <div className={styles.mobileFrame}>
+      <div className={styles.phone}>
+        <AppHeader />
+        <main className={styles.mobileContent}>{children}</main>
+        <BottomTabBar />
+      </div>
+    </div>
+  );
+}
