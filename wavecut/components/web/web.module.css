@@ -412,3 +412,355 @@
 .btnPrimary:hover {
   background: var(--blue-700);
 }
+
+/* ===== Beach Detail Page ===== */
+.detailHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 24px 28px;
+}
+
+.detailHeadLeft {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dhName {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dhName h1 {
+  font-size: 26px;
+  font-weight: 800;
+  margin: 0;
+  color: var(--navy-900);
+  letter-spacing: -0.02em;
+}
+
+.dhMeta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13.5px;
+  color: var(--ink-2);
+  flex-wrap: wrap;
+}
+
+.dhStats {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+/* ===== Detail 2-column layout ===== */
+.detailGrid {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 20px;
+  align-items: start;
+}
+
+.detailMain {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.detailAside {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ===== Panel (shared by all detail panels) ===== */
+.panel {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.panelH {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.panelH strong {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--navy-900);
+}
+
+.panelH .mono {
+  font-size: 11.5px;
+  color: var(--ink-3);
+}
+
+/* ===== Cross-section entry panel ===== */
+.xsecEntry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px;
+  background: var(--bg);
+  border-radius: var(--r-md);
+}
+
+.xsecDesc {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--ink-2);
+  line-height: 1.55;
+  flex: 1;
+}
+
+/* ===== OceanSafetyPanel ===== */
+.safetyMetrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* ===== TideForecastPanel ===== */
+.tideRows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tideRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: var(--r-sm);
+  background: var(--bg);
+}
+
+.tideRowNow {
+  background: var(--sky-50);
+  border: 1px solid var(--sky-100);
+}
+
+.tideT {
+  font-size: 12px;
+  color: var(--ink-2);
+  min-width: 60px;
+  flex-shrink: 0;
+}
+
+.tideBar {
+  flex: 1;
+  height: 8px;
+  background: var(--line-2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.tideBar i {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.tideD {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink);
+  min-width: 70px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.tideD em {
+  font-style: normal;
+  font-weight: 400;
+  color: var(--ink-2);
+}
+
+.tideNote {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--ink-3);
+  line-height: 1.5;
+  padding-top: 4px;
+  border-top: 1px solid var(--line-2);
+}
+
+/* ===== SituationTips ===== */
+.sitGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.sitCard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 13px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-md);
+  background: #fff;
+}
+
+.sitCard b {
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.sitCard p {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--ink-2);
+  line-height: 1.55;
+}
+
+.sitIc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+}
+
+/* ===== ParkingPanel ===== */
+.parkRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--bg);
+  border-radius: var(--r-md);
+}
+
+.parkIc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--sky-50);
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.parkInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.parkInfo b {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy-900);
+}
+
+.parkInfo .mono {
+  font-size: 12px;
+  color: var(--ink-2);
+}
+
+.parkActions {
+  display: flex;
+  gap: 8px;
+}
+
+.btnGhost {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 9px 14px;
+  border-radius: 9px;
+  border: 1.5px solid var(--line);
+  background: #fff;
+  color: var(--ink-2);
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.12s, border-color 0.12s;
+  text-decoration: none;
+}
+
+.btnGhost:hover {
+  background: var(--bg);
+  border-color: var(--blue-600);
+  color: var(--blue-600);
+}
+
+.btnSm {
+  font-size: 12px;
+  padding: 7px 11px;
+  border-radius: 8px;
+}
+
+/* ===== DataSourcePanel ===== */
+.srcList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.srcItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: var(--r-sm);
+  background: var(--bg);
+}
+
+.srcItem > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.srcItem b {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--navy-900);
+}
+
+.srcItem span {
+  font-size: 11.5px;
+  color: var(--ink-3);
+}
+
+.srcTag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 10.5px;
+  padding: 3px 7px;
+  border-radius: 6px;
+  background: var(--sky-50);
+  border: 1px solid var(--sky-100);
+  color: var(--blue-700);
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
