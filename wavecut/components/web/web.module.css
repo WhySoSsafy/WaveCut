@@ -718,6 +718,263 @@
   border-radius: 8px;
 }
 
+/* ===== XSec Page ===== */
+.xsecPageHead {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.xsecPageTitle {
+  font-size: 26px;
+  font-weight: 800;
+  margin: 0;
+  color: var(--navy-900);
+  letter-spacing: -0.02em;
+}
+
+.xsecPageSub {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+/* ===== Operator Dashboard ===== */
+.kpiRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.kpi {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.kpi b {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--navy-900);
+  line-height: 1;
+}
+
+.kpi span {
+  font-size: 13px;
+  color: var(--ink-2);
+}
+
+.sSafe {
+  color: var(--safe) !important;
+}
+
+.sCaution {
+  color: var(--caution) !important;
+}
+
+.sDanger {
+  color: var(--danger) !important;
+}
+
+.opGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+/* Alert list */
+.alertList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.alertItem {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line-2);
+}
+
+.alertItem:last-child {
+  border-bottom: none;
+}
+
+.alertBar {
+  width: 4px;
+  height: 44px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.alertMain {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.alertTop {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.alertTop b {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy-900);
+}
+
+.alertPill {
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.alertZone {
+  font-size: 12.5px;
+  color: var(--ink-2);
+}
+
+.alertTime {
+  font-size: 12px;
+  color: var(--ink-3);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Deploy list */
+.deployList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.deployRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.deployRow b {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--navy-900);
+  min-width: 48px;
+  flex-shrink: 0;
+}
+
+.deployBar {
+  flex: 1;
+  height: 8px;
+  background: var(--line-2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.deployNum {
+  font-size: 13px;
+  font-weight: 600;
+  min-width: 60px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* Notice card */
+.noticeCard {
+  background: var(--bg);
+  border-radius: var(--r-md);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.noticeTag {
+  font-size: 11px;
+  color: var(--ink-3);
+}
+
+.noticeCard p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--ink);
+}
+
+.noticeActions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Operator table */
+.opTable {
+  overflow-x: auto;
+}
+
+.opTableEl {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.opTableEl th {
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-3);
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+.opTableEl td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line-2);
+  color: var(--ink);
+  vertical-align: middle;
+}
+
+.opTableEl tr:last-child td {
+  border-bottom: none;
+}
+
+.opTableEl tr:hover td {
+  background: var(--bg);
+}
+
+.opBeachLink {
+  font-weight: 700;
+  color: var(--blue-600);
+  text-decoration: none;
+}
+
+.opBeachLink:hover {
+  text-decoration: underline;
+}
+
+.opScore {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--navy-900);
+}
+
+.opMono {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--ink-2);
+}
+
 /* ===== DataSourcePanel ===== */
 .srcList {
   display: flex;
