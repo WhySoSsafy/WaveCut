@@ -160,3 +160,255 @@
   min-width: 0;
   overflow: auto;
 }
+
+/* ===== Dashboard page layout ===== */
+.page {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 30px 34px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* ===== Hero ===== */
+.pageHero {
+  background: linear-gradient(
+    120deg,
+    var(--navy-900),
+    var(--navy-700) 60%,
+    var(--blue-700)
+  );
+  border-radius: var(--r-lg);
+  padding: 30px 32px;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  position: relative;
+  overflow: hidden;
+}
+
+.pageHero::after {
+  content: "";
+  position: absolute;
+  right: -60px;
+  top: -40px;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(57, 183, 240, 0.4),
+    transparent 70%
+  );
+}
+
+.pageHero h1 {
+  font-size: 27px;
+  font-weight: 800;
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+}
+
+.pageHero p {
+  margin: 0;
+  font-size: 14.5px;
+  color: #c6d9f0;
+  max-width: 520px;
+  line-height: 1.6;
+}
+
+.heroSummary {
+  display: flex;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.hsum {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  padding: 14px 18px;
+  text-align: center;
+  min-width: 74px;
+}
+
+.hsum b {
+  display: block;
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.hsum span {
+  font-size: 11.5px;
+  color: #b9cee8;
+}
+
+.sSafe {
+  color: var(--safe);
+}
+
+.sCaution {
+  color: var(--caution);
+}
+
+.sDanger {
+  color: var(--danger);
+}
+
+.hsumDiv b {
+  color: var(--sky-300);
+}
+
+/* ===== Section head ===== */
+.secHead {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.secHead h3 {
+  font-size: 18px;
+  font-weight: 800;
+  margin: 0;
+  color: var(--navy-900);
+}
+
+.secHead span {
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+/* ===== Beach card grid ===== */
+.bcardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 18px;
+}
+
+/* ===== Feature row ===== */
+.featRow {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 18px;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.featImg {
+  width: 280px;
+  flex-shrink: 0;
+  align-self: stretch;
+  min-height: 230px;
+  border-radius: 14px;
+  position: relative;
+  background: linear-gradient(160deg, #173f72, #2f86f0 70%, #39b7f0);
+  overflow: hidden;
+}
+
+.featImgGrid {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.07) 0 1px,
+    transparent 1px 11px
+  );
+}
+
+.featImgTag {
+  position: absolute;
+  left: 12px;
+  bottom: 10px;
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, 0.82);
+  background: rgba(10, 35, 66, 0.32);
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-family: var(--mono);
+}
+
+.featInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.featTop {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.featInfo h2 {
+  font-size: 23px;
+  font-weight: 800;
+  margin: 0;
+  color: var(--navy-900);
+}
+
+.featInfo p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink-2);
+  line-height: 1.6;
+  max-width: 560px;
+}
+
+.featStats {
+  display: flex;
+  gap: 22px;
+  flex-wrap: wrap;
+  margin: 4px 0 6px;
+}
+
+.famOk {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 8px;
+  color: var(--safe);
+  background: var(--safe-bg);
+}
+
+.famNo {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 8px;
+  color: var(--caution);
+  background: var(--caution-bg);
+}
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 11px 18px;
+  border-radius: 11px;
+  align-self: flex-start;
+  transition: background 0.14s;
+  background: var(--blue-600);
+  color: #fff;
+  text-decoration: none;
+}
+
+.btnPrimary:hover {
+  background: var(--blue-700);
+}
