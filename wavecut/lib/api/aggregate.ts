@@ -5,12 +5,19 @@ import type { TransectParams, GridSample } from "@/lib/bsm/profile";
 import { profileFromTransect, transectAt, analyze } from "@/lib/bsm/profile";
 import { computeScore, statusOf } from "@/lib/bsm/score";
 import { fetchTide } from "./tide";
+import type { TideResult } from "./tide";
 import { fetchWeather } from "./weather";
+import type { WeatherResult } from "./weather";
 import { fetchBeachInfo } from "./beachInfo";
+import type { BeachInfoResult } from "./beachInfo";
 import { fetchRip } from "./rip";
+import type { RipResult } from "./rip";
 import { fetchWave } from "./wave";
+import type { WaveResult } from "./wave";
 import { fetchQuality } from "./quality";
+import type { QualityResult } from "./quality";
 import { fetchBathymetry } from "./bathymetry";
+import type { BathymetryResult } from "./bathymetry";
 
 export interface BeachSummary {
   id: string; name: string; region: string;
@@ -31,26 +38,44 @@ export interface BeachDetail extends BeachSummary {
 const RIP_TEXT = (lvl: string): "관심" | "주의" | "경계" | "위험" | "안전" =>
   (["관심", "주의", "경계", "위험"].includes(lvl) ? lvl : "안전") as "관심" | "주의" | "경계" | "위험" | "안전";
 
+function settled<T>(r: PromiseSettledResult<T>, fallback: T): T {
+  return r.status === "fulfilled" ? r.value : fallback;
+}
+
 export async function getBeachDetail(id: BeachId): Promise<BeachDetail> {
   const fb = FALLBACK[id];
-  const settled = await Promise.allSettled([
+  const results = await Promise.allSettled([
     fetchTide(id), fetchWeather(id), fetchBeachInfo(id),
     fetchRip(id), fetchWave(id), fetchQuality(id), fetchBathymetry(id),
-  ]);
-  const [tide, weather, info, rip, wave, quality, grid] = settled.map(r =>
-    r.status === "fulfilled" ? r.value : null
-  );
+  ] as const);
+  const [tideResult, weatherResult, infoResult, ripResult, waveResult, qualityResult, gridResult] = results as [
+    PromiseSettledResult<TideResult | null>,
+    PromiseSettledResult<WeatherResult | null>,
+    PromiseSettledResult<BeachInfoResult | null>,
+    PromiseSettledResult<RipResult | null>,
+    PromiseSettledResult<WaveResult | null>,
+    PromiseSettledResult<QualityResult | null>,
+    PromiseSettledResult<BathymetryResult | null>,
+  ];
+
+  const tide = settled(tideResult, null);
+  const weather = settled(weatherResult, null);
+  const info = settled(infoResult, null);
+  const rip = settled(ripResult, null);
+  const wave = settled(waveResult, null);
+  const quality = settled(qualityResult, null);
+  const grid = settled(gridResult, null);
 
   const tideOffsets = {
-    now: (tide as any)?.nowOffset ?? FALLBACK_TIDE_OFFSETS.now,
-    t1: (tide as any)?.t1Offset ?? FALLBACK_TIDE_OFFSETS.t1,
-    t2: (tide as any)?.t2Offset ?? FALLBACK_TIDE_OFFSETS.t2,
+    now: tide?.nowOffset ?? FALLBACK_TIDE_OFFSETS.now,
+    t1: tide?.t1Offset ?? FALLBACK_TIDE_OFFSETS.t1,
+    t2: tide?.t2Offset ?? FALLBACK_TIDE_OFFSETS.t2,
   };
-  const waveHeight = (wave as any)?.height ?? (info as any)?.waveHeight ?? fb.wave;
-  const ripLabel = rip ? (rip as any).level : fb.rip;
-  const qualityGrade = (quality as any)?.grade ?? FALLBACK_QUALITY;
-  const windSpeed = (info as any)?.windSpeed ?? (weather as any)?.windSpeed ?? FALLBACK_WIND_SPEED;
-  const tideRising = (tide as any)?.rising ?? (fb.tideTrend === "상승");
+  const waveHeight = wave?.height ?? info?.waveHeight ?? fb.wave;
+  const ripLabel = rip ? rip.level : fb.rip;
+  const qualityGrade = quality?.grade ?? FALLBACK_QUALITY;
+  const windSpeed = info?.windSpeed ?? weather?.windSpeed ?? FALLBACK_WIND_SPEED;
+  const tideRising = tide?.rising ?? (fb.tideTrend === "상승");
 
   // 중앙 단면 기준 위험시작으로 점수 산정
   const centerBed = profileFromTransect(transectAt(fb.transects, 0.5));
@@ -63,15 +88,15 @@ export async function getBeachDetail(id: BeachId): Promise<BeachDetail> {
   return {
     id: fb.id, name: fb.name, region: fb.region,
     status: statusOf(score), score,
-    sky: (weather as any)?.sky ?? fb.sky, air: (weather as any)?.air ?? fb.air,
-    uv: (weather as any)?.uv ?? fb.uv, crowd: fb.crowd,
-    wave: waveHeight, tide: (tide as any)?.label ?? fb.tide,
+    sky: weather?.sky ?? fb.sky, air: weather?.air ?? fb.air,
+    uv: weather?.uv ?? fb.uv, crowd: fb.crowd,
+    wave: waveHeight, tide: tide?.label ?? fb.tide,
     tideTrend: tideRising ? "상승" : "하강", rip: ripLabel,
-    water: (info as any)?.water ?? fb.water, family: fb.family,
+    water: info?.water ?? fb.water, family: fb.family,
     parking: fb.parking, parkDist: fb.parkDist, length: fb.length,
     summary: fb.summary, windSpeed, quality: qualityGrade,
     tideOffsets, transects: fb.transects,
-    grid: (grid as any) ?? null,
+    grid: grid ?? null,
   };
 }
 
