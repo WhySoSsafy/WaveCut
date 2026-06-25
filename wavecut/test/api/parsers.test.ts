@@ -85,15 +85,30 @@ describe("parseRip", () => {
     }
   });
 
-  it("인덱스가 범위를 벗어나면 클램프", () => {
-    // 음수 → 관심
-    expect(
-      parseRip({ response: { body: { items: { item: [{ rip_index: "-5" }] } } } })!.level
-    ).toBe("관심");
+  it("인덱스가 범위를 벗어나면 클램프 (양수 초과 → 위험)", () => {
     // 초과 → 위험
     expect(
       parseRip({ response: { body: { items: { item: [{ rip_index: "99" }] } } } })!.level
     ).toBe("위험");
+  });
+
+  it("음수 rip_index는 비정수 문자열이므로 null", () => {
+    // 음수는 /^\d+$/ 에 불일치 → null
+    expect(
+      parseRip({ response: { body: { items: { item: [{ rip_index: "-5" }] } } } })
+    ).toBeNull();
+  });
+
+  it("'1abc'는 null (strict 정수 검사)", () => {
+    expect(
+      parseRip({ response: { body: { items: { item: [{ rip_index: "1abc" }] } } } })
+    ).toBeNull();
+  });
+
+  it("'0'은 관심", () => {
+    expect(
+      parseRip({ response: { body: { items: { item: [{ rip_index: "0" }] } } } })!.level
+    ).toBe("관심");
   });
 
   it("item이 없으면 null", () => {
@@ -342,5 +357,94 @@ describe("parseBathymetry", () => {
       },
     };
     expect(parseBathymetry(json)).toBeNull();
+  });
+
+  it("left의 첫 요소가 null이면 null (null element guard)", () => {
+    const json = {
+      sections: {
+        left: [null],
+        center: [{ dist: 0, depth: 0 }],
+        right: [{ dist: 0, depth: 0 }],
+      },
+    };
+    expect(() => parseBathymetry(json)).not.toThrow();
+    expect(parseBathymetry(json)).toBeNull();
+  });
+
+  it("샘플에 depth가 없으면 null (missing depth)", () => {
+    const json = {
+      sections: {
+        left: [{ dist: 1 }],
+        center: [{ dist: 0, depth: 0 }],
+        right: [{ dist: 0, depth: 0 }],
+      },
+    };
+    expect(() => parseBathymetry(json)).not.toThrow();
+    expect(parseBathymetry(json)).toBeNull();
+  });
+
+  it("샘플에 비유한(non-finite) depth가 있으면 null", () => {
+    const json = {
+      sections: {
+        left: [{ dist: 1, depth: NaN }],
+        center: [{ dist: 0, depth: 0 }],
+        right: [{ dist: 0, depth: 0 }],
+      },
+    };
+    expect(() => parseBathymetry(json)).not.toThrow();
+    expect(parseBathymetry(json)).toBeNull();
+  });
+});
+
+describe("null element guards (total parser contract)", () => {
+  it("parseTide: data 배열에 null 첫 요소가 있으면 null, 절대 throw 안함", () => {
+    const json = { result: { data: [null] } };
+    expect(() => parseTide(json, "2026-06-25 14:00:00")).not.toThrow();
+    expect(parseTide(json, "2026-06-25 14:00:00")).toBeNull();
+  });
+
+  it("parseWeather: item 배열에 null 첫 요소가 있으면 null 반환, throw 안함", () => {
+    const json = { response: { body: { items: { item: [null] } } } };
+    expect(() => parseWeather(json)).not.toThrow();
+    // null 요소만 있으면 T1H/WSD를 못 찾으므로 null
+    expect(parseWeather(json)).toBeNull();
+  });
+
+  it("parseBeachInfo: item 배열에 null 첫 요소가 있으면 null, throw 안함", () => {
+    const json = { response: { body: { items: { item: [null] } } } };
+    expect(() => parseBeachInfo(json)).not.toThrow();
+    expect(parseBeachInfo(json)).toBeNull();
+  });
+
+  it("parseWave: data 배열에 null 첫 요소가 있으면 null, throw 안함", () => {
+    const json = { result: { data: [null] } };
+    expect(() => parseWave(json)).not.toThrow();
+    expect(parseWave(json)).toBeNull();
+  });
+
+  it("parseBeachInfo: windDir 필드가 없으면 result.windDir === ''", () => {
+    const json = {
+      response: {
+        body: {
+          items: {
+            item: [{ waveHeight: "0.8", waterTemp: "23.5", windSpeed: "4.2" }],
+          },
+        },
+      },
+    };
+    const r = parseBeachInfo(json);
+    expect(r).not.toBeNull();
+    expect(r!.windDir).toBe("");
+  });
+
+  it("parseWave: wave_dir 필드가 없으면 result.dir === ''", () => {
+    const json = {
+      result: {
+        data: [{ wave_height: "1.2", wave_period: "6.5" }],
+      },
+    };
+    const r = parseWave(json);
+    expect(r).not.toBeNull();
+    expect(r!.dir).toBe("");
   });
 });

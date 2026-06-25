@@ -32,9 +32,14 @@ export function parseWeather(json: unknown): WeatherResult | null {
   )?.response?.body?.items?.item;
   if (!Array.isArray(items) || items.length === 0) return null;
 
-  const typedItems = items as WeatherItem[];
-  const find = (cat: string): string | undefined =>
-    typedItems.find((i) => i.category === cat)?.obsrValue;
+  const isWeatherItem = (x: unknown): x is WeatherItem =>
+    x != null && typeof x === "object";
+  const find = (cat: string): string | undefined => {
+    const match = (items as unknown[]).find(
+      (i) => isWeatherItem(i) && (i as WeatherItem).category === cat
+    );
+    return match != null ? (match as WeatherItem).obsrValue : undefined;
+  };
 
   const skyCode = find("SKY") ?? "";
   const airStr = find("T1H");

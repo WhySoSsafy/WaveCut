@@ -27,7 +27,9 @@ export function parseBeachInfo(json: unknown): BeachInfoResult | null {
   )?.response?.body?.items?.item;
   if (!Array.isArray(itemArr) || itemArr.length === 0) return null;
 
-  const item = itemArr[0] as BeachInfoItem;
+  const raw = itemArr[0];
+  if (raw == null || typeof raw !== "object") return null;
+  const item = raw as BeachInfoItem;
 
   const waveHeight = parseFloat(item.waveHeight);
   if (!Number.isFinite(waveHeight)) return null;
@@ -42,7 +44,7 @@ export function parseBeachInfo(json: unknown): BeachInfoResult | null {
     waveHeight,
     water,
     windSpeed,
-    windDir: item.windDir,
+    windDir: typeof item.windDir === "string" ? item.windDir : "",
   };
 }
 

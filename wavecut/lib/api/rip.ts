@@ -19,7 +19,10 @@ export function parseRip(json: unknown): RipResult | null {
   )?.response?.body?.items?.item?.[0];
   if (!item || item.rip_index === undefined || item.rip_index === null) return null;
 
-  const raw = parseInt(item.rip_index, 10);
+  const trimmed = String(item.rip_index).trim();
+  if (!/^\d+$/.test(trimmed)) return null;
+
+  const raw = parseInt(trimmed, 10);
   if (!Number.isFinite(raw)) return null;
 
   const idx = Math.max(0, Math.min(3, raw));

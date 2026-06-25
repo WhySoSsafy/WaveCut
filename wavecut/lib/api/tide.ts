@@ -21,27 +21,39 @@ export function parseTide(json: unknown, nowTime: string): TideResult | null {
   const data = (json as { result?: { data?: unknown } })?.result?.data;
   if (!Array.isArray(data) || data.length === 0) return null;
 
-  const records = data as TideRecord[];
-
-  const parseCm = (s: string): number | null => {
+  const parseCm = (s: unknown): number | null => {
+    if (typeof s !== "string") return null;
     const v = parseFloat(s);
     return Number.isFinite(v) ? v : null;
   };
 
+  const isRecord = (x: unknown): x is TideRecord =>
+    x != null && typeof x === "object";
+
   const findLevel = (time: string): number | null => {
-    const rec = records.find((d) => d.record_time === time);
+    const rec = (data as unknown[]).find(
+      (d) => isRecord(d) && (d as TideRecord).record_time === time
+    ) as TideRecord | undefined;
     return rec ? parseCm(rec.tide_level) : null;
   };
 
-  const sorted = [...records].sort((a, b) => a.record_time.localeCompare(b.record_time));
-  const nowCm = findLevel(nowTime) ?? parseCm(sorted[0].tide_level);
+  const sorted = [...(data as unknown[])]
+    .filter(isRecord)
+    .map((d) => d as TideRecord)
+    .sort((a, b) => a.record_time.localeCompare(b.record_time));
+  if (sorted.length === 0) return null;
+
+  const first = sorted[0];
+  const nowCm = findLevel(nowTime) ?? parseCm(first.tide_level);
   if (nowCm === null || !Number.isFinite(nowCm)) return null;
 
   // now 이후 시각 두 개를 1·2시간 후로 사용
   const idx = sorted.findIndex((d) => d.record_time === nowTime);
   const base = idx >= 0 ? idx : 0;
-  const t1Cm = (sorted[base + 1] ? parseCm(sorted[base + 1].tide_level) : null) ?? nowCm;
-  const t2Cm = (sorted[base + 2] ? parseCm(sorted[base + 2].tide_level) : null) ?? t1Cm;
+  const s1 = sorted[base + 1];
+  const s2 = sorted[base + 2];
+  const t1Cm = (s1 != null && isRecord(s1) ? parseCm((s1 as TideRecord).tide_level) : null) ?? nowCm;
+  const t2Cm = (s2 != null && isRecord(s2) ? parseCm((s2 as TideRecord).tide_level) : null) ?? t1Cm;
 
   return {
     nowOffset: 0,

@@ -19,8 +19,9 @@ export function parseWave(json: unknown): WaveResult | null {
   const data = (json as { result?: { data?: unknown } })?.result?.data;
   if (!Array.isArray(data) || data.length === 0) return null;
 
-  const records = data as WaveRecord[];
-  const rec = records[0];
+  const rawRec = (data as unknown[])[0];
+  if (rawRec == null || typeof rawRec !== "object") return null;
+  const rec = rawRec as WaveRecord;
 
   const height = parseFloat(rec.wave_height);
   if (!Number.isFinite(height)) return null;
@@ -30,7 +31,7 @@ export function parseWave(json: unknown): WaveResult | null {
 
   return {
     height,
-    dir: rec.wave_dir,
+    dir: typeof rec.wave_dir === "string" ? rec.wave_dir : "",
     period,
   };
 }

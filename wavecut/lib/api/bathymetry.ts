@@ -31,14 +31,27 @@ export function parseBathymetry(json: unknown): BathymetryResult | null {
   if (!Array.isArray(sections.center)) return null;
   if (!Array.isArray(sections.right)) return null;
 
-  const toSamples = (arr: RawSection[]): GridSample[] =>
-    arr.map((s) => ({ dist: s.dist, depth: s.depth }));
+  const isValidSample = (x: unknown): x is RawSection =>
+    x != null &&
+    typeof x === "object" &&
+    Number.isFinite((x as RawSection).dist) &&
+    Number.isFinite((x as RawSection).depth);
 
-  const left = toSamples(sections.left as RawSection[]);
-  const center = toSamples(sections.center as RawSection[]);
-  const right = toSamples(sections.right as RawSection[]);
+  const toSamples = (arr: unknown[]): GridSample[] | null => {
+    const result: GridSample[] = [];
+    for (const s of arr) {
+      if (!isValidSample(s)) return null;
+      result.push({ dist: s.dist, depth: s.depth });
+    }
+    return result;
+  };
 
-  if (left.length === 0 && center.length === 0 && right.length === 0) return null;
+  const left = toSamples(sections.left as unknown[]);
+  if (left === null || left.length === 0) return null;
+  const center = toSamples(sections.center as unknown[]);
+  if (center === null || center.length === 0) return null;
+  const right = toSamples(sections.right as unknown[]);
+  if (right === null || right.length === 0) return null;
 
   return { left, center, right };
 }
