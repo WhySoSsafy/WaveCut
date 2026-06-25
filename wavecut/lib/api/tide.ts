@@ -40,6 +40,7 @@ export function parseTide(json: unknown, nowTime: string): TideResult | null {
   const sorted = [...(data as unknown[])]
     .filter(isRecord)
     .map((d) => d as TideRecord)
+    .filter((d) => typeof d.record_time === "string" && d.tide_level != null)
     .sort((a, b) => a.record_time.localeCompare(b.record_time));
   if (sorted.length === 0) return null;
 

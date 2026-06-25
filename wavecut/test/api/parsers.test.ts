@@ -67,6 +67,12 @@ describe("parseTide", () => {
     };
     expect(parseTide(json, "2026-06-25 99:00:00")).toBeNull();
   });
+
+  it("record_time이 비문자열인 레코드가 있어도 throw하지 않고 처리한다", () => {
+    expect(() => parseTide({ result: { data: [{ record_time: 123, tide_level: "100" }] } }, "2026-06-25 14:00:00")).not.toThrow();
+    expect(parseTide({ result: { data: [{}] } }, "2026-06-25 14:00:00")).toBeNull();
+    expect(parseTide({ result: { data: [{ record_time: 123, tide_level: "100" }] } }, "2026-06-25 14:00:00")).toBeNull();
+  });
 });
 
 describe("parseRip", () => {
