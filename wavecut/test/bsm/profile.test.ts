@@ -39,11 +39,10 @@ describe("depthAt (조위 가산)", () => {
 
 describe("analyze", () => {
   const bed = profileFromTransect({ shelf: 20, shelfDepth: 0.6, slope: 0.2, rip: false });
-  it("무릎끝(>0.6)과 위험시작(>=1.5) 거리를 찾는다", () => {
+  it("무릎끝(>0.6)과 위험시작(>=1.5) 거리를 정확히 찾는다", () => {
     const r = analyze(bed, 0);
-    expect(r.kneeEnd).toBeGreaterThan(0);
-    expect(r.dangerStart).not.toBeNull();
-    expect(r.dangerStart!).toBeGreaterThan(r.kneeEnd);
+    expect(r.kneeEnd).toBe(21);        // d=20.5 -> round 21
+    expect(r.dangerStart).toBe(25);    // d=24.5 -> round 25
   });
   it("위험 구간이 없으면 dangerStart는 null", () => {
     const flat = profileFromTransect({ shelf: 80, shelfDepth: 0.5, slope: 0.001, rip: false });
@@ -61,5 +60,14 @@ describe("transectAt (위치 보간)", () => {
   it("p=1은 마지막 transect", () => { expect(transectAt(ts, 1).shelf).toBeCloseTo(20, 5); });
   it("p=0.25는 0번과 1번 사이 보간", () => {
     expect(transectAt(ts, 0.25).shelf).toBeCloseTo(30, 5); // 20 + (40-20)*0.5
+  });
+  it("rip은 f>=0.5에서 다음 transect 값으로 넘어간다", () => {
+    expect(transectAt(ts, 0.625).rip).toBe(false); // x=1.25, i=1, f=0.25 -> a(ts[1])
+    expect(transectAt(ts, 0.875).rip).toBe(true);  // x=1.75, i=1, f=0.75 -> b(ts[2])
+  });
+  it("shelfDepth/slope도 보간된다", () => {
+    const t = transectAt(ts, 0.25); // i=0, f=0.5
+    expect(t.shelfDepth).toBeCloseTo(0.75, 5); // (0.7+0.8)/2
+    expect(t.slope).toBeCloseTo(0.055, 5);     // (0.06+0.05)/2
   });
 });
