@@ -3,8 +3,9 @@ import path from "node:path";
 
 export default defineConfig({
   test: {
-    environment: "node",
-    include: ["test/**/*.test.ts"],
+    environment: "jsdom",
+    include: ["test/**/*.test.ts", "test/**/*.test.tsx"],
+    setupFiles: [],
   },
   resolve: {
     alias: { "@": path.resolve(__dirname, ".") },

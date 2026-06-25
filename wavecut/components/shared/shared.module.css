@@ -1,0 +1,140 @@
+/* ===== StatusPill ===== */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.pillBig {
+  font-size: 13px;
+  padding: 6px 13px;
+}
+
+/* dot is a plain <i> — keep as global since it's a single inline element */
+:global(.dot) {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+/* ===== Stat ===== */
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.statIc {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: var(--sky-50);
+  color: var(--blue-600);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.statLabel {
+  font-size: 11px;
+  color: var(--ink-3);
+}
+
+.statValue {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--navy-900);
+}
+
+.statValue em {
+  font-style: normal;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ink-3);
+  margin-left: 2px;
+}
+
+/* ===== ScoreGauge ===== */
+.gauge {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.gaugeNum {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.gaugeNum span {
+  font-size: 11px;
+  font-weight: 600;
+  margin-left: 1px;
+}
+
+/* ===== WaveLogo ===== */
+.waveLogo {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: linear-gradient(145deg, #39B7F0, #1f74d6 55%, #0E2C53);
+  box-shadow: 0 2px 8px rgba(20, 82, 158, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.waveLogoLt {
+  /* light variant: same gradient, override if needed */
+  opacity: 0.92;
+}
+
+/* ===== WaveWordmark ===== */
+.wcLockup {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.05;
+  gap: 3px;
+  white-space: nowrap;
+}
+
+.wcKo {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--navy-900);
+  white-space: nowrap;
+}
+
+.wcEn {
+  font-family: 'Quicksand', var(--sans);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--blue-600);
+  white-space: nowrap;
+}
+
+.wcEn b {
+  font-weight: 700;
+  color: var(--navy-900);
+}
+
+/* Size variants */
+.wcMd .wcKo { font-size: 16px; }
+.wcMd .wcEn { font-size: 11.5px; }
+.wcLg .wcKo { font-size: 20px; }
+.wcLg .wcEn { font-size: 13px; }
+.wcSm .wcKo { font-size: 14px; }
+.wcSm .wcEn { font-size: 10px; }
+
+/* Light variants */
+.wcLt .wcKo { color: #fff; }
+.wcLt .wcEn { color: var(--sky-300); }
+.wcLt .wcEn b { color: #fff; }
