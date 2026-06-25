@@ -1,0 +1,33 @@
+import Link from "next/link";
+import type { BeachSummary } from "@/lib/api/aggregate";
+import { StatusPill } from "@/components/shared/StatusPill";
+import { Icon } from "@/components/shared/Icon";
+import styles from "./mobile.module.css";
+
+export function AppBeachCard({ beach }: { beach: BeachSummary }) {
+  return (
+    <Link href={`/app/beach/${beach.id}`} className={styles.arow}>
+      {/* Thumbnail placeholder */}
+      <span
+        className={styles.arowThumb}
+        aria-hidden="true"
+      >
+        <Icon name="sun" size={18} color="var(--blue-600)" />
+      </span>
+
+      {/* Main info — easy info only (날씨, 자외선, 혼잡도) */}
+      <div className={styles.arowMain}>
+        <div className={styles.arowName}>
+          {beach.name}
+          <StatusPill status={beach.status} />
+        </div>
+        <div className={styles.arowMeta}>
+          <Icon name="sun" size={12} color="var(--ink-3)" />
+          {beach.sky} {beach.air}℃ · 자외선 {beach.uv} · 혼잡 {beach.crowd}
+        </div>
+      </div>
+
+      <Icon name="chevron" size={16} color="var(--ink-3)" />
+    </Link>
+  );
+}

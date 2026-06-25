@@ -84,3 +84,447 @@
   line-height: 1.2;
   white-space: nowrap;
 }
+
+/* ===== AppBeachCard — list row ===== */
+.arow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--line-2);
+  text-decoration: none;
+  color: inherit;
+  background: #fff;
+  transition: background 0.12s;
+}
+
+.arow:hover {
+  background: var(--bg);
+}
+
+.arowThumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--sky-50);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.arowMain {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.arowName {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy-900);
+}
+
+.arowMeta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--ink-3);
+  font-family: var(--mono, monospace);
+}
+
+/* ===== Home page sections ===== */
+.aHomeContent {
+  padding-bottom: 24px;
+}
+
+.aHeroTop {
+  padding: 18px 20px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-bottom: 1px solid var(--line);
+}
+
+.aHelloLabel {
+  font-size: 11.5px;
+  color: var(--ink-3);
+  font-family: var(--mono, monospace);
+}
+
+.aHeroTop h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--navy-900);
+  letter-spacing: -0.02em;
+}
+
+/* Recommended card (featured beach) */
+.aRec {
+  margin: 16px 20px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+}
+
+.aRecImg {
+  height: 110px;
+  background: linear-gradient(160deg, #1c4d86, #2f86f0 70%, #39B7F0);
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 10px 12px;
+}
+
+.aRecFlag {
+  font-size: 10px;
+  color: #fff;
+  background: var(--blue-600);
+  padding: 3px 9px;
+  border-radius: 6px;
+  font-family: var(--mono, monospace);
+}
+
+.aRecImgTag {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: var(--mono, monospace);
+}
+
+.aRecBody {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.aRecTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.aRecTop b {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--navy-900);
+}
+
+.aRecSummary {
+  margin: 0;
+  font-size: 13px;
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+
+.aRecStats {
+  display: flex;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--ink-2);
+}
+
+.aRecStats span {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+/* Section header */
+.aSecH {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 14px 20px 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy-900);
+}
+
+.aSecH span {
+  font-size: 11.5px;
+  color: var(--ink-3);
+  font-family: var(--mono, monospace);
+  font-weight: 400;
+}
+
+/* ===== Detail page ===== */
+.aDetailContent {
+  padding-bottom: 24px;
+}
+
+/* Back app bar */
+.aBar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.aBarBack {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  border: 1px solid var(--line);
+  background: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.aBarTitle {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy-900);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Hero strip */
+.aDetailHero {
+  height: 100px;
+  background: linear-gradient(160deg, #1c4d86, #2f86f0 70%, #39B7F0);
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 20px 12px;
+}
+
+.aDetailHeroB {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Easy info 3-column strip */
+.aEasyRow {
+  display: flex;
+  border-bottom: 1px solid var(--line);
+}
+
+.aEasy {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 8px;
+  border-right: 1px solid var(--line-2);
+}
+
+.aEasy:last-child {
+  border-right: none;
+}
+
+.aEasyLabel {
+  font-size: 11px;
+  color: var(--ink-3);
+}
+
+.aEasyValue {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy-900);
+}
+
+/* Parking button */
+.aParkBtn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  margin: 12px 20px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #fff;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  width: calc(100% - 40px);
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--shadow-sm);
+}
+
+.aParkIc {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--sky-50);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.aParkTxt {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.aParkTxt b {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy-900);
+}
+
+.aParkTxt em {
+  font-style: normal;
+  font-size: 11.5px;
+  color: var(--ink-3);
+  font-family: var(--mono, monospace);
+}
+
+/* Section sub-header within detail */
+.aDetailSecH {
+  padding: 16px 20px 8px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--navy-900);
+}
+
+/* Primary action button */
+.aBtnPrimary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 12px 20px;
+  width: calc(100% - 40px);
+  padding: 14px 20px;
+  border-radius: 12px;
+  background: var(--blue-600);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.aBtnPrimary:hover {
+  background: var(--navy-700, #1a4a8a);
+}
+
+/* ===== AppOceanPanel ===== */
+.aPanel {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  margin: 0 20px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: var(--shadow-sm);
+}
+
+.aPanelH {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.aPanelH strong {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy-900);
+}
+
+.aPanelH .mono {
+  font-size: 11px;
+  color: var(--ink-3);
+}
+
+.aMetricGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* ===== XSec page ===== */
+.aXsecContent {
+  padding-bottom: 24px;
+}
+
+.aXsecPanel {
+  padding: 0 20px;
+  margin-bottom: 8px;
+}
+
+.aSituationWrap {
+  padding: 0 20px;
+}
+
+.aSituationH {
+  padding: 14px 0 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy-900);
+}
+
+.aSitGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.aSitCard {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
+.aSitIc {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 4px;
+}
+
+.aSitCard b {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.aSitCard p {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--ink-2);
+  line-height: 1.5;
+}
