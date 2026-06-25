@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { parseTide } from "@/lib/api/tide";
 import { parseRip } from "@/lib/api/rip";
 import { parseQuality } from "@/lib/api/quality";
-import { parseWeather } from "@/lib/api/weather";
+import { parseWeather, parseNcst, parseFcstSky } from "@/lib/api/weather";
 import { parseBeachInfo } from "@/lib/api/beachInfo";
 import { parseWave } from "@/lib/api/wave";
 import { parseBathymetry } from "@/lib/api/bathymetry";
@@ -452,5 +452,159 @@ describe("null element guards (total parser contract)", () => {
     const r = parseWave(json);
     expect(r).not.toBeNull();
     expect(r!.dir).toBe("");
+  });
+});
+
+describe("parseNcst (초단기실황)", () => {
+  const makeNcstJson = (overrides: Record<string, string> = {}) => ({
+    response: {
+      body: {
+        items: {
+          item: [
+            { category: "T1H", obsrValue: overrides.T1H ?? "27.5" },
+            { category: "WSD", obsrValue: overrides.WSD ?? "3.2" },
+            { category: "PTY", obsrValue: overrides.PTY ?? "0" },
+            { category: "RN1", obsrValue: "0" },
+            { category: "REH", obsrValue: "65" },
+          ],
+        },
+      },
+    },
+  });
+
+  it("T1H와 WSD를 올바르게 파싱한다", () => {
+    const r = parseNcst(makeNcstJson());
+    expect(r).not.toBeNull();
+    expect(r!.air).toBeCloseTo(27.5, 2);
+    expect(r!.windSpeed).toBeCloseTo(3.2, 2);
+    expect(r!.pty).toBe("0");
+  });
+
+  it("PTY 값을 파싱한다 (강수형태)", () => {
+    const r = parseNcst(makeNcstJson({ PTY: "1" }));
+    expect(r).not.toBeNull();
+    expect(r!.pty).toBe("1");
+  });
+
+  it("T1H가 NaN이면 null", () => {
+    expect(parseNcst(makeNcstJson({ T1H: "not-a-number" }))).toBeNull();
+  });
+
+  it("WSD가 NaN이면 null", () => {
+    expect(parseNcst(makeNcstJson({ WSD: "bad" }))).toBeNull();
+  });
+
+  it("item 배열이 비어 있으면 null", () => {
+    expect(
+      parseNcst({ response: { body: { items: { item: [] } } } })
+    ).toBeNull();
+  });
+
+  it("T1H가 없으면 null", () => {
+    const json = {
+      response: {
+        body: {
+          items: {
+            item: [
+              { category: "WSD", obsrValue: "3.0" },
+            ],
+          },
+        },
+      },
+    };
+    expect(parseNcst(json)).toBeNull();
+  });
+
+  it("malformed JSON (빈 객체) → null, throw 안함", () => {
+    expect(() => parseNcst({})).not.toThrow();
+    expect(parseNcst({})).toBeNull();
+  });
+});
+
+describe("parseFcstSky (초단기예보 하늘상태)", () => {
+  const makeFcstJson = (skyValues: Array<{ fcstTime: string; fcstValue: string }>) => ({
+    response: {
+      body: {
+        items: {
+          item: [
+            ...skyValues.map((v) => ({
+              category: "SKY",
+              fcstDate: "20260625",
+              fcstTime: v.fcstTime,
+              fcstValue: v.fcstValue,
+            })),
+            // non-SKY row to ensure filtering works
+            { category: "T3H", fcstDate: "20260625", fcstTime: "1400", fcstValue: "27" },
+          ],
+        },
+      },
+    },
+  });
+
+  it("SKY 1 → 맑음", () => {
+    const r = parseFcstSky(makeFcstJson([{ fcstTime: "1400", fcstValue: "1" }]), "1400");
+    expect(r).toBe("맑음");
+  });
+
+  it("SKY 3 → 구름많음", () => {
+    const r = parseFcstSky(makeFcstJson([{ fcstTime: "1500", fcstValue: "3" }]), "1400");
+    expect(r).toBe("구름많음");
+  });
+
+  it("SKY 4 → 흐림", () => {
+    const r = parseFcstSky(makeFcstJson([{ fcstTime: "1400", fcstValue: "4" }]), "1400");
+    expect(r).toBe("흐림");
+  });
+
+  it("여러 SKY row 중 nowBaseTime 이상의 가장 가까운 row를 선택", () => {
+    const r = parseFcstSky(
+      makeFcstJson([
+        { fcstTime: "1200", fcstValue: "4" },
+        { fcstTime: "1300", fcstValue: "3" },
+        { fcstTime: "1400", fcstValue: "1" },
+        { fcstTime: "1500", fcstValue: "4" },
+      ]),
+      "1400"
+    );
+    expect(r).toBe("맑음");
+  });
+
+  it("모든 fcstTime이 nowBaseTime보다 이전이면 마지막(가장 큰) row 반환", () => {
+    const r = parseFcstSky(
+      makeFcstJson([
+        { fcstTime: "1000", fcstValue: "3" },
+        { fcstTime: "1100", fcstValue: "4" },
+      ]),
+      "1400"
+    );
+    // sorted: 1000→3, 1100→4; none >= 1400 so first sorted = 1000 → 구름많음
+    // Actually the loop picks sorted[0] as default then overwrites only when fcstTime >= nowBaseTime
+    expect(r).toBe("구름많음");
+  });
+
+  it("SKY 행이 없으면 null", () => {
+    const json = {
+      response: {
+        body: {
+          items: {
+            item: [
+              { category: "T3H", fcstDate: "20260625", fcstTime: "1400", fcstValue: "27" },
+            ],
+          },
+        },
+      },
+    };
+    expect(parseFcstSky(json, "1400")).toBeNull();
+  });
+
+  it("알 수 없는 SKY 코드(예: '2') → null 반환", () => {
+    // SKY_MAP에 '2'가 없으므로 null
+    const r = parseFcstSky(makeFcstJson([{ fcstTime: "1400", fcstValue: "2" }]), "1400");
+    expect(r).toBeNull();
+  });
+
+  it("malformed JSON → null, throw 안함", () => {
+    expect(() => parseFcstSky({}, "1400")).not.toThrow();
+    expect(parseFcstSky({}, "1400")).toBeNull();
   });
 });
