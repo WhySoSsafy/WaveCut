@@ -1,4 +1,4 @@
-import { FALLBACK, BEACH_IDS } from "@/lib/data/fallback";
+import { FALLBACK, BEACH_IDS, FALLBACK_TIDE_OFFSETS, FALLBACK_QUALITY, FALLBACK_WIND_SPEED } from "@/lib/data/fallback";
 import type { BeachId } from "@/lib/data/fallback";
 import type { SafetyStatus } from "@/lib/bsm/types";
 import type { TransectParams, GridSample } from "@/lib/bsm/profile";
@@ -33,21 +33,24 @@ const RIP_TEXT = (lvl: string): "관심" | "주의" | "경계" | "위험" | "안
 
 export async function getBeachDetail(id: BeachId): Promise<BeachDetail> {
   const fb = FALLBACK[id];
-  const [tide, weather, info, rip, wave, quality, grid] = await Promise.all([
+  const settled = await Promise.allSettled([
     fetchTide(id), fetchWeather(id), fetchBeachInfo(id),
     fetchRip(id), fetchWave(id), fetchQuality(id), fetchBathymetry(id),
   ]);
+  const [tide, weather, info, rip, wave, quality, grid] = settled.map(r =>
+    r.status === "fulfilled" ? r.value : null
+  );
 
   const tideOffsets = {
-    now: tide?.nowOffset ?? 0,
-    t1: tide?.t1Offset ?? 0.35,
-    t2: tide?.t2Offset ?? 0.70,
+    now: (tide as any)?.nowOffset ?? FALLBACK_TIDE_OFFSETS.now,
+    t1: (tide as any)?.t1Offset ?? FALLBACK_TIDE_OFFSETS.t1,
+    t2: (tide as any)?.t2Offset ?? FALLBACK_TIDE_OFFSETS.t2,
   };
-  const waveHeight = wave?.height ?? info?.waveHeight ?? fb.wave;
-  const ripLabel = rip ? rip.level : fb.rip;
-  const qualityGrade = quality?.grade ?? "적합";
-  const windSpeed = info?.windSpeed ?? weather?.windSpeed ?? 3;
-  const tideRising = tide?.rising ?? (fb.tideTrend === "상승");
+  const waveHeight = (wave as any)?.height ?? (info as any)?.waveHeight ?? fb.wave;
+  const ripLabel = rip ? (rip as any).level : fb.rip;
+  const qualityGrade = (quality as any)?.grade ?? FALLBACK_QUALITY;
+  const windSpeed = (info as any)?.windSpeed ?? (weather as any)?.windSpeed ?? FALLBACK_WIND_SPEED;
+  const tideRising = (tide as any)?.rising ?? (fb.tideTrend === "상승");
 
   // 중앙 단면 기준 위험시작으로 점수 산정
   const centerBed = profileFromTransect(transectAt(fb.transects, 0.5));
@@ -60,15 +63,15 @@ export async function getBeachDetail(id: BeachId): Promise<BeachDetail> {
   return {
     id: fb.id, name: fb.name, region: fb.region,
     status: statusOf(score), score,
-    sky: weather?.sky ?? fb.sky, air: weather?.air ?? fb.air,
-    uv: weather?.uv ?? fb.uv, crowd: fb.crowd,
-    wave: waveHeight, tide: tide?.label ?? fb.tide,
+    sky: (weather as any)?.sky ?? fb.sky, air: (weather as any)?.air ?? fb.air,
+    uv: (weather as any)?.uv ?? fb.uv, crowd: fb.crowd,
+    wave: waveHeight, tide: (tide as any)?.label ?? fb.tide,
     tideTrend: tideRising ? "상승" : "하강", rip: ripLabel,
-    water: info?.water ?? fb.water, family: fb.family,
+    water: (info as any)?.water ?? fb.water, family: fb.family,
     parking: fb.parking, parkDist: fb.parkDist, length: fb.length,
     summary: fb.summary, windSpeed, quality: qualityGrade,
     tideOffsets, transects: fb.transects,
-    grid: grid ?? null,
+    grid: (grid as any) ?? null,
   };
 }
 

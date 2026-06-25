@@ -15,6 +15,10 @@ export interface BeachFallback extends BeachStatic {
 export const BEACH_IDS = ["haeundae", "gwangalli", "songjeong", "songdo", "dadaepo"] as const;
 export type BeachId = typeof BEACH_IDS[number];
 
+export const FALLBACK_TIDE_OFFSETS = { now: 0, t1: 0.35, t2: 0.70 };
+export const FALLBACK_QUALITY = "적합" as const;
+export const FALLBACK_WIND_SPEED = 3;
+
 export const FALLBACK: Record<BeachId, BeachFallback> = {
   haeundae: {
     id: "haeundae", name: "해운대 해수욕장", region: "부산 해운대구",

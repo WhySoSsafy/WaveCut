@@ -34,6 +34,16 @@ describe("getBeachSummary", () => {
   });
 });
 
+describe("getBeachSummary resilience", () => {
+  it("fetcher가 reject해도 fallback으로 복구한다", async () => {
+    (fetchTide as any).mockRejectedValue(new Error("network"));
+    (fetchWeather as any).mockResolvedValue(null);
+    const s = await getBeachSummary("haeundae");
+    expect(s.id).toBe("haeundae");
+    expect(["safe","caution","danger"]).toContain(s.status);
+  });
+});
+
 describe("getBeachDetail", () => {
   it("상세는 전문 정보를 포함한다", async () => {
     (fetchTide as any).mockResolvedValue({ nowOffset: 0, t1Offset: 0.35, t2Offset: 0.7, rising: true, label: "중조" });
