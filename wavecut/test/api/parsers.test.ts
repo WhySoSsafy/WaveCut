@@ -615,4 +615,67 @@ describe("parseFcstSky (초단기예보 하늘상태)", () => {
     expect(() => parseFcstSky({}, "1400")).not.toThrow();
     expect(parseFcstSky({}, "1400")).toBeNull();
   });
+
+  it("현재 시각(HH00) 기준 선택: 발급시각(HH30) 대신 현재 시각을 nowBaseTime으로 전달해야 올바른 row 반환", () => {
+    // Scenario: forecast issued at 1430 (fcst_time), current KST hour is 15 → target "1500"
+    // Rows: 1400(흐림), 1500(맑음), 1600(구름많음)
+    // With target "1500" → picks fcstTime="1500" → 맑음 (current hour)
+    // With old wrong target "1430" → picks fcstTime="1500" (same, but next test shows edge)
+    // Edge: target "1430" with rows 1400/1500 would pick 1500 (same); use a cleaner case:
+    // target "1500" with rows 1400/1600 → fcstTime="1600" is nearest >= "1500" → 구름많음
+    // target "1430" (wrong) with same rows → fcstTime="1600" still >= "1430" → same result
+    // The real bug shows with: rows only at 1400, target "1500" → falls back to last (1400=흐림)
+    //                          rows only at 1400, wrong target "1430" → 1400 >= "1430"? NO, "1400" < "1430"
+    //                          → also falls back to last → same answer; bug hidden
+    // Real difference: rows 1400+1500, wrong target "1430" → picks 1500; correct "1500" → picks 1500 ✓
+    // Real bug shows when current KST is e.g. 14:45; wrong target "1430", rows 1400+1500:
+    //   "1400" < "1430" → skip; "1500" >= "1430" → picks 1500 ✓ (accidentally correct)
+    //   but current should be "1400" row at 14:45: "1400" >= "1400" → picks 1400 ✓
+    // Demonstrate the fix directly: current hour "1500", issue time "1430", rows "1400"+"1500"+"1600"
+    const r_correct = parseFcstSky(
+      makeFcstJson([
+        { fcstTime: "1400", fcstValue: "4" },
+        { fcstTime: "1500", fcstValue: "1" },
+        { fcstTime: "1600", fcstValue: "3" },
+      ]),
+      "1500" // current KST hour target (correct)
+    );
+    expect(r_correct).toBe("맑음"); // fcstTime "1500" → SKY=1 → 맑음
+
+    const r_wrong_issue = parseFcstSky(
+      makeFcstJson([
+        { fcstTime: "1400", fcstValue: "4" },
+        { fcstTime: "1500", fcstValue: "1" },
+        { fcstTime: "1600", fcstValue: "3" },
+      ]),
+      "1430" // old bug: forecast issue time (HH30) passed instead of current hour
+    );
+    // "1400" < "1430" → skip; "1500" >= "1430" → picks 1500 → same result here
+    // but the principle is wrong — "1430" would skip the current-hour row "1400" when KST=14:xx
+    expect(r_wrong_issue).toBe("맑음");
+
+    // Critical edge: KST=14:45, current hour = "1400", issue time = "1430", only row is "1400"
+    // correct target "1400": "1400" >= "1400" → picks "1400" → 흐림 ✓
+    // wrong target "1430": "1400" < "1430" → fallback to last ("1400") → 흐림 (same by accident)
+    // True divergence: current "1400", issue "1430", rows "1400"+"1500"
+    // correct "1400" → picks "1400" (exact current-hour match) → 흐림
+    // wrong "1430" → skips "1400", picks "1500" → 맑음 (future row, not current hour!)
+    const r_current = parseFcstSky(
+      makeFcstJson([
+        { fcstTime: "1400", fcstValue: "4" },
+        { fcstTime: "1500", fcstValue: "1" },
+      ]),
+      "1400" // correct current-hour target
+    );
+    expect(r_current).toBe("흐림"); // picks exact current-hour row
+
+    const r_issue_time = parseFcstSky(
+      makeFcstJson([
+        { fcstTime: "1400", fcstValue: "4" },
+        { fcstTime: "1500", fcstValue: "1" },
+      ]),
+      "1430" // wrong: issue time skips current-hour row
+    );
+    expect(r_issue_time).toBe("맑음"); // picks future row — demonstrates the bug
+  });
 });

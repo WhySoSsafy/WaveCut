@@ -221,6 +221,12 @@ export async function fetchWeather(id: BeachId): Promise<WeatherResult | null> {
       `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst` +
       `?serviceKey=${key}&${commonParams}&base_date=${fcst_date}&base_time=${fcst_time}`;
 
+    // Current KST hour as "HH00" — this is the SELECTION target for parseFcstSky,
+    // separate from the forecast ISSUE time (fcst_time = HH30) used for request params.
+    const kstNow = new Date(Date.now() + 9 * 3600 * 1000);
+    const kstHour = String(kstNow.getUTCHours()).padStart(2, "0");
+    const nowHourTarget = kstHour + "00";
+
     const [ncstRes, fcstRes] = await Promise.all([
       fetch(ncstUrl, { next: { revalidate: 3600 } }),
       fetch(fcstUrl, { next: { revalidate: 3600 } }).catch(() => null),
@@ -236,7 +242,7 @@ export async function fetchWeather(id: BeachId): Promise<WeatherResult | null> {
     if (fcstRes && fcstRes.ok) {
       try {
         const fcstJson = await fcstRes.json();
-        const parsed = parseFcstSky(fcstJson, fcst_time);
+        const parsed = parseFcstSky(fcstJson, nowHourTarget);
         if (parsed) sky = parsed;
         else {
           sky = ncst.pty === "0" ? "맑음" : "흐림";
