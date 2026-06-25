@@ -138,3 +138,130 @@
 .wcLt .wcKo { color: #fff; }
 .wcLt .wcEn { color: var(--sky-300); }
 .wcLt .wcEn b { color: #fff; }
+
+/* ===== BeachCard ===== */
+.bcard {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  text-align: left;
+  box-shadow: var(--shadow-sm);
+  transition: .16s;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+}
+
+.bcard:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--sky-300);
+}
+
+.bcardFeat {
+  outline: 2px solid var(--blue-600);
+  outline-offset: -2px;
+}
+
+.bcardFlag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+  background: var(--blue-600);
+  color: #fff;
+  font-size: 10.5px;
+  padding: 4px 9px;
+  border-radius: 7px;
+  font-weight: 600;
+  font-family: var(--mono, monospace);
+}
+
+.bcardImg {
+  height: 130px;
+  position: relative;
+  background: linear-gradient(160deg, #1c4d86, #2f86f0 70%, #39B7F0);
+  overflow: hidden;
+}
+
+.bcardImgGrid {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(135deg, rgba(255,255,255,.07) 0 1px, transparent 1px 11px);
+}
+
+.bcardImgTag {
+  position: absolute;
+  left: 12px;
+  bottom: 10px;
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, .82);
+  background: rgba(10, 35, 66, .32);
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-family: var(--mono, monospace);
+}
+
+.bcardStatus {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+}
+
+.bcardBody {
+  padding: 15px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.bcardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.bcardName {
+  font-size: 16.5px;
+  font-weight: 800;
+  color: var(--navy-900);
+}
+
+.bcardRegion {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--ink-3);
+  margin-top: 3px;
+}
+
+.bcardStats {
+  display: flex;
+  gap: 6px;
+  border-top: 1px solid var(--line-2);
+  border-bottom: 1px solid var(--line-2);
+  padding: 11px 0;
+}
+
+.bcardStat {
+  flex: 1;
+}
+
+.bcardFoot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bcardCta {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--blue-600);
+}
