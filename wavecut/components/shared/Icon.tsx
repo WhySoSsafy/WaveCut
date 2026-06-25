@@ -109,6 +109,14 @@ const paths = {
       <circle cx="11.5" cy="11" r="1" />
     </g>
   ),
+  transit: (props: React.SVGProps<SVGGElement>) => (
+    <g {...props}>
+      <rect x="3" y="3" width="10" height="8" rx="2" />
+      <path d="M3 8h10M6 11v2M10 11v2M5 13h6" />
+      <circle cx="5.5" cy="6" r="0.8" fill="currentColor" stroke="none" />
+      <circle cx="10.5" cy="6" r="0.8" fill="currentColor" stroke="none" />
+    </g>
+  ),
   star: (props: React.SVGProps<SVGPathElement>) => (
     <path
       d="M8 2l1.8 3.9 4.2.5-3.1 2.9.8 4.2L8 11.4 4.3 13.5l.8-4.2L2 6.4l4.2-.5L8 2z"

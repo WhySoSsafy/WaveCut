@@ -8,13 +8,14 @@ import styles from "./mobile.module.css";
 interface TabItem {
   label: string;
   href: string;
-  icon: "grid" | "star" | "user";
+  icon: "grid" | "star" | "user" | "transit";
   exact?: boolean;
 }
 
 const TABS: TabItem[] = [
-  { label: "홈",       href: "/app",           icon: "grid",  exact: true },
+  { label: "홈",       href: "/app",           icon: "grid",    exact: true },
   { label: "즐겨찾기", href: "/app/favorites",  icon: "star" },
+  { label: "교통",     href: "/app/transit",    icon: "transit" },
   { label: "마이페이지", href: "/app/mypage",   icon: "user" },
 ];
 
