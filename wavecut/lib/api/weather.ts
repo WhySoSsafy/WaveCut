@@ -5,7 +5,7 @@ import { STATIONS } from "./stations";
 export interface WeatherResult {
   sky: string;
   air: number;
-  uv: string;
+  uv?: string;
   windSpeed: number;
 }
 
@@ -138,10 +138,11 @@ export function parseFcstSky(json: unknown, nowBaseTime: string): string | null 
 
   if (skyRows.length === 0) return null;
 
-  // Pick the row whose fcstTime is closest to or >= nowBaseTime
+  // Pick the earliest row whose fcstTime >= nowBaseTime (next upcoming forecast).
+  // If all rows are earlier than nowBaseTime, use the LAST (most recent) row.
   // fcstTime format is "HHMM" (e.g. "1400")
   const sorted = skyRows.slice().sort((a, b) => a.fcstTime.localeCompare(b.fcstTime));
-  let picked = sorted[0];
+  let picked = sorted[sorted.length - 1]; // default: most recent past row
   for (const row of sorted) {
     if (row.fcstTime >= nowBaseTime) {
       picked = row;
@@ -250,8 +251,8 @@ export async function fetchWeather(id: BeachId): Promise<WeatherResult | null> {
     return {
       sky,
       air: ncst.air,
-      // UV requires the separate 생활기상지수(자외선지수) API — left to fallback
-      uv: "보통",
+      // UV requires the separate 생활기상지수(자외선지수) API — left undefined so
+      // aggregate's `weather?.uv ?? fb.uv` correctly falls back to FALLBACK[id].uv
       windSpeed: ncst.windSpeed,
     };
   } catch {

@@ -577,9 +577,17 @@ describe("parseFcstSky (초단기예보 하늘상태)", () => {
       ]),
       "1400"
     );
-    // sorted: 1000→3, 1100→4; none >= 1400 so first sorted = 1000 → 구름많음
-    // Actually the loop picks sorted[0] as default then overwrites only when fcstTime >= nowBaseTime
-    expect(r).toBe("구름많음");
+    // sorted: 1000→3, 1100→4; none >= 1400 → default picks last row (1100→4) → 흐림
+    expect(r).toBe("흐림");
+  });
+
+  it("모든 fcstTime이 nowBaseTime보다 이전인 경우 단일 row → 그 row 반환", () => {
+    const r = parseFcstSky(
+      makeFcstJson([{ fcstTime: "0800", fcstValue: "1" }]),
+      "1400"
+    );
+    // Only one row, all earlier → picks that last (only) row → 맑음
+    expect(r).toBe("맑음");
   });
 
   it("SKY 행이 없으면 null", () => {
