@@ -460,7 +460,8 @@
   color: var(--navy-900);
 }
 
-.aPanelH .mono {
+.aPanelTag {
+  font-family: var(--mono, monospace);
   font-size: 11px;
   color: var(--ink-3);
 }

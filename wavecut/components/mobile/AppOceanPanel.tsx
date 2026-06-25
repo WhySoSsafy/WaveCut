@@ -25,7 +25,7 @@ export function AppOceanPanel({ wave, tide, tideTrend, rip, family }: AppOceanPa
     <div className={styles.aPanel}>
       <div className={styles.aPanelH}>
         <strong>해양 안전 분석</strong>
-        <span className="mono">전문 지표</span>
+        <span className={styles.aPanelTag}>전문 지표</span>
       </div>
       {/* 2×2 grid — mirrors web OceanSafetyPanel */}
       <div className={styles.aMetricGrid}>
