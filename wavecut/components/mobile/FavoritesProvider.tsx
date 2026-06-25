@@ -20,7 +20,12 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     try {
       const raw = localStorage.getItem(LS_KEY);
-      if (raw) setFavorites(JSON.parse(raw) as string[]);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) {
+          setFavorites(parsed.filter((x): x is string => typeof x === "string"));
+        }
+      }
     } catch {
       // localStorage unavailable — keep in-memory state
     }
