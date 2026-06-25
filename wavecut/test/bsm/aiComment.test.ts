@@ -31,4 +31,21 @@ describe("situationTips", () => {
     const tips = situationTips({ kneeEnd: 30, dangerStart: null }, { family: true, crowd: "많음" });
     expect(tips.find((t) => t.key === "crowd")!.status).toBe("caution");
   });
+  it("family 카드 status는 opts.family에 따른다", () => {
+    const yes = situationTips({ kneeEnd: 30, dangerStart: null }, { family: true, crowd: "보통" });
+    const no = situationTips({ kneeEnd: 30, dangerStart: null }, { family: false, crowd: "보통" });
+    expect(yes.find((t) => t.key === "family")!.status).toBe("safe");
+    expect(no.find((t) => t.key === "family")!.status).toBe("caution");
+  });
+  it("begin 카드는 위험구간 유무에 따라 status가 바뀐다", () => {
+    const withDanger = situationTips({ kneeEnd: 30, dangerStart: 45 }, { family: true, crowd: "보통" });
+    const noDanger = situationTips({ kneeEnd: 30, dangerStart: null }, { family: true, crowd: "보통" });
+    expect(withDanger.find((t) => t.key === "begin")!.status).toBe("caution");
+    expect(noDanger.find((t) => t.key === "begin")!.status).toBe("safe");
+  });
+  it("after 카드는 항상 caution, crowd는 여유 시 safe", () => {
+    const tips = situationTips({ kneeEnd: 30, dangerStart: null }, { family: true, crowd: "여유" });
+    expect(tips.find((t) => t.key === "after")!.status).toBe("caution");
+    expect(tips.find((t) => t.key === "crowd")!.status).toBe("safe");
+  });
 });

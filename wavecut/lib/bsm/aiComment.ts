@@ -8,7 +8,7 @@ export function positionName(p: number): "좌측" | "중앙" | "우측" {
 export function aiComment(a: AnalyzeResult, p: number): string {
   const pos = positionName(p);
   let body = `현재 선택한 ${pos} 단면은 해안선에서 약 ${a.kneeEnd}m까지 무릎 수심으로 가족 이용에 적합합니다.`;
-  if (a.dangerStart) {
+  if (a.dangerStart != null) {
     body += ` ${a.dangerStart}m 이후부터 수심이 빠르게 깊어지므로 어린이와 초보자는 주의가 필요합니다.`;
   } else {
     body += ` 측정 구간 전반에서 급격한 수심 변화는 확인되지 않습니다.`;
@@ -35,8 +35,8 @@ export function situationTips(
       desc: `해안선 ${a.kneeEnd}m까지 무릎 이하 수심입니다. 어린이는 이 구간 안에서 보호자와 함께 물놀이하세요.`,
     },
     {
-      key: "begin", icon: "wave", status: danger ? "caution" : "safe", title: "수영 초보자",
-      desc: danger
+      key: "begin", icon: "wave", status: danger != null ? "caution" : "safe", title: "수영 초보자",
+      desc: danger != null
         ? `${danger}m 이후부터 수심이 빠르게 깊어집니다. 구명조끼를 착용하고 안전선 안쪽을 이용하세요.`
         : `급격한 수심 변화는 없지만 입수 시 항상 안전선 안쪽에 머물러주세요.`,
     },
