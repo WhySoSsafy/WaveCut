@@ -529,3 +529,123 @@
   color: var(--ink-2);
   line-height: 1.5;
 }
+
+/* ===== Favorites page — empty state ===== */
+.aFavEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  padding: 48px 32px 32px;
+}
+
+.aFavIc {
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  background: var(--sky-50, #EFF8FF);
+  display: grid;
+  place-items: center;
+  margin-bottom: 4px;
+}
+
+.aFavEmpty b {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy-900);
+}
+
+.aFavEmpty p {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--ink-2);
+  line-height: 1.6;
+}
+
+/* ===== Mypage ===== */
+.aMineCard {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 16px 20px;
+  padding: 16px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+.aMineAvatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--blue-600);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.aMineCard b {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy-900);
+}
+
+.aMineSubLabel {
+  font-size: 12px;
+  color: var(--ink-3);
+  font-family: var(--mono, monospace);
+}
+
+.aMineList {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--line);
+}
+
+.aMineRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 20px;
+  border: none;
+  border-bottom: 1px solid var(--line-2);
+  background: #fff;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--navy-900);
+  transition: background 0.12s;
+  width: 100%;
+}
+
+.aMineRow:hover {
+  background: var(--bg);
+}
+
+.aMineRow b {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.aMineIc {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--sky-50, #EFF8FF);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.aLegal {
+  margin: 20px 20px 32px;
+  font-size: 11.5px;
+  color: var(--ink-3);
+  line-height: 1.6;
+  text-align: center;
+}
