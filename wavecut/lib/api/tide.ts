@@ -18,22 +18,30 @@ interface TideRecord {
 // cm 단위 조위를 받아 now 기준 상대 오프셋(m)으로 변환
 // TODO: confirm real API schema — key paths may change after API issuance
 export function parseTide(json: unknown, nowTime: string): TideResult | null {
-  const data = (json as { result?: { data?: TideRecord[] } })?.result?.data;
-  if (!data || data.length === 0) return null;
+  const data = (json as { result?: { data?: unknown } })?.result?.data;
+  if (!Array.isArray(data) || data.length === 0) return null;
 
-  const findLevel = (time: string): number | null => {
-    const rec = data.find((d) => d.record_time === time);
-    return rec ? parseFloat(rec.tide_level) : null;
+  const records = data as TideRecord[];
+
+  const parseCm = (s: string): number | null => {
+    const v = parseFloat(s);
+    return Number.isFinite(v) ? v : null;
   };
 
-  const sorted = [...data].sort((a, b) => a.record_time.localeCompare(b.record_time));
-  const nowCm = findLevel(nowTime) ?? parseFloat(sorted[0].tide_level);
+  const findLevel = (time: string): number | null => {
+    const rec = records.find((d) => d.record_time === time);
+    return rec ? parseCm(rec.tide_level) : null;
+  };
+
+  const sorted = [...records].sort((a, b) => a.record_time.localeCompare(b.record_time));
+  const nowCm = findLevel(nowTime) ?? parseCm(sorted[0].tide_level);
+  if (nowCm === null || !Number.isFinite(nowCm)) return null;
 
   // now 이후 시각 두 개를 1·2시간 후로 사용
   const idx = sorted.findIndex((d) => d.record_time === nowTime);
   const base = idx >= 0 ? idx : 0;
-  const t1Cm = sorted[base + 1] ? parseFloat(sorted[base + 1].tide_level) : nowCm;
-  const t2Cm = sorted[base + 2] ? parseFloat(sorted[base + 2].tide_level) : t1Cm;
+  const t1Cm = (sorted[base + 1] ? parseCm(sorted[base + 1].tide_level) : null) ?? nowCm;
+  const t2Cm = (sorted[base + 2] ? parseCm(sorted[base + 2].tide_level) : null) ?? t1Cm;
 
   return {
     nowOffset: 0,

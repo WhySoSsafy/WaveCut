@@ -51,6 +51,22 @@ describe("parseTide", () => {
     expect(parseTide({}, "2026-06-25 14:00:00")).toBeNull();
     expect(parseTide({ result: {} }, "2026-06-25 14:00:00")).toBeNull();
   });
+
+  it("data가 배열이 아니면 null (string)", () => {
+    expect(parseTide({ result: { data: "oops" } }, "2026-06-25 14:00:00")).toBeNull();
+  });
+
+  it("nowCm이 NaN이면 null (tide_level이 숫자 아닌 문자열)", () => {
+    const json = {
+      result: {
+        data: [
+          { record_time: "2026-06-25 14:00:00", tide_level: "abc" },
+          { record_time: "2026-06-25 15:00:00", tide_level: "155" },
+        ],
+      },
+    };
+    expect(parseTide(json, "2026-06-25 99:00:00")).toBeNull();
+  });
 });
 
 describe("parseRip", () => {
@@ -84,6 +100,14 @@ describe("parseRip", () => {
     expect(parseRip({ response: { body: { items: { item: [] } } } })).toBeNull();
     expect(parseRip({})).toBeNull();
   });
+
+  it("rip_index가 'abc'이면 null", () => {
+    expect(parseRip({ response: { body: { items: { item: [{ rip_index: "abc" }] } } } })).toBeNull();
+  });
+
+  it("rip_index 필드가 없으면 null", () => {
+    expect(parseRip({ response: { body: { items: { item: [{}] } } } })).toBeNull();
+  });
 });
 
 describe("parseQuality", () => {
@@ -106,6 +130,10 @@ describe("parseQuality", () => {
   it("items가 없으면 null", () => {
     expect(parseQuality({})).toBeNull();
     expect(parseQuality({ items: [] })).toBeNull();
+  });
+
+  it("items가 배열이 아니면 null", () => {
+    expect(parseQuality({ items: "not-array" })).toBeNull();
   });
 });
 
@@ -136,6 +164,30 @@ describe("parseWeather", () => {
   it("item이 없으면 null", () => {
     expect(parseWeather({})).toBeNull();
     expect(parseWeather({ response: { body: { items: { item: [] } } } })).toBeNull();
+  });
+
+  it("items가 배열이 아니면 null", () => {
+    expect(parseWeather({ response: { body: { items: { item: "bad" } } } })).toBeNull();
+  });
+
+  it("air(T1H)이 NaN이면 null", () => {
+    const json = {
+      response: { body: { items: { item: [
+        { category: "T1H", obsrValue: "not-a-number" },
+        { category: "WSD", obsrValue: "3.5" },
+      ] } } },
+    };
+    expect(parseWeather(json)).toBeNull();
+  });
+
+  it("windSpeed(WSD)가 NaN이면 null", () => {
+    const json = {
+      response: { body: { items: { item: [
+        { category: "T1H", obsrValue: "28" },
+        { category: "WSD", obsrValue: "not-a-number" },
+      ] } } },
+    };
+    expect(parseWeather(json)).toBeNull();
   });
 });
 
@@ -168,6 +220,31 @@ describe("parseBeachInfo", () => {
   it("item이 없으면 null", () => {
     expect(parseBeachInfo({})).toBeNull();
   });
+
+  it("items가 배열이 아니면 null", () => {
+    expect(parseBeachInfo({ response: { body: { items: { item: "bad" } } } })).toBeNull();
+  });
+
+  it("waveHeight가 NaN이면 null", () => {
+    const json = { response: { body: { items: { item: [
+      { waveHeight: "x", waterTemp: "23", windSpeed: "4", windDir: "북" }
+    ] } } } };
+    expect(parseBeachInfo(json)).toBeNull();
+  });
+
+  it("water(waterTemp)가 NaN이면 null", () => {
+    const json = { response: { body: { items: { item: [
+      { waveHeight: "0.8", waterTemp: "x", windSpeed: "4", windDir: "북" }
+    ] } } } };
+    expect(parseBeachInfo(json)).toBeNull();
+  });
+
+  it("windSpeed가 NaN이면 null", () => {
+    const json = { response: { body: { items: { item: [
+      { waveHeight: "0.8", waterTemp: "23", windSpeed: "x", windDir: "북" }
+    ] } } } };
+    expect(parseBeachInfo(json)).toBeNull();
+  });
 });
 
 describe("parseWave", () => {
@@ -189,6 +266,18 @@ describe("parseWave", () => {
   it("데이터가 없으면 null", () => {
     expect(parseWave({ result: { data: [] } })).toBeNull();
     expect(parseWave({})).toBeNull();
+  });
+
+  it("data가 배열이 아니면 null", () => {
+    expect(parseWave({ result: { data: "bad" } })).toBeNull();
+  });
+
+  it("height가 NaN이면 null", () => {
+    expect(parseWave({ result: { data: [{ wave_height: "x", wave_dir: "북", wave_period: "6" }] } })).toBeNull();
+  });
+
+  it("period가 NaN이면 null", () => {
+    expect(parseWave({ result: { data: [{ wave_height: "1.2", wave_dir: "북", wave_period: "y" }] } })).toBeNull();
   });
 });
 
@@ -221,5 +310,37 @@ describe("parseBathymetry", () => {
 
   it("sections가 없으면 null", () => {
     expect(parseBathymetry({})).toBeNull();
+  });
+
+  it("sections.left가 배열이 아니면 null", () => {
+    const json = {
+      sections: {
+        left: "bad",
+        center: [{ dist: 0, depth: 0 }],
+        right: [{ dist: 0, depth: 0 }],
+      },
+    };
+    expect(parseBathymetry(json)).toBeNull();
+  });
+
+  it("sections.center가 배열이 아니면 null", () => {
+    const json = {
+      sections: {
+        left: [{ dist: 0, depth: 0 }],
+        center: null,
+        right: [{ dist: 0, depth: 0 }],
+      },
+    };
+    expect(parseBathymetry(json)).toBeNull();
+  });
+
+  it("sections.right가 없으면 null", () => {
+    const json = {
+      sections: {
+        left: [{ dist: 0, depth: 0 }],
+        center: [{ dist: 0, depth: 0 }],
+      },
+    };
+    expect(parseBathymetry(json)).toBeNull();
   });
 });

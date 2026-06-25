@@ -26,14 +26,15 @@ export function parseWeather(json: unknown): WeatherResult | null {
   const items = (
     json as {
       response?: {
-        body?: { items?: { item?: WeatherItem[] } };
+        body?: { items?: { item?: unknown } };
       };
     }
   )?.response?.body?.items?.item;
-  if (!items || items.length === 0) return null;
+  if (!Array.isArray(items) || items.length === 0) return null;
 
+  const typedItems = items as WeatherItem[];
   const find = (cat: string): string | undefined =>
-    items.find((i) => i.category === cat)?.obsrValue;
+    typedItems.find((i) => i.category === cat)?.obsrValue;
 
   const skyCode = find("SKY") ?? "";
   const airStr = find("T1H");
@@ -42,11 +43,17 @@ export function parseWeather(json: unknown): WeatherResult | null {
 
   if (airStr === undefined || wsdStr === undefined) return null;
 
+  const air = parseFloat(airStr);
+  if (!Number.isFinite(air)) return null;
+
+  const windSpeed = parseFloat(wsdStr);
+  if (!Number.isFinite(windSpeed)) return null;
+
   return {
     sky: SKY_MAP[skyCode] ?? "알 수 없음",
-    air: parseFloat(airStr),
+    air,
     uv,
-    windSpeed: parseFloat(wsdStr),
+    windSpeed,
   };
 }
 

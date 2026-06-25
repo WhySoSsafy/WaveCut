@@ -16,14 +16,22 @@ interface WaveRecord {
 
 // TODO: confirm real API schema — KHOA wave observation API; key paths pending confirmation
 export function parseWave(json: unknown): WaveResult | null {
-  const data = (json as { result?: { data?: WaveRecord[] } })?.result?.data;
-  if (!data || data.length === 0) return null;
+  const data = (json as { result?: { data?: unknown } })?.result?.data;
+  if (!Array.isArray(data) || data.length === 0) return null;
 
-  const rec = data[0];
+  const records = data as WaveRecord[];
+  const rec = records[0];
+
+  const height = parseFloat(rec.wave_height);
+  if (!Number.isFinite(height)) return null;
+
+  const period = parseFloat(rec.wave_period);
+  if (!Number.isFinite(period)) return null;
+
   return {
-    height: parseFloat(rec.wave_height),
+    height,
     dir: rec.wave_dir,
-    period: parseFloat(rec.wave_period),
+    period,
   };
 }
 

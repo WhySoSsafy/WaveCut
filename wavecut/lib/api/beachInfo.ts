@@ -18,19 +18,30 @@ interface BeachInfoItem {
 
 // TODO: confirm real API schema — beach info API response shape pending real issuance
 export function parseBeachInfo(json: unknown): BeachInfoResult | null {
-  const item = (
+  const itemArr = (
     json as {
       response?: {
-        body?: { items?: { item?: BeachInfoItem[] } };
+        body?: { items?: { item?: unknown } };
       };
     }
-  )?.response?.body?.items?.item?.[0];
-  if (!item) return null;
+  )?.response?.body?.items?.item;
+  if (!Array.isArray(itemArr) || itemArr.length === 0) return null;
+
+  const item = itemArr[0] as BeachInfoItem;
+
+  const waveHeight = parseFloat(item.waveHeight);
+  if (!Number.isFinite(waveHeight)) return null;
+
+  const water = parseFloat(item.waterTemp);
+  if (!Number.isFinite(water)) return null;
+
+  const windSpeed = parseFloat(item.windSpeed);
+  if (!Number.isFinite(windSpeed)) return null;
 
   return {
-    waveHeight: parseFloat(item.waveHeight),
-    water: parseFloat(item.waterTemp),
-    windSpeed: parseFloat(item.windSpeed),
+    waveHeight,
+    water,
+    windSpeed,
     windDir: item.windDir,
   };
 }

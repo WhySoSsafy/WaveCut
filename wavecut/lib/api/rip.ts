@@ -17,8 +17,12 @@ export function parseRip(json: unknown): RipResult | null {
       };
     }
   )?.response?.body?.items?.item?.[0];
-  if (!item?.rip_index) return null;
-  const idx = Math.max(0, Math.min(3, parseInt(item.rip_index, 10)));
+  if (!item || item.rip_index === undefined || item.rip_index === null) return null;
+
+  const raw = parseInt(item.rip_index, 10);
+  if (!Number.isFinite(raw)) return null;
+
+  const idx = Math.max(0, Math.min(3, raw));
   return { level: RIP_LEVELS[idx] };
 }
 

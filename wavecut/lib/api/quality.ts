@@ -8,8 +8,12 @@ export interface QualityResult {
 
 // TODO: confirm real API schema — grade string values may differ from real response
 export function parseQuality(json: unknown): QualityResult | null {
-  const item = (json as { items?: Array<{ grade?: string }> })?.items?.[0];
+  const rawItems = (json as { items?: unknown })?.items;
+  if (!Array.isArray(rawItems) || rawItems.length === 0) return null;
+
+  const item = rawItems[0] as { grade?: string };
   if (!item?.grade) return null;
+
   const g = item.grade;
   if (g === "적합" || g === "주의" || g === "부적합") return { grade: g };
   return { grade: "주의" };
