@@ -1,3 +1,5 @@
+import type { BeachId } from "@/lib/data/fallback";
+
 export interface StationMap {
   lat: number; lon: number;
   tideObsCode: string;  // 국립해양조사원 조위관측소 코드
@@ -9,7 +11,7 @@ export interface StationMap {
   qualityCode: string;  // 부산 수질 측정지점 코드
 }
 
-export const STATIONS: Record<string, StationMap> = {
+export const STATIONS: Record<BeachId, StationMap> = {
   haeundae:  { lat: 35.1587, lon: 129.1604, tideObsCode: "DT_0063", gridX: 99, gridY: 75, waveGrid: "", ripCode: "", beachInfoCode: "", qualityCode: "" },
   gwangalli: { lat: 35.1532, lon: 129.1185, tideObsCode: "DT_0063", gridX: 98, gridY: 75, waveGrid: "", ripCode: "", beachInfoCode: "", qualityCode: "" },
   songjeong: { lat: 35.1786, lon: 129.2003, tideObsCode: "DT_0063", gridX: 100, gridY: 76, waveGrid: "", ripCode: "", beachInfoCode: "", qualityCode: "" },

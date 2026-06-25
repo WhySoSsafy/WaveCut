@@ -12,9 +12,10 @@ export interface BeachFallback extends BeachStatic {
   crowd: string; sky: string; air: number; uv: string;
 }
 
-export const BEACH_IDS = ["haeundae", "gwangalli", "songjeong", "songdo", "dadaepo"];
+export const BEACH_IDS = ["haeundae", "gwangalli", "songjeong", "songdo", "dadaepo"] as const;
+export type BeachId = typeof BEACH_IDS[number];
 
-export const FALLBACK: Record<string, BeachFallback> = {
+export const FALLBACK: Record<BeachId, BeachFallback> = {
   haeundae: {
     id: "haeundae", name: "해운대 해수욕장", region: "부산 해운대구",
     score: 86, status: "safe", wave: 0.5, rip: "주의", tide: "중조", tideTrend: "상승",
