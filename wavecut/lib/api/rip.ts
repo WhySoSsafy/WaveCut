@@ -1,0 +1,37 @@
+import type { BeachId } from "@/lib/data/fallback";
+import { getEnv } from "./env";
+import { STATIONS } from "./stations";
+
+export interface RipResult {
+  level: "관심" | "주의" | "경계" | "위험";
+}
+
+const RIP_LEVELS = ["관심", "주의", "경계", "위험"] as const;
+
+// TODO: confirm real API schema — item key and rip_index field name pending real response
+export function parseRip(json: unknown): RipResult | null {
+  const item = (
+    json as {
+      response?: {
+        body?: { items?: { item?: Array<{ rip_index?: string }> } };
+      };
+    }
+  )?.response?.body?.items?.item?.[0];
+  if (!item?.rip_index) return null;
+  const idx = Math.max(0, Math.min(3, parseInt(item.rip_index, 10)));
+  return { level: RIP_LEVELS[idx] };
+}
+
+export async function fetchRip(id: BeachId): Promise<RipResult | null> {
+  try {
+    const st = STATIONS[id];
+    const key = getEnv("DATA_GO_KR_KEY");
+    // TODO: confirm real API schema — beachCode and endpoint path may change
+    const url = `https://apis.data.go.kr/1192136/ripCurrent?serviceKey=${key}&beachCode=${st.ripCode}&type=json`;
+    const res = await fetch(url, { next: { revalidate: 3600 } });
+    if (!res.ok) return null;
+    return parseRip(await res.json());
+  } catch {
+    return null;
+  }
+}
