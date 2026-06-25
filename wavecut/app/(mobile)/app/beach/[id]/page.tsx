@@ -7,6 +7,7 @@ import { StatusPill } from "@/components/shared/StatusPill";
 import { ScoreGauge } from "@/components/shared/ScoreGauge";
 import { Icon } from "@/components/shared/Icon";
 import { AppOceanPanel } from "@/components/mobile/AppOceanPanel";
+import { FavoriteButton } from "@/components/mobile/FavoriteButton";
 import styles from "@/components/mobile/mobile.module.css";
 
 export function generateStaticParams() {
@@ -38,6 +39,7 @@ export default async function AppBeachDetailPage({
           </svg>
         </Link>
         <span className={styles.aBarTitle}>{beach.name}</span>
+        <FavoriteButton id={id} size={22} />
       </div>
 
       {/* Hero strip with status + score */}

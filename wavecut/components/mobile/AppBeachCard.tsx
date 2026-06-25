@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { BeachSummary } from "@/lib/api/aggregate";
 import { StatusPill } from "@/components/shared/StatusPill";
 import { Icon } from "@/components/shared/Icon";
+import { FavoriteButton } from "./FavoriteButton";
 import styles from "./mobile.module.css";
 
 export function AppBeachCard({ beach }: { beach: BeachSummary }) {
@@ -27,7 +28,7 @@ export function AppBeachCard({ beach }: { beach: BeachSummary }) {
         </div>
       </div>
 
-      <Icon name="chevron" size={16} color="var(--ink-3)" />
+      <FavoriteButton id={beach.id} size={18} />
     </Link>
   );
 }

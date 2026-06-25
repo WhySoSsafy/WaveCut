@@ -1,5 +1,6 @@
 import { AppHeader } from "@/components/mobile/AppHeader";
 import { BottomTabBar } from "@/components/mobile/BottomTabBar";
+import { FavoritesProvider } from "@/components/mobile/FavoritesProvider";
 import styles from "@/components/mobile/mobile.module.css";
 
 export default function MobileLayout({ children }: { children: React.ReactNode }) {
@@ -7,7 +8,9 @@ export default function MobileLayout({ children }: { children: React.ReactNode }
     <div className={styles.mobileFrame}>
       <div className={styles.phone}>
         <AppHeader />
-        <main className={styles.mobileContent}>{children}</main>
+        <FavoritesProvider>
+          <main className={styles.mobileContent}>{children}</main>
+        </FavoritesProvider>
         <BottomTabBar />
       </div>
     </div>
