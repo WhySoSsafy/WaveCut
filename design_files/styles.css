@@ -1,0 +1,67 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
+:root{
+  /* navy / blue / sky */
+  --navy-900:#0A2342;
+  --navy-800:#0E2C53;
+  --navy-700:#143a6b;
+  --blue-700:#1554b8;
+  --blue-600:#1D6FE0;
+  --blue-500:#2f86f0;
+  --sky-400:#39B7F0;
+  --sky-300:#7DD3FC;
+  --sky-100:#E1F1FB;
+  --sky-50:#F0F8FE;
+
+  /* status */
+  --safe:#16A34A;   --safe-bg:#E7F6EC;  --safe-line:#bfe6cb;
+  --caution:#EA8C00;--caution-bg:#FDF1DD;--caution-line:#f6d9a6;
+  --danger:#DC2626; --danger-bg:#FCE9E9; --danger-line:#f3c0c0;
+
+  /* depth scale */
+  --d-none:#EAF4FB;
+  --d-ankle:#BFE3F6;
+  --d-knee:#7FC6EE;
+  --d-waist:#3D9FE0;
+  --d-chest:#EA8C00;
+  --d-head:#DC2626;
+
+  /* neutrals */
+  --ink:#0F2238;
+  --ink-2:#3D5573;
+  --ink-3:#6B819B;
+  --line:#E2E9F1;
+  --line-2:#EEF3F8;
+  --bg:#F4F7FB;
+  --card:#FFFFFF;
+
+  --r-lg:18px; --r-md:14px; --r-sm:10px;
+  --shadow-sm:0 1px 2px rgba(14,44,83,.06), 0 1px 3px rgba(14,44,83,.05);
+  --shadow-md:0 4px 16px rgba(14,44,83,.08);
+  --shadow-lg:0 18px 50px rgba(10,35,66,.16);
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap");
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:"Pretendard Variable",Pretendard,system-ui,sans-serif;
+  color:var(--ink);
+  background:#0a1828;
+  -webkit-font-smoothing:antialiased;
+  letter-spacing:-0.01em;
+}
+.mono{font-family:var(--mono);letter-spacing:0;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+:focus-visible{outline:2px solid var(--blue-500);outline-offset:2px;}
+
+/* status helpers */
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;}
+.s-safe{color:var(--safe);} .bg-safe{background:var(--safe);}
+.s-caution{color:var(--caution);} .bg-caution{background:var(--caution);}
+.s-danger{color:var(--danger);} .bg-danger{background:var(--danger);}
+
+::-webkit-scrollbar{width:10px;height:10px;}
+::-webkit-scrollbar-thumb{background:#cdd9e6;border-radius:8px;border:3px solid transparent;background-clip:content-box;}
+::-webkit-scrollbar-track{background:transparent;}
