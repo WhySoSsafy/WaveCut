@@ -23,6 +23,7 @@ export default function TransitPage() {
         {BEACH_IDS.map((id) => (
           <TransitCard
             key={id}
+            id={id}
             beachName={FALLBACK[id].name}
             data={TRANSIT[id]}
           />

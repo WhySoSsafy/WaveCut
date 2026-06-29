@@ -34,6 +34,7 @@ export function CrossSection({
   const [p, setP] = useState(0.5);
   const [tideKey, setTideKey] = useState<TideKey>("now");
   const [drag, setDrag] = useState(false);
+  const [interacted, setInteracted] = useState(false);
   const planRef = useRef<HTMLDivElement>(null);
 
   const tideOffset = beach.tideOffsets[tideKey];
@@ -72,6 +73,43 @@ export function CrossSection({
       window.removeEventListener("pointerup", up);
     };
   }, [drag, move]);
+
+  // 첫 진입 시 단면선을 한 번 좌우로 살짝 움직여 "드래그 가능"을 시연
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let raf = 0;
+    let start = 0;
+    let cancelled = false;
+    const DUR = 1700;
+    const tick = (t: number) => {
+      if (cancelled) return;
+      if (!start) start = t;
+      const el = (t - start) / DUR;
+      if (el >= 1) {
+        setP(0.5);
+        return;
+      }
+      // 0.5 → 좌 → 우 → 0.5 (감쇠 사인 1.5주기)
+      const wig = Math.sin(el * Math.PI * 3) * (1 - el) * 0.16;
+      setP(0.5 + wig);
+      raf = requestAnimationFrame(tick);
+    };
+    const startId = window.setTimeout(() => {
+      raf = requestAnimationFrame(tick);
+    }, 600);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(startId);
+      if (raf) cancelAnimationFrame(raf);
+    };
+    // 마운트 1회만 시연
+  }, []);
+
+  const startDrag = (clientX: number) => {
+    setInteracted(true);
+    setDrag(true);
+    move(clientX);
+  };
 
   // ----- 단면도 기하 (CrossSection.jsx 26–30행 그대로) -----
   const VB_W = 820,
@@ -150,10 +188,7 @@ export function CrossSection({
       <div
         className={styles.plan}
         ref={planRef}
-        onPointerDown={(e) => {
-          setDrag(true);
-          move(e.clientX);
-        }}
+        onPointerDown={(e) => startDrag(e.clientX)}
       >
         <div className={styles.planSand}>
           <span>모래사장</span>
@@ -174,8 +209,16 @@ export function CrossSection({
             {["좌", "중앙", "우"][i]}
           </div>
         ))}
+        {/* 드래그 가능 힌트 — 첫 조작 전까지 표시 */}
+        {!interacted && (
+          <div className={styles.planHint} aria-hidden="true">
+            좌우로 드래그해 보세요
+          </div>
+        )}
         <div className={styles.planLine} style={{ left: p * 100 + "%" }}>
-          <div className={styles.planKnob}>
+          <div
+            className={`${styles.planKnob}${interacted ? "" : ` ${styles.planKnobHint}`}`}
+          >
             <svg width="14" height="14" viewBox="0 0 14 14">
               <path
                 d="M3 4 L1 7 L3 10 M11 4 L13 7 L11 10"
@@ -186,7 +229,7 @@ export function CrossSection({
               />
             </svg>
           </div>
-          <div className={styles.planLineCap}>단면선</div>
+          <div className={styles.planLineCap}>↔ 단면선</div>
         </div>
       </div>
 

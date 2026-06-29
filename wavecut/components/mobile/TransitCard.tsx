@@ -1,19 +1,24 @@
+import Link from "next/link";
 import { Icon } from "@/components/shared/Icon";
 import type { TransitData } from "@/lib/data/transit";
 import styles from "./mobile.module.css";
 
 interface TransitCardProps {
+  id: string;
   beachName: string;
   data: TransitData;
 }
 
-export function TransitCard({ beachName, data }: TransitCardProps) {
+export function TransitCard({ id, beachName, data }: TransitCardProps) {
   const { station, exit, accessible } = data;
 
   return (
-    <article className={styles.aTransitCard}>
+    <Link href={`/app/transit/${id}`} className={styles.aTransitCard}>
       {/* Beach name */}
-      <div className={styles.aTransitCardName}>{beachName}</div>
+      <div className={styles.aTransitCardName}>
+        {beachName}
+        <Icon name="chevron" size={15} color="var(--ink-3)" />
+      </div>
 
       {/* Nearest station */}
       <div className={styles.aTransitRow}>
@@ -84,6 +89,6 @@ export function TransitCard({ beachName, data }: TransitCardProps) {
           <span className={styles.aTransitRowSub}>{accessible.note}</span>
         </div>
       </div>
-    </article>
+    </Link>
   );
 }

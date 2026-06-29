@@ -1436,3 +1436,58 @@
   display: flex;
   align-items: center;
 }
+
+/* ===== Transit card → detail (P2) ===== */
+.wtransitCard {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: 0.16s;
+}
+.wtransitCard:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--sky-300);
+}
+.wtransitName {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.wtransitMore {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--blue-600);
+}
+
+/* Transit detail page */
+.transitDetailGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+}
+.tdBig {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--navy-900);
+  margin: 4px 0 8px;
+}
+.tdMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--ink-2);
+}
+.tdMapBtns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}

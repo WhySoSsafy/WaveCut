@@ -1,18 +1,25 @@
+import Link from "next/link";
 import { Icon } from "@/components/shared/Icon";
 import type { TransitData } from "@/lib/data/transit";
 import styles from "./web.module.css";
 
 interface WebTransitCardProps {
+  id: string;
   beachName: string;
   data: TransitData;
 }
 
-export function WebTransitCard({ beachName, data }: WebTransitCardProps) {
+export function WebTransitCard({ id, beachName, data }: WebTransitCardProps) {
   const { station, exit, accessible } = data;
 
   return (
-    <article className={styles.wtransitCard}>
-      <div className={styles.wtransitName}>{beachName}</div>
+    <Link href={`/transit/${id}`} className={styles.wtransitCard}>
+      <div className={styles.wtransitName}>
+        {beachName}
+        <span className={styles.wtransitMore}>
+          상세 <Icon name="chevron" size={13} color="var(--blue-600)" />
+        </span>
+      </div>
 
       {/* 가장 가까운 역 */}
       <div className={styles.wtransitRow}>
@@ -76,6 +83,6 @@ export function WebTransitCard({ beachName, data }: WebTransitCardProps) {
           <span className={styles.wtransitSub}>{accessible.note}</span>
         </div>
       </div>
-    </article>
+    </Link>
   );
 }
