@@ -133,6 +133,7 @@ export const ja: Dict = {
     toStation: "駅", toBeach: "ビーチ",
     detailHead: "交通・アクセス", routeFind: "ルート", externalMap: "外部地図",
     kakao: "Kakaoマップで見る", naver: "Naver地図で見る", more: "詳細",
+    minUnit: "分",
     subway: "地下鉄",
   },
   xsec: {

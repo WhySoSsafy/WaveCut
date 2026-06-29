@@ -133,6 +133,7 @@ export const en: Dict = {
     toStation: "Station", toBeach: "Beach",
     detailHead: "Transit & access", routeFind: "Directions", externalMap: "External map",
     kakao: "Open in KakaoMap", naver: "Open in Naver Map", more: "Details",
+    minUnit: " min",
     subway: "Subway",
   },
   xsec: {

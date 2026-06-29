@@ -130,6 +130,7 @@ export const ko = {
     toStation: "역", toBeach: "해변",
     detailHead: "교통·접근성", routeFind: "길찾기", externalMap: "외부 지도",
     kakao: "카카오맵에서 보기", naver: "네이버지도에서 보기", more: "상세",
+    minUnit: "분",
     subway: "지하철",
   },
   xsec: {

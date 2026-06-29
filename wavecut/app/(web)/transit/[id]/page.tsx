@@ -5,6 +5,7 @@ import type { BeachId } from "@/lib/data/fallback";
 import { TRANSIT } from "@/lib/data/transit";
 import { kakaoMapSearch, naverMapSearch } from "@/lib/data/mapLinks";
 import { Icon } from "@/components/shared/Icon";
+import { getI18n } from "@/lib/i18n/server";
 import styles from "@/components/web/web.module.css";
 
 export function generateStaticParams() {
@@ -18,7 +19,10 @@ export default async function TransitDetailPage({
 }) {
   const { id } = await params;
   if (!BEACH_IDS.includes(id as BeachId)) notFound();
+  const { t } = await getI18n();
+  const T = t.transit;
   const beach = FALLBACK[id as BeachId];
+  const name = t.beaches[id as BeachId];
   const { station, exit, accessible } = TRANSIT[id as BeachId];
   const query = `${beach.name} ${station.name}`;
 
@@ -27,11 +31,13 @@ export default async function TransitDetailPage({
       <div className={styles.xsecPageHead}>
         <Link href="/transit" className={styles.btnGhost}>
           <Icon name="chevron" size={14} color="var(--ink-2)" />
-          교통·접근성
+          {T.title}
         </Link>
-        <h1 className={styles.xsecPageTitle}>{beach.name} · 교통·접근성</h1>
+        <h1 className={styles.xsecPageTitle}>
+          {name} · {T.detailHead}
+        </h1>
         <p className={styles.xsecPageSub}>
-          가장 가까운 역, 추천 출구, 교통약자 접근성 안내 · {beach.region}
+          {T.nearestStation}, {T.recExit}, {T.access} · {beach.region}
         </p>
       </div>
 
@@ -39,15 +45,19 @@ export default async function TransitDetailPage({
         {/* 가장 가까운 역 */}
         <div className={styles.panel}>
           <div className={styles.panelH}>
-            <strong>가장 가까운 역</strong>
-            <span className="mono">지하철</span>
+            <strong>{T.nearestStation}</strong>
+            <span className="mono">{T.subway}</span>
           </div>
           <div className={styles.tdBig}>
             {station.name}
             <span className={styles.wtransitBadge}>{station.line}</span>
           </div>
           <div className={styles.tdMeta}>
-            <span><Icon name="pin" size={14} color="var(--ink-3)" /> 도보 {station.walkMin}분</span>
+            <span>
+              <Icon name="pin" size={14} color="var(--ink-3)" /> {T.walk}{" "}
+              {station.walkMin}
+              {T.minUnit}
+            </span>
             {station.note && <span>· {station.note}</span>}
             {station.tel && <span>· ☎ {station.tel}</span>}
           </div>
@@ -56,10 +66,12 @@ export default async function TransitDetailPage({
         {/* 추천 출구 */}
         <div className={styles.panel}>
           <div className={styles.panelH}>
-            <strong>추천 출구</strong>
-            <span className="mono">해수욕장 방향</span>
+            <strong>{T.recExit}</strong>
+            <span className="mono">{T.toBeach}</span>
           </div>
-          <div className={styles.tdBig}>{exit.no} 출구</div>
+          <div className={styles.tdBig}>
+            {exit.no} {T.exit}
+          </div>
           <div className={styles.tdMeta}>
             <span>{exit.toward}</span>
           </div>
@@ -68,14 +80,14 @@ export default async function TransitDetailPage({
         {/* 교통약자 접근성 */}
         <div className={styles.panel}>
           <div className={styles.panelH}>
-            <strong>교통약자 접근성</strong>
-            <span className="mono">엘리베이터</span>
+            <strong>{T.access}</strong>
+            <span className="mono">{T.subway}</span>
           </div>
           <div className={styles.tdBig}>
             {accessible.elevator ? (
-              <span className={styles.wtransitAccessOk}>✅ 엘리베이터 있음</span>
+              <span className={styles.wtransitAccessOk}>{T.elevatorYes}</span>
             ) : (
-              <span className={styles.wtransitAccessNo}>❌ 엘리베이터 없음</span>
+              <span className={styles.wtransitAccessNo}>{T.elevatorNo}</span>
             )}
           </div>
           <div className={styles.tdMeta}>
@@ -88,8 +100,8 @@ export default async function TransitDetailPage({
       {/* 길찾기 */}
       <div className={styles.panel}>
         <div className={styles.panelH}>
-          <strong>길찾기</strong>
-          <span className="mono">외부 지도</span>
+          <strong>{T.routeFind}</strong>
+          <span className="mono">{T.externalMap}</span>
         </div>
         <div className={styles.tdMapBtns}>
           <a
@@ -98,7 +110,7 @@ export default async function TransitDetailPage({
             rel="noopener noreferrer"
             className={styles.btnPrimary}
           >
-            카카오맵에서 보기
+            {T.kakao}
             <Icon name="chevron" size={14} color="#fff" />
           </a>
           <a
@@ -107,15 +119,14 @@ export default async function TransitDetailPage({
             rel="noopener noreferrer"
             className={styles.btnGhost}
           >
-            네이버지도에서 보기
+            {T.naver}
           </a>
         </div>
       </div>
 
       <p className={styles.wtransitNote}>
         <Icon name="alert" size={14} color="var(--caution)" />
-        목업 데이터입니다. 부산교통공사 공공데이터 API 연동 예정이며,
-        역세권·엘리베이터 정보는 실제와 다를 수 있습니다.
+        {T.mock}
       </p>
     </div>
   );

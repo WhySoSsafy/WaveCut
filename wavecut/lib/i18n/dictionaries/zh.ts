@@ -133,6 +133,7 @@ export const zh: Dict = {
     toStation: "车站", toBeach: "海滩",
     detailHead: "交通与无障碍", routeFind: "路线", externalMap: "外部地图",
     kakao: "在 Kakao 地图查看", naver: "在 Naver 地图查看", more: "详情",
+    minUnit: " 分钟",
     subway: "地铁",
   },
   xsec: {

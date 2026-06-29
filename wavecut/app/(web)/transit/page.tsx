@@ -1,22 +1,23 @@
 import { WebTransitCard } from "@/components/web/WebTransitCard";
 import { TRANSIT } from "@/lib/data/transit";
-import { BEACH_IDS, FALLBACK } from "@/lib/data/fallback";
+import { BEACH_IDS } from "@/lib/data/fallback";
 import { Icon } from "@/components/shared/Icon";
+import { getI18n } from "@/lib/i18n/server";
 import styles from "@/components/web/web.module.css";
 
-export default function TransitPage() {
+export default async function TransitPage() {
+  const { t } = await getI18n();
   return (
     <div className={styles.page}>
       <section>
         <div className={styles.secHead}>
-          <h3>교통·접근성</h3>
-          <span>지하철·교통약자 안내 — 부산 주요 해수욕장</span>
+          <h3>{t.transit.title}</h3>
+          <span>{t.transit.subtitle}</span>
         </div>
 
         <p className={styles.wtransitNote}>
           <Icon name="alert" size={14} color="var(--caution)" />
-          목업 데이터입니다. 부산교통공사 공공데이터 API 연동 예정이며,
-          역세권·엘리베이터 정보는 실제와 다를 수 있습니다.
+          {t.transit.mock}
         </p>
 
         <div className={styles.wtransitGrid}>
@@ -24,7 +25,7 @@ export default function TransitPage() {
             <WebTransitCard
               key={id}
               id={id}
-              beachName={FALLBACK[id].name}
+              beachName={t.beaches[id]}
               data={TRANSIT[id]}
             />
           ))}
