@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getBeachDetail } from "@/lib/api/aggregate";
 import { BEACH_IDS } from "@/lib/data/fallback";
 import { BeachPhoto } from "@/components/shared/BeachPhoto";
+import { CrossSection } from "@/components/shared/CrossSection";
 import { WaveDivider } from "@/components/shared/WaveDivider";
 import { analyze, profileFromTransect, transectAt } from "@/lib/bsm/profile";
 import { situationTips } from "@/lib/bsm/aiComment";
@@ -67,22 +68,15 @@ export default async function BeachDetailPage({
       {/* 2-컬럼: 메인(단면 수심 뷰 진입 패널 + SituationTips) / 사이드(expert panels) */}
       <div className={styles.detailGrid}>
         <div className={styles.detailMain}>
-          {/* 단면 수심 뷰 진입 패널 */}
+          {/* 단면 수심 뷰 — 메인 기능을 바로 임베드 (버튼 뒤에 숨기지 않음) */}
           <div className={styles.panel}>
             <div className={styles.panelH}>
               <strong>단면 수심 뷰</strong>
-              <span className="mono">단면선을 선택해 수심을 확인하세요</span>
-            </div>
-            <div className={styles.xsecEntry}>
-              <p className={styles.xsecDesc}>
-                해수욕장 단면 수심도를 통해 각 구간별 체감 수심과 위험 구간을
-                확인할 수 있습니다.
-              </p>
-              <a href={`/beach/${id}/xsec`} className={styles.btnPrimary}>
-                단면 수심 보기
-                <Icon name="chevron" size={14} color="#fff" />
+              <a href={`/beach/${id}/xsec`} className={styles.panelLink}>
+                전체 화면 <Icon name="chevron" size={13} color="var(--blue-600)" />
               </a>
             </div>
+            <CrossSection beach={beach} />
           </div>
           <SituationTips tips={tips} />
         </div>

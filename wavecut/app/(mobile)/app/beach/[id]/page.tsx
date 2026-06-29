@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getBeachDetail } from "@/lib/api/aggregate";
 import { BeachPhoto } from "@/components/shared/BeachPhoto";
+import { CrossSection } from "@/components/shared/CrossSection";
 import { BEACH_IDS } from "@/lib/data/fallback";
 import type { BeachId } from "@/lib/data/fallback";
 import { StatusPill } from "@/components/shared/StatusPill";
@@ -109,11 +110,16 @@ export default async function AppBeachDetailPage({
         family={beach.family}
       />
 
-      {/* 단면 수심 뷰 보기 버튼 */}
-      <Link href={`/app/beach/${id}/xsec`} className={styles.aBtnPrimary}>
-        단면 수심 뷰 보기
-        <Icon name="chevron" size={15} color="#fff" />
-      </Link>
+      {/* 단면 수심 뷰 — 메인 기능을 바로 임베드 */}
+      <div className={styles.aDetailSecH}>
+        단면 수심 뷰
+        <Link href={`/app/beach/${id}/xsec`} className={styles.aSecLink}>
+          전체 화면 <Icon name="chevron" size={13} color="var(--blue-600)" />
+        </Link>
+      </div>
+      <div className={styles.aXsecEmbed}>
+        <CrossSection beach={beach} compact />
+      </div>
     </div>
   );
 }

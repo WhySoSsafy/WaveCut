@@ -1507,3 +1507,14 @@
   flex-wrap: wrap;
   gap: 10px;
 }
+
+.panelLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--blue-600);
+  text-decoration: none;
+}
+.panelLink:hover { color: var(--blue-700); }
