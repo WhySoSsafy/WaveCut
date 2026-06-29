@@ -1,5 +1,9 @@
+"use client";
+
 import { Stat } from "@/components/shared/Stat";
 import { waveStatus, ripStatus, familyStatus } from "@/lib/bsm/safety";
+import { useT } from "@/lib/i18n/LocaleProvider";
+import { tv } from "@/lib/i18n/values";
 import styles from "./web.module.css";
 
 interface OceanSafetyPanelProps {
@@ -11,6 +15,8 @@ interface OceanSafetyPanelProps {
 }
 
 export function OceanSafetyPanel({ wave, tide, tideTrend, rip, family }: OceanSafetyPanelProps) {
+  const t = useT();
+  const P = t.panel;
   const waveS = waveStatus(wave);
   const ripS = ripStatus(rip);
   const famStatus = familyStatus(family);
@@ -18,23 +24,23 @@ export function OceanSafetyPanel({ wave, tide, tideTrend, rip, family }: OceanSa
   return (
     <div className={styles.panel}>
       <div className={styles.panelH}>
-        <strong>해양 안전 분석</strong>
-        <span className="mono">전문 지표</span>
+        <strong>{P.oceanTitle}</strong>
+        <span className="mono">{P.oceanExpert}</span>
       </div>
       <div className={styles.safetyMetrics}>
-        <Stat icon="wave" label="파고" value={wave} unit="m" status={waveS} />
+        <Stat icon="wave" label={P.wave} value={wave} unit="m" status={waveS} />
         <Stat
           icon="tide"
-          label="조위"
-          value={tide}
-          unit={tideTrend ? " · " + tideTrend : undefined}
+          label={P.tide}
+          value={tv(t, "tide", tide)}
+          unit={tideTrend ? " · " + tv(t, "tideTrend", tideTrend) : undefined}
           status="safe"
         />
-        <Stat icon="rip" label="이안류" value={rip} status={ripS} />
+        <Stat icon="rip" label={P.rip} value={tv(t, "rip", rip)} status={ripS} />
         <Stat
           icon="family"
-          label="가족 이용"
-          value={family ? "추천" : "주의"}
+          label={P.family}
+          value={tv(t, "family", family ? "추천" : "주의")}
           status={famStatus}
         />
       </div>
@@ -44,7 +50,7 @@ export function OceanSafetyPanel({ wave, tide, tideTrend, rip, family }: OceanSa
         >
           <span className={styles.ripFlowTrack} aria-hidden="true" />
           <span className={styles.ripFlowLabel}>
-            이안류 흐름 {rip} — 바다 쪽으로 빠르게 빠지는 흐름에 주의
+            {P.ripFlow} {tv(t, "rip", rip)} {P.ripFlowTail}
           </span>
         </div>
       )}

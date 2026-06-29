@@ -1,7 +1,10 @@
+"use client";
+
 import type { SituationTip } from "@/lib/bsm/aiComment";
 import { Icon } from "@/components/shared/Icon";
 import { SC, SBG } from "@/components/shared/StatusPill";
 import type { IconName } from "@/components/shared/Icon";
+import { useT } from "@/lib/i18n/LocaleProvider";
 import styles from "./web.module.css";
 
 interface SituationTipsProps {
@@ -9,11 +12,12 @@ interface SituationTipsProps {
 }
 
 export function SituationTips({ tips }: SituationTipsProps) {
+  const P = useT().panel;
   return (
     <div className={styles.panel}>
       <div className={styles.panelH}>
-        <strong>상황별 권장 행동</strong>
-        <span className="mono">AI 안전 가이드</span>
+        <strong>{P.tipsTitle}</strong>
+        <span className="mono">{P.tipsGuide}</span>
       </div>
       <div className={styles.sitGrid}>
         {tips.map((t) => (

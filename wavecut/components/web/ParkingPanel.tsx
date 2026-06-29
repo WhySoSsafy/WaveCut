@@ -1,4 +1,7 @@
+"use client";
+
 import { Icon } from "@/components/shared/Icon";
+import { useT } from "@/lib/i18n/LocaleProvider";
 import styles from "./web.module.css";
 
 interface ParkingPanelProps {
@@ -7,11 +10,12 @@ interface ParkingPanelProps {
 }
 
 export function ParkingPanel({ parking, parkDist }: ParkingPanelProps) {
+  const P = useT().panel;
   return (
     <div className={styles.panel}>
       <div className={styles.panelH}>
-        <strong>주차 안내</strong>
-        <span className="mono">현장 이용 정보</span>
+        <strong>{P.parkTitle}</strong>
+        <span className="mono">{P.parkSite}</span>
       </div>
       <div className={styles.parkRow}>
         <span className={styles.parkIc}>
@@ -23,8 +27,8 @@ export function ParkingPanel({ parking, parkDist }: ParkingPanelProps) {
         </div>
       </div>
       <div className={styles.parkActions}>
-        <button className={`${styles.btnGhost} ${styles.btnSm}`}>근처 주차장 보기</button>
-        <button className={`${styles.btnGhost} ${styles.btnSm}`}>지도에서 확인</button>
+        <button className={`${styles.btnGhost} ${styles.btnSm}`}>{P.parkNearby}</button>
+        <button className={`${styles.btnGhost} ${styles.btnSm}`}>{P.parkMap}</button>
       </div>
     </div>
   );

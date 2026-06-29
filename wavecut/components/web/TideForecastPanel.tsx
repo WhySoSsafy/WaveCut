@@ -1,5 +1,8 @@
+"use client";
+
 import { Icon } from "@/components/shared/Icon";
 import { TideSparkline } from "./TideSparkline";
+import { useT } from "@/lib/i18n/LocaleProvider";
 import styles from "./web.module.css";
 
 interface TideOffsets {
@@ -12,38 +15,37 @@ interface TideForecastPanelProps {
   offsets: TideOffsets;
 }
 
-const DEPTH_LABELS = [
-  { max: 0.4, label: "발목" },
-  { max: 0.7, label: "무릎" },
-  { max: 1.1, label: "허리" },
-  { max: 1.5, label: "가슴" },
-  { max: Infinity, label: "머리 이상" },
-];
-
-function depthLabel(offset: number): string {
-  const base = 0.8; // approximate mid-beach base depth
-  const total = base + offset;
-  for (const { max, label } of DEPTH_LABELS) {
-    if (total < max) return label;
-  }
-  return "머리 이상";
-}
+const DEPTH_KEYS = [
+  { max: 0.4, key: "ankle" },
+  { max: 0.7, key: "knee" },
+  { max: 1.1, key: "waist" },
+  { max: 1.5, key: "chest" },
+  { max: Infinity, key: "head" },
+] as const;
 
 const COLORS = ["var(--d-knee)", "var(--d-waist)", "var(--d-chest)"];
 const MAX = 1.5;
 
 export function TideForecastPanel({ offsets }: TideForecastPanelProps) {
+  const t = useT();
+  const P = t.panel;
+  const levels = t.common.levels;
+  const depthLabel = (offset: number): string => {
+    const total = 0.8 + offset;
+    for (const { max, key } of DEPTH_KEYS) if (total < max) return levels[key];
+    return levels.head;
+  };
   const rows = [
-    { label: "현재", offset: offsets.now, isNow: true },
-    { label: "1시간 후", offset: offsets.t1, isNow: false },
-    { label: "2시간 후", offset: offsets.t2, isNow: false },
+    { label: t.xsec.now, offset: offsets.now, isNow: true },
+    { label: t.xsec.t1, offset: offsets.t1, isNow: false },
+    { label: t.xsec.t2, offset: offsets.t2, isNow: false },
   ];
 
   return (
     <div className={styles.panel}>
       <div className={styles.panelH}>
-        <strong>시간대별 체감 수심</strong>
-        <span className="mono">조위 예측</span>
+        <strong>{P.tideTitle}</strong>
+        <span className="mono">{P.tidePred}</span>
       </div>
       <TideSparkline
         points={rows.map((r) => ({
@@ -71,7 +73,7 @@ export function TideForecastPanel({ offsets }: TideForecastPanelProps) {
       </div>
       <div className={styles.tideNote}>
         <Icon name="tide" size={14} color="var(--blue-600)" />
-        오후로 갈수록 조위가 상승해 같은 위치의 체감 수심이 깊어집니다.
+        {P.tideNote}
       </div>
     </div>
   );

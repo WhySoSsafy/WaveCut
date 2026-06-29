@@ -14,6 +14,8 @@ import { ParkingPanel } from "@/components/web/ParkingPanel";
 import { TideForecastPanel } from "@/components/web/TideForecastPanel";
 import { SituationTips } from "@/components/web/SituationTips";
 import { DataSourcePanel } from "@/components/web/DataSourcePanel";
+import { getI18n } from "@/lib/i18n/server";
+import { tv } from "@/lib/i18n/values";
 import styles from "@/components/web/web.module.css";
 
 export function generateStaticParams() {
@@ -27,7 +29,11 @@ export default async function BeachDetailPage({
 }) {
   const { id } = await params;
   if (!BEACH_IDS.includes(id as (typeof BEACH_IDS)[number])) notFound();
-  const beach = await getBeachDetail(id as (typeof BEACH_IDS)[number]);
+  const [{ t }, beach] = await Promise.all([
+    getI18n(),
+    getBeachDetail(id as (typeof BEACH_IDS)[number]),
+  ]);
+  const name = t.beaches[id as (typeof BEACH_IDS)[number]];
   const a = analyze(
     profileFromTransect(transectAt(beach.transects, 0.5)),
     beach.tideOffsets.now
@@ -40,22 +46,23 @@ export default async function BeachDetailPage({
       <div className={styles.detailHero}>
         <BeachPhoto
           id={id}
-          alt={`${beach.name} 해변 전경`}
+          alt={name}
           sizes="(max-width: 1100px) 100vw, 980px"
           priority
         />
         <div className={styles.detailHead}>
           <div className={styles.detailHeadLeft}>
             <div className={styles.dhName}>
-              <h1>{beach.name}</h1>
+              <h1>{name}</h1>
               <StatusPill status={beach.status} big />
             </div>
             <div className={styles.dhMeta}>
               <Icon name="pin" size={14} color="rgba(255,255,255,0.8)" />
-              {beach.region} · 해안선 길이 {beach.length}km ·{" "}
+              {beach.region} · {t.panel.shoreLen} {beach.length}km ·{" "}
               <Icon name="sun" size={14} color="rgba(255,255,255,0.8)" />
-              {beach.sky} {beach.air}℃ · 자외선 {beach.uv} · 예상 혼잡도{" "}
-              {beach.crowd}
+              {tv(t, "sky", beach.sky)} {beach.air}℃ · {t.panel.uvLabel}{" "}
+              {tv(t, "uv", beach.uv)} · {t.panel.crowdLabel}{" "}
+              {tv(t, "crowd", beach.crowd)}
             </div>
           </div>
           <div className={styles.dhStats}>
@@ -71,9 +78,10 @@ export default async function BeachDetailPage({
           {/* 단면 수심 뷰 — 메인 기능을 바로 임베드 (버튼 뒤에 숨기지 않음) */}
           <div className={styles.panel}>
             <div className={styles.panelH}>
-              <strong>단면 수심 뷰</strong>
+              <strong>{t.panel.detailXsec}</strong>
               <a href={`/beach/${id}/xsec`} className={styles.panelLink}>
-                전체 화면 <Icon name="chevron" size={13} color="var(--blue-600)" />
+                {t.panel.fullscreen}{" "}
+                <Icon name="chevron" size={13} color="var(--blue-600)" />
               </a>
             </div>
             <CrossSection beach={beach} />
