@@ -15,6 +15,11 @@ export const en: Dict = {
       chest: "Chest",
       head: "Over head",
     },
+    values: {
+      uv: { "높음": "High", "보통": "Moderate", "낮음": "Low" },
+      crowd: { "여유": "Light", "보통": "Moderate", "많음": "Crowded" },
+      sky: { "맑음": "Clear", "구름조금": "Partly cloudy", "구름많음": "Mostly cloudy", "흐림": "Cloudy", "비": "Rain", "눈": "Snow", "소나기": "Showers" },
+    },
   },
   nav: {
     home: "WaveCut home",
@@ -72,6 +77,32 @@ export const en: Dict = {
     ctaSub: "Felt depth and safety grade for Busan's beaches, at a glance.",
     ctaFine:
       "Entry for the Busan Public-Data AI Contest · Data: KMA · KHOA",
+  },
+  dash: {
+    heroTitle: "Our family's sea — is it safe today?",
+    heroLede: "AI analyzes live public data to show the felt depth and safety grade of Busan's major beaches.",
+    monitoring: "Monitored",
+    distTitle: "Today's safety distribution", distSub: "Live safety grades for Busan's major beaches",
+    nearbyTitle: "Beaches near me", nearbySub: "Allow location to sort by nearest",
+    recTitle: "Today's recommended beach", recSub: "Family-friendly spots first",
+    statusTitle: "Beach safety status", statusSub: "Busan's main beaches · tap a card for details",
+    featDesc: "A flagship beach well suited to family swimming.",
+    donutDanger: "Danger:", donutDangerTail: " — on-site check needed now.",
+    donutNoDangerA: "No", donutNoDangerHi: "danger", donutNoDangerB: "level right now.",
+    donutCaution: "Caution at", donutCautionTail: " — check waves and rip currents.",
+    donutAllSafe1: "All beaches are at the", donutAllSafe2: "safe", donutAllSafe3: "level.",
+  },
+  card: {
+    weather: "Weather", uv: "UV", crowd: "Crowd (est.)", region: "Area",
+    detail: "View details", mvp: "Featured",
+  },
+  nearby: {
+    find: "Find the nearest beach to me", locating: "Locating…", retry: "Try again",
+    nearest: "Nearest beach",
+    errDenied: "Location permission was denied. Allow it from the location icon in the address bar, then try again.",
+    errTimeout: "Locating is taking too long. Please try again shortly.",
+    errUnavail: "Can't get your location. Check that location services are on and try again.",
+    unsupported: "This browser doesn't support location.",
   },
   xsec: {
     tideSim: "Tide simulation",

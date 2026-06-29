@@ -15,6 +15,11 @@ export const ja: Dict = {
       chest: "胸",
       head: "頭以上",
     },
+    values: {
+      uv: { "높음": "高い", "보통": "普通", "낮음": "低い" },
+      crowd: { "여유": "空いている", "보통": "普通", "많음": "混雑" },
+      sky: { "맑음": "晴れ", "구름조금": "晴れ時々曇り", "구름많음": "曇りがち", "흐림": "曇り", "비": "雨", "눈": "雪", "소나기": "にわか雨" },
+    },
   },
   nav: {
     home: "WaveCut ホーム",
@@ -72,6 +77,32 @@ export const ja: Dict = {
     ctaSub: "釜山のビーチの体感水深と安全等級をひと目で。",
     ctaFine:
       "釜山市 公共データAI活用コンテスト出品作 · データ：気象庁 · 国立海洋調査院",
+  },
+  dash: {
+    heroTitle: "家族の海、今日は安全ですか？",
+    heroLede: "リアルタイム公共データをAIが分析し、釜山の主要ビーチの体感水深と安全等級をお知らせします。",
+    monitoring: "モニタリング",
+    distTitle: "本日の安全分布", distSub: "釜山主要ビーチのリアルタイム安全等級",
+    nearbyTitle: "近くのビーチ", nearbySub: "位置情報を許可すると近い順に案内します",
+    recTitle: "本日のおすすめビーチ", recSub: "家族向けの場所を優先しておすすめ",
+    statusTitle: "ビーチ安全状況", statusSub: "釜山の主要ビーチ · カードをタップで詳細",
+    featDesc: "家族の水遊びに適した代表的なビーチです。",
+    donutDanger: "危険", donutDangerTail: "か所 — 直ちに現場確認が必要です。",
+    donutNoDangerA: "現在", donutNoDangerHi: "危険", donutNoDangerB: "段階はありません。",
+    donutCaution: "注意", donutCautionTail: "か所は波高・離岸流をご確認ください。",
+    donutAllSafe1: "すべてのビーチが", donutAllSafe2: "安全", donutAllSafe3: "段階です。",
+  },
+  card: {
+    weather: "天気", uv: "紫外線", crowd: "予想混雑度", region: "地域",
+    detail: "詳細を見る", mvp: "代表",
+  },
+  nearby: {
+    find: "現在地から近いビーチを探す", locating: "位置を確認中…", retry: "再試行",
+    nearest: "最も近いビーチ",
+    errDenied: "位置情報の許可が拒否されました。アドレスバーの位置アイコンから許可して、もう一度お試しください。",
+    errTimeout: "位置の確認に時間がかかっています。しばらくして再試行してください。",
+    errUnavail: "現在地を取得できません。端末の位置情報サービスがオンか確認して再試行してください。",
+    unsupported: "このブラウザは位置情報に対応していません。",
   },
   xsec: {
     tideSim: "潮位シミュレーション",

@@ -1,4 +1,7 @@
+"use client";
+
 import type { SafetyStatus } from "@/lib/bsm/types";
+import { useT } from "@/lib/i18n/LocaleProvider";
 import styles from "./shared.module.css";
 
 export const SC: Record<SafetyStatus, string> = {
@@ -28,6 +31,7 @@ export function StatusPill({
   children?: React.ReactNode;
   big?: boolean;
 }) {
+  const t = useT();
   const pulse = status !== "safe";
   return (
     <span
@@ -43,7 +47,7 @@ export function StatusPill({
           } as React.CSSProperties
         }
       />
-      {children ?? SLABEL[status]}
+      {children ?? t.common[status]}
     </span>
   );
 }

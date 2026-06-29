@@ -4,10 +4,12 @@ import { HeroCard } from "@/components/web/HeroCard";
 import { FeatureRow } from "@/components/web/FeatureRow";
 import { StatusDonut } from "@/components/web/StatusDonut";
 import { NearbyBeach } from "@/components/shared/NearbyBeach";
+import { getI18n } from "@/lib/i18n/server";
 import styles from "@/components/web/web.module.css";
 
 export default async function Dashboard() {
-  const beaches = await getAllSummaries();
+  const [{ t }, beaches] = await Promise.all([getI18n(), getAllSummaries()]);
+  const D = t.dash;
   const counts = {
     safe: beaches.filter((b) => b.status === "safe").length,
     caution: beaches.filter((b) => b.status === "caution").length,
@@ -18,36 +20,36 @@ export default async function Dashboard() {
 
   return (
     <div className={styles.page}>
-      <HeroCard counts={counts} />
+      <HeroCard counts={counts} t={t} />
 
       <section>
         <div className={styles.secHead}>
-          <h3>오늘의 안전 분포</h3>
-          <span>부산 주요 6개 해수욕장 실시간 안전 등급</span>
+          <h3>{D.distTitle}</h3>
+          <span>{D.distSub}</span>
         </div>
         <StatusDonut counts={counts} />
       </section>
 
       <section>
         <div className={styles.secHead}>
-          <h3>내 주변 해수욕장</h3>
-          <span>위치를 허용하면 가까운 순으로 안내합니다</span>
+          <h3>{D.nearbyTitle}</h3>
+          <span>{D.nearbySub}</span>
         </div>
         <NearbyBeach hrefBase="/beach" />
       </section>
 
       <section>
         <div className={styles.secHead}>
-          <h3>오늘의 추천 해수욕장</h3>
-          <span>가족 단위 이용에 적합한 곳을 우선 추천합니다</span>
+          <h3>{D.recTitle}</h3>
+          <span>{D.recSub}</span>
         </div>
-        <FeatureRow beach={feature} />
+        <FeatureRow beach={feature} t={t} />
       </section>
 
       <section>
         <div className={styles.secHead}>
-          <h3>주요 해수욕장 안전 현황</h3>
-          <span>부산 대표 해수욕장 · 카드를 눌러 상세 정보를 확인하세요</span>
+          <h3>{D.statusTitle}</h3>
+          <span>{D.statusSub}</span>
         </div>
         <div className={styles.bcardGrid}>
           {beaches.map((b) => (
@@ -56,6 +58,7 @@ export default async function Dashboard() {
               beach={b}
               href={`/beach/${b.id}`}
               feature={b.id === "haeundae"}
+              t={t}
             />
           ))}
         </div>

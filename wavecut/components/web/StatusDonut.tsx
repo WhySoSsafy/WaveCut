@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { CountUp } from "@/components/shared/CountUp";
+import { useT } from "@/lib/i18n/LocaleProvider";
 import styles from "./web.module.css";
 
 interface Counts {
@@ -16,6 +17,8 @@ const C = 2 * Math.PI * R;
 
 /** Animated safety-distribution donut for the dashboard. */
 export function StatusDonut({ counts }: { counts: Counts }) {
+  const dict = useT();
+  const D = dict.dash;
   const [on, setOn] = useState(false);
   const [reduce, setReduce] = useState(false);
   useEffect(() => {
@@ -78,37 +81,47 @@ export function StatusDonut({ counts }: { counts: Counts }) {
         </svg>
         <div className={styles.donutCenter}>
           <b><CountUp value={counts.total} /></b>
-          <span>모니터링</span>
+          <span>{D.monitoring}</span>
         </div>
       </div>
       <div className={styles.donutLegend}>
         <div className={styles.donutLeg}>
           <i style={{ background: "var(--safe)" }} />
-          안전 <b><CountUp value={counts.safe} /></b>
+          {dict.common.safe} <b><CountUp value={counts.safe} /></b>
         </div>
         <div className={styles.donutLeg}>
           <i style={{ background: "var(--caution)" }} />
-          주의 <b><CountUp value={counts.caution} /></b>
+          {dict.common.caution} <b><CountUp value={counts.caution} /></b>
         </div>
         <div className={styles.donutLeg}>
           <i style={{ background: "var(--danger)" }} />
-          위험 <b><CountUp value={counts.danger} /></b>
+          {dict.common.danger} <b><CountUp value={counts.danger} /></b>
         </div>
       </div>
       <div className={styles.donutMsg}>
         {counts.danger > 0 ? (
           <>
-            <b className={styles.sDanger}>위험 단계 {counts.danger}곳</b> — 즉시
-            현장 확인이 필요합니다.
+            <b className={styles.sDanger}>
+              {D.donutDanger} {counts.danger}
+            </b>
+            {D.donutDangerTail}
           </>
         ) : counts.caution > 0 ? (
           <>
-            현재 <b className={styles.sDanger}>위험</b> 단계는 없습니다.{" "}
-            <b className={styles.sCaution}>주의 {counts.caution}곳</b>은 파고·이안류를
-            확인하세요.
+            {D.donutNoDangerA}{" "}
+            <b className={styles.sDanger}>{D.donutNoDangerHi}</b>{" "}
+            {D.donutNoDangerB}{" "}
+            <b className={styles.sCaution}>
+              {D.donutCaution} {counts.caution}
+            </b>
+            {D.donutCautionTail}
           </>
         ) : (
-          <>모든 해수욕장이 <b className={styles.sSafe}>안전</b> 단계입니다.</>
+          <>
+            {D.donutAllSafe1}{" "}
+            <b className={styles.sSafe}>{D.donutAllSafe2}</b>
+            {D.donutAllSafe3}
+          </>
         )}
       </div>
     </div>

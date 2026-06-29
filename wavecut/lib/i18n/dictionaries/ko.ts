@@ -13,6 +13,11 @@ export const ko = {
       chest: "가슴",
       head: "머리 이상",
     },
+    values: {
+      uv: { "높음": "높음", "보통": "보통", "낮음": "낮음" },
+      crowd: { "여유": "여유", "보통": "보통", "많음": "많음" },
+      sky: { "맑음": "맑음", "구름조금": "구름조금", "구름많음": "구름많음", "흐림": "흐림", "비": "비", "눈": "눈", "소나기": "소나기" },
+    },
   },
   nav: {
     home: "WaveCut 홈",
@@ -69,6 +74,32 @@ export const ko = {
     ctaSub: "부산 해수욕장의 체감 수심과 안전 등급을 한눈에.",
     ctaFine:
       "부산시 공공데이터 AI 활용 경진대회 출품작 · 데이터: 기상청 · 국립해양조사원",
+  },
+  dash: {
+    heroTitle: "우리 가족 바다, 오늘 안전한가요?",
+    heroLede: "실시간 공공데이터를 AI가 분석해 부산 주요 해수욕장의 체감 수심과 안전 등급을 알려드립니다.",
+    monitoring: "모니터링",
+    distTitle: "오늘의 안전 분포", distSub: "부산 주요 해수욕장 실시간 안전 등급",
+    nearbyTitle: "내 주변 해수욕장", nearbySub: "위치를 허용하면 가까운 순으로 안내합니다",
+    recTitle: "오늘의 추천 해수욕장", recSub: "가족 단위 이용에 적합한 곳을 우선 추천합니다",
+    statusTitle: "주요 해수욕장 안전 현황", statusSub: "부산 대표 해수욕장 · 카드를 눌러 상세 정보를 확인하세요",
+    featDesc: "가족 단위 물놀이에 적합한 대표 해수욕장입니다.",
+    donutDanger: "위험 단계", donutDangerTail: "곳 — 즉시 현장 확인이 필요합니다.",
+    donutNoDangerA: "현재", donutNoDangerHi: "위험", donutNoDangerB: "단계는 없습니다.",
+    donutCaution: "주의", donutCautionTail: "곳은 파고·이안류를 확인하세요.",
+    donutAllSafe1: "모든 해수욕장이", donutAllSafe2: "안전", donutAllSafe3: "단계입니다.",
+  },
+  card: {
+    weather: "날씨", uv: "자외선", crowd: "예상 혼잡도", region: "지역",
+    detail: "상세 보기", mvp: "MVP 대표",
+  },
+  nearby: {
+    find: "내 위치에서 가까운 해변 찾기", locating: "위치 확인 중…", retry: "다시 시도",
+    nearest: "가장 가까운 해변",
+    errDenied: "위치 권한이 거부되었어요. 브라우저 주소창의 위치 아이콘에서 허용한 뒤 다시 시도해 주세요.",
+    errTimeout: "위치 확인이 오래 걸려요. 잠시 후 다시 시도해 주세요.",
+    errUnavail: "현재 위치를 확인할 수 없어요. 기기의 위치 서비스가 켜져 있는지 확인 후 다시 시도해 주세요.",
+    unsupported: "이 브라우저는 위치를 지원하지 않아요.",
   },
   xsec: {
     tideSim: "조위 시뮬레이션",

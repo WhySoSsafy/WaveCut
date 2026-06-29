@@ -15,6 +15,11 @@ export const zh: Dict = {
       chest: "胸部",
       head: "没顶",
     },
+    values: {
+      uv: { "높음": "高", "보통": "中等", "낮음": "低" },
+      crowd: { "여유": "宽松", "보통": "一般", "많음": "拥挤" },
+      sky: { "맑음": "晴", "구름조금": "少云", "구름많음": "多云", "흐림": "阴", "비": "雨", "눈": "雪", "소나기": "阵雨" },
+    },
   },
   nav: {
     home: "WaveCut 首页",
@@ -72,6 +77,32 @@ export const zh: Dict = {
     ctaSub: "一眼掌握釜山海滩的体感水深与安全等级。",
     ctaFine:
       "釜山市公共数据 AI 应用大赛参赛作品 · 数据：气象厅 · 国立海洋调查院",
+  },
+  dash: {
+    heroTitle: "我们一家的大海，今天安全吗？",
+    heroLede: "由 AI 分析实时公共数据，呈现釜山主要海滩的体感水深与安全等级。",
+    monitoring: "监测中",
+    distTitle: "今日安全分布", distSub: "釜山主要海滩实时安全等级",
+    nearbyTitle: "我附近的海滩", nearbySub: "允许定位后按距离由近到远显示",
+    recTitle: "今日推荐海滩", recSub: "优先推荐适合家庭的地点",
+    statusTitle: "海滩安全状况", statusSub: "釜山主要海滩 · 点击卡片查看详情",
+    featDesc: "适合家庭戏水的代表性海滩。",
+    donutDanger: "危险", donutDangerTail: "处 — 需立即现场确认。",
+    donutNoDangerA: "目前", donutNoDangerHi: "危险", donutNoDangerB: "等级。",
+    donutCaution: "注意", donutCautionTail: "处请确认波高与离岸流。",
+    donutAllSafe1: "所有海滩均为", donutAllSafe2: "安全", donutAllSafe3: "等级。",
+  },
+  card: {
+    weather: "天气", uv: "紫外线", crowd: "预计拥挤度", region: "地区",
+    detail: "查看详情", mvp: "代表",
+  },
+  nearby: {
+    find: "查找离我最近的海滩", locating: "定位中…", retry: "重试",
+    nearest: "最近的海滩",
+    errDenied: "定位权限被拒绝。请在地址栏的位置图标处允许后重试。",
+    errTimeout: "定位耗时较长，请稍后重试。",
+    errUnavail: "无法获取你的位置。请确认设备已开启定位服务后重试。",
+    unsupported: "此浏览器不支持定位。",
   },
   xsec: {
     tideSim: "潮位模拟",

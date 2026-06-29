@@ -15,6 +15,11 @@ export const es: Dict = {
       chest: "Pecho",
       head: "Sobre la cabeza",
     },
+    values: {
+      uv: { "높음": "Alto", "보통": "Moderado", "낮음": "Bajo" },
+      crowd: { "여유": "Tranquilo", "보통": "Moderado", "많음": "Concurrido" },
+      sky: { "맑음": "Despejado", "구름조금": "Parcialmente nublado", "구름많음": "Mayormente nublado", "흐림": "Nublado", "비": "Lluvia", "눈": "Nieve", "소나기": "Chubascos" },
+    },
   },
   nav: {
     home: "Inicio de WaveCut",
@@ -72,6 +77,32 @@ export const es: Dict = {
     ctaSub: "La profundidad sentida y el grado de seguridad de las playas de Busan, de un vistazo.",
     ctaFine:
       "Participación en el Concurso de IA con Datos Públicos de Busan · Datos: KMA · KHOA",
+  },
+  dash: {
+    heroTitle: "El mar de tu familia, ¿está seguro hoy?",
+    heroLede: "La IA analiza datos públicos en vivo para mostrar la profundidad sentida y el grado de seguridad de las principales playas de Busan.",
+    monitoring: "Monitoreadas",
+    distTitle: "Distribución de seguridad de hoy", distSub: "Grados de seguridad en vivo de las principales playas de Busan",
+    nearbyTitle: "Playas cerca de mí", nearbySub: "Permite la ubicación para ordenar por cercanía",
+    recTitle: "Playa recomendada hoy", recSub: "Primero los lugares aptos para familias",
+    statusTitle: "Estado de seguridad de las playas", statusSub: "Principales playas de Busan · toca una tarjeta para ver detalles",
+    featDesc: "Una playa emblemática ideal para el baño en familia.",
+    donutDanger: "Peligro:", donutDangerTail: " — se requiere verificación en el lugar ahora.",
+    donutNoDangerA: "No hay nivel de", donutNoDangerHi: "peligro", donutNoDangerB: "ahora mismo.",
+    donutCaution: "Precaución en", donutCautionTail: " — revisa el oleaje y las corrientes de retorno.",
+    donutAllSafe1: "Todas las playas están en nivel", donutAllSafe2: "seguro", donutAllSafe3: ".",
+  },
+  card: {
+    weather: "Clima", uv: "UV", crowd: "Afluencia (est.)", region: "Zona",
+    detail: "Ver detalles", mvp: "Destacada",
+  },
+  nearby: {
+    find: "Encontrar la playa más cercana", locating: "Localizando…", retry: "Reintentar",
+    nearest: "Playa más cercana",
+    errDenied: "Se denegó el permiso de ubicación. Actívalo desde el icono de ubicación en la barra de direcciones e inténtalo de nuevo.",
+    errTimeout: "La localización tarda demasiado. Inténtalo de nuevo en un momento.",
+    errUnavail: "No se puede obtener tu ubicación. Comprueba que los servicios de ubicación estén activados e inténtalo de nuevo.",
+    unsupported: "Este navegador no admite la ubicación.",
   },
   xsec: {
     tideSim: "Simulación de marea",
