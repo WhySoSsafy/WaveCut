@@ -1,0 +1,82 @@
+import type { Dict } from "./ko";
+
+export const zh: Dict = {
+  common: {
+    enter: "进入服务",
+    enterArrow: "进入服务",
+    safe: "安全",
+    caution: "注意",
+    danger: "危险",
+    levels: {
+      none: "无水",
+      ankle: "脚踝",
+      knee: "膝盖",
+      waist: "腰部",
+      chest: "胸部",
+      head: "没顶",
+    },
+  },
+  nav: {
+    home: "WaveCut 首页",
+    dashboard: "主仪表盘",
+    xsec: "断面水深视图",
+    operator: "运营者仪表盘",
+    transit: "交通与无障碍",
+    live: "实时 · 06:00 更新",
+    demo: "估算数据 · 演示",
+  },
+  landing: {
+    kicker: "釜山海水浴场安全服务",
+    titleA: "我们一家的大海，",
+    titleB: "现在",
+    titleHi: "安全吗？",
+    lede: "把水深不用数字、而用脚踝·膝盖·腰部·胸部的体感等级呈现。用实时公共数据，一眼掌握釜山海滩的安全。",
+    ctaGhost: "查看功能 ↓",
+    sceneTag: "断面水深视图 — 亲自拖动断面线试试",
+    problemKicker: "为什么需要",
+    problemTitle: "看似平静的大海，几步之遥就可能变得危险。",
+    problemLede:
+      "海云台平缓的沙滩在某些区段也会陡然变深，离岸流甚至能在瞬间把成年人卷向外海。WaveCut 让这些看不见的危险变得可见。",
+    ideaKicker: "核心理念",
+    ideaTitle: "把水深变成体感等级，而非数字。",
+    ideaLede:
+      "“1.2 米”没有概念，但“到胸口”谁都懂。用六个等级直观呈现危险。",
+    featKicker: "你可以做什么",
+    featTitle: "海滩安全的四个工具",
+    featXsecT: "断面水深视图",
+    featXsecD:
+      "在海滩平面图上拖动断面线，即可一眼看清各处的体感水深与陡坡·危险区段。",
+    featDataT: "实时海洋数据",
+    featDataD:
+      "波高·水温·潮位·天气，来自气象厅与国立海洋调查院的公共数据，实时更新。",
+    featTransitT: "交通与无障碍",
+    featTransitD:
+      "最近车站·推荐出口·无障碍电梯，为你指引到达现场的路线。",
+    featOperatorT: "运营者仪表盘",
+    featOperatorD:
+      "危险区段监控、救生员部署参考，并自动生成安全通告草稿。",
+    dataKicker: "真实数据，而非估算",
+    dataTitle: "已实时接入公共数据。",
+    dataLede:
+      "波高·水温·潮位·天气均实时取自气象厅与国立海洋调查院的官方 API，并非演示用的虚假数字。",
+    touristKicker: "第一次来釜山？",
+    touristTitle: "连怎么到达，都按海滩逐一指引。",
+    touristLede:
+      "最近地铁站·推荐出口·无障碍电梯，以及 Kakao、Naver 地图导航。让游客也能轻松抵达釜山的海滩。",
+    touristLink: "查看交通与无障碍",
+    beachesKicker: "可以查看哪些",
+    beachesTitle: "釜山六大海水浴场",
+    ctaTitle: "立即查看你身边的海滩",
+    ctaSub: "一眼掌握釜山海滩的体感水深与安全等级。",
+    ctaFine:
+      "釜山市公共数据 AI 应用大赛参赛作品 · 数据：气象厅 · 国立海洋调查院",
+  },
+  beaches: {
+    haeundae: "海云台海水浴场",
+    gwangalli: "广安里海水浴场",
+    songjeong: "松亭海水浴场",
+    songdo: "松岛海水浴场",
+    dadaepo: "多大浦海水浴场",
+    ilgwang: "日光海水浴场",
+  },
+};

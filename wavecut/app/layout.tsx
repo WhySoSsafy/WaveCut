@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Quicksand } from "next/font/google";
 import "@/styles/globals.css";
+import { getI18n } from "@/lib/i18n/server";
+import { LocaleProvider } from "@/lib/i18n/LocaleProvider";
 
 const pretendard = localFont({
   src: "../node_modules/pretendard/dist/web/variable/woff2/PretendardVariable.woff2",
@@ -17,10 +19,22 @@ export const metadata: Metadata = {
   description: "부산 해수욕장 단면 수심·안전 정보",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const { locale, t } = await getI18n();
   return (
-    <html lang="ko" className={`${pretendard.variable} ${quicksand.variable}`}>
-      <body>{children}</body>
+    <html
+      lang={locale}
+      className={`${pretendard.variable} ${quicksand.variable}`}
+    >
+      <body>
+        <LocaleProvider locale={locale} dict={t}>
+          {children}
+        </LocaleProvider>
+      </body>
     </html>
   );
 }

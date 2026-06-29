@@ -1,0 +1,26 @@
+.wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+}
+.globe {
+  font-size: 14px;
+  line-height: 1;
+}
+.select {
+  border: none;
+  background: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy-900);
+  cursor: pointer;
+  padding-right: 2px;
+}
