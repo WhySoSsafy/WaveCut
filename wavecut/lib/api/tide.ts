@@ -1,6 +1,5 @@
-import type { BeachId } from "@/lib/data/fallback";
-import { getEnvOptional } from "./env";
-import { STATIONS } from "./stations";
+import { FALLBACK, type BeachId } from "@/lib/data/fallback";
+import { getEnv } from "./env";
 
 export interface TideResult {
   nowOffset: number;
@@ -65,18 +64,67 @@ export function parseTide(json: unknown, nowTime: string): TideResult | null {
   };
 }
 
+// 국립해양조사원_조위관측소 실측·예측 조위 조회 (공공데이터포털, 기관코드 1192136).
+// 부산 5개 해변은 모두 '부산'(DT_0005) 관측소가 가장 가깝다. `tdlvHgt`(예측 조위, cm)는
+// 미래 시각까지 채워져 있어 현재/1시간 후/2시간 후 조위 변화를 그대로 쓸 수 있다.
+const TIDE_ENDPOINT =
+  "https://apis.data.go.kr/1192136/surveyTideLevel/GetSurveyTideLevelApiService";
+const BUSAN_OBS = "DT_0005";
+
+const pad = (n: number) => String(n).padStart(2, "0");
+
 export async function fetchTide(id: BeachId): Promise<TideResult | null> {
   try {
-    const st = STATIONS[id];
-    // KHOA(바다누리) 는 data.go.kr 키가 아닌 자체 발급 키가 필요. 없으면 폴백.
-    const key = getEnvOptional("KHOA_API_KEY");
-    if (!key) return null;
-    const url = `https://www.khoa.go.kr/api/oceangrid/tideObs/search.do?ServiceKey=${encodeURIComponent(key)}&ObsCode=${st.tideObsCode}&ResultType=json`;
-    const res = await fetch(url, { next: { revalidate: 3600 } });
-    if (!res.ok) return null;
-    const json = await res.json();
-    const now = new Date().toISOString().slice(0, 13).replace("T", " ") + ":00:00";
-    return parseTide(json, now);
+    const key = getEnv("DATA_GO_KR_KEY");
+    const kst = new Date(Date.now() + 9 * 3600 * 1000);
+    const date = `${kst.getUTCFullYear()}${pad(kst.getUTCMonth() + 1)}${pad(kst.getUTCDate())}`;
+    const nowMin = kst.getUTCHours() * 60 + kst.getUTCMinutes();
+    const targets = [nowMin, nowMin + 60, nowMin + 120].map((m) =>
+      Math.min(m, 1439)
+    );
+    const pages = [...new Set(targets.map((m) => Math.floor(m / 100) + 1))];
+
+    const level = new Map<number, number>();
+    await Promise.all(
+      pages.map(async (p) => {
+        const url = `${TIDE_ENDPOINT}?serviceKey=${encodeURIComponent(key)}&obsCode=${BUSAN_OBS}&date=${date}&type=json&numOfRows=100&pageNo=${p}`;
+        const res = await fetch(url, { next: { revalidate: 1800 } });
+        if (!res.ok) return;
+        const json = (await res.json()) as {
+          body?: { items?: { item?: unknown } };
+        };
+        const items = json?.body?.items?.item;
+        if (!Array.isArray(items)) return;
+        for (const it of items as { obsrvnDt?: string; tdlvHgt?: unknown }[]) {
+          const hm = typeof it?.obsrvnDt === "string" ? it.obsrvnDt.slice(11, 16) : "";
+          if (hm.length !== 5) continue;
+          const m = parseInt(hm.slice(0, 2), 10) * 60 + parseInt(hm.slice(3, 5), 10);
+          const v =
+            typeof it.tdlvHgt === "number" ? it.tdlvHgt : parseFloat(String(it.tdlvHgt));
+          if (Number.isFinite(v) && Number.isFinite(m)) level.set(m, v);
+        }
+      })
+    );
+
+    const at = (m: number): number | undefined =>
+      level.get(m) ??
+      level.get(m - 1) ??
+      level.get(m + 1) ??
+      level.get(m - 2) ??
+      level.get(m + 2);
+
+    const nowCm = at(targets[0]);
+    if (nowCm == null) return null;
+    const t1Cm = at(targets[1]) ?? nowCm;
+    const t2Cm = at(targets[2]) ?? t1Cm;
+
+    return {
+      nowOffset: 0,
+      t1Offset: +((t1Cm - nowCm) / 100).toFixed(2),
+      t2Offset: +((t2Cm - nowCm) / 100).toFixed(2),
+      rising: t2Cm >= nowCm,
+      label: FALLBACK[id].tide,
+    };
   } catch {
     return null;
   }
