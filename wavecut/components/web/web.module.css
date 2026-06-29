@@ -23,6 +23,13 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 10px;
+  transition: opacity 0.14s;
+}
+.brand:hover {
+  opacity: 0.85;
 }
 
 .webSearch {
