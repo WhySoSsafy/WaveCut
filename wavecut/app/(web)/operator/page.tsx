@@ -1,6 +1,8 @@
 import { getAllSummaries } from "@/lib/api/aggregate";
 import { OperatorTable } from "@/components/web/OperatorTable";
 import { Icon } from "@/components/shared/Icon";
+import { CountUp } from "@/components/shared/CountUp";
+import { Typewriter } from "@/components/web/Typewriter";
 import styles from "@/components/web/web.module.css";
 
 // KPI items (prototype-level static values from WebExtra.jsx)
@@ -51,7 +53,7 @@ export default async function OperatorPage() {
               className={k.s ? styles["s" + k.s.charAt(0).toUpperCase() + k.s.slice(1)] : undefined}
               style={k.mono ? { fontFamily: "var(--mono)", fontSize: 26 } : undefined}
             >
-              {k.n}
+              {k.mono ? k.n : <CountUp value={Number(k.n)} />}
             </b>
             <span>{k.l}</span>
           </div>
@@ -76,14 +78,21 @@ export default async function OperatorPage() {
           <div className={styles.panelH}>
             <strong>실시간 위험 구간 모니터링</strong>
             <span className="mono">
-              <i className="dot" style={{ background: "var(--danger)", display: "inline-block", width: 8, height: 8, borderRadius: "50%", marginRight: 4 }} />
+              <i className={`dot ${styles.livePulse}`} style={{ background: "var(--danger)", display: "inline-block", width: 8, height: 8, borderRadius: "50%", marginRight: 4, "--pulse-color": "var(--danger)" } as React.CSSProperties} />
               LIVE
             </span>
           </div>
           <div className={styles.alertList}>
             {ALERTS.map((a, i) => (
-              <div key={i} className={styles.alertItem}>
-                <span className={styles.alertBar} style={{ background: SC[a.level] }} />
+              <div
+                key={i}
+                className={styles.alertItem}
+                style={{ "--si": i } as React.CSSProperties}
+              >
+                <span
+                  className={`${styles.alertBar}${a.level === "danger" ? " " + styles.alertBarPulse : ""}`}
+                  style={{ background: SC[a.level] }}
+                />
                 <div className={styles.alertMain}>
                   <div className={styles.alertTop}>
                     <b>{a.beach}</b>
@@ -114,6 +123,7 @@ export default async function OperatorPage() {
                 <b>{d.beach}</b>
                 <div className={styles.deployBar}>
                   <i
+                    className={styles.deployFill}
                     style={{
                       display: "block",
                       height: "100%",
@@ -144,11 +154,9 @@ export default async function OperatorPage() {
         </div>
         <div className={styles.noticeCard}>
           <div className={`${styles.noticeTag} mono`}>자동 생성 · 다대포 해수욕장 · 16:00</div>
-          <p>
-            안내 말씀드립니다. 현재 다대포 해수욕장 우측 갯골 구간에 이안류 위험이 감지되었습니다.
-            해당 구간은 조위 상승으로 수심이 빠르게 깊어지고 있으니, 어린이와 초보자는 입수를 자제하시고
-            안전요원이 지정한 안전구역에서만 물놀이를 즐겨 주시기 바랍니다.
-          </p>
+          <Typewriter
+            text="안내 말씀드립니다. 현재 다대포 해수욕장 우측 갯골 구간에 이안류 위험이 감지되었습니다. 해당 구간은 조위 상승으로 수심이 빠르게 깊어지고 있으니, 어린이와 초보자는 입수를 자제하시고 안전요원이 지정한 안전구역에서만 물놀이를 즐겨 주시기 바랍니다."
+          />
           <div className={styles.noticeActions}>
             <button className={styles.btnPrimary}>방송 송출</button>
             <button className={styles.btnGhost}>전광판 게시</button>

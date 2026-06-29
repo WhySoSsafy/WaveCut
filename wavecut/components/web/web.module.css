@@ -1285,3 +1285,154 @@
     transform: translate(-100%, -50%);
   }
 }
+
+/* ===== Operator dashboard motion (P1) ===== */
+.livePulse {
+  animation: livePulse 1.6s ease-out infinite;
+}
+@keyframes livePulse {
+  0% { box-shadow: 0 0 0 0 var(--pulse-color, var(--danger)); }
+  70% { box-shadow: 0 0 0 5px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+/* 경보 항목 슬라이드인 (stagger via --si) */
+.alertItem {
+  animation: alertIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--si, 0) * 0.12s);
+}
+@keyframes alertIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 위험 경보 좌측 바 pulse */
+.alertBarPulse {
+  animation: alertBarPulse 1.4s ease-in-out infinite;
+}
+@keyframes alertBarPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+/* 안전요원 배치 막대 채움 */
+.deployFill {
+  transform-origin: left center;
+  animation: deployGrow 1s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+@keyframes deployGrow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* 타자기 커서 */
+.twCaret {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 1px;
+  vertical-align: -2px;
+  background: var(--blue-600);
+  animation: twBlink 0.9s step-end infinite;
+}
+@keyframes twBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .livePulse,
+  .alertItem,
+  .alertBarPulse,
+  .deployFill,
+  .twCaret {
+    animation: none;
+  }
+}
+
+/* ===== Status distribution donut (P1) ===== */
+.donutCard {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 20px 28px;
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+
+.donutWrap {
+  position: relative;
+  width: 132px;
+  height: 132px;
+  flex-shrink: 0;
+}
+
+.donutSvg {
+  width: 132px;
+  height: 132px;
+  display: block;
+}
+
+.donutCenter {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.1;
+}
+
+.donutCenter b {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--navy-900);
+}
+
+.donutCenter span {
+  font-size: 11px;
+  color: var(--ink-3);
+}
+
+.donutLegend {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.donutLeg {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.donutLeg i {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.donutLeg b {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--navy-900);
+  margin-left: 2px;
+}
+
+.donutMsg {
+  flex: 1;
+  min-width: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  border-left: 1px solid var(--line);
+  padding-left: 32px;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+}

@@ -49,3 +49,53 @@
 @keyframes pulse { 0%, 100% { opacity: .4 } 50% { opacity: 1 } }
 .aiBody { margin: 0; font-size: 14.5px; line-height: 1.7; color: #EAF2FB; position: relative; }
 .aiFoot { margin-top: 12px; padding-top: 11px; border-top: 1px solid rgba(255,255,255,.12); font-size: 10.5px; color: #8FAACB; position: relative; }
+
+/* ===== Cross-section motion (P1) ===== */
+/* 물결치는 수면 */
+.surfWaveFront { animation: xsecWaveDrift 5.5s linear infinite; }
+.surfWaveBack { animation: xsecWaveDrift 9s linear infinite; }
+@keyframes xsecWaveDrift {
+  from { transform: translateX(0); }
+  to { transform: translateX(-160px); }
+}
+
+/* 수면 shimmer */
+.surfShimmer { animation: xsecShimmer 3.2s linear infinite; }
+@keyframes xsecShimmer {
+  from { transform: translateX(0); }
+  to { transform: translateX(28px); }
+}
+
+/* 조위 차오름 (clip rect, 아래에서 위로) */
+.fillRise {
+  transform-box: fill-box;
+  transform-origin: bottom;
+  animation: xsecFillRise 1.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+@keyframes xsecFillRise {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+/* 이안류 흐름 화살표 — 바다 쪽으로 흐름 */
+.ripChevron {
+  animation: xsecRip 1.5s ease-out infinite;
+  opacity: 0;
+}
+@keyframes xsecRip {
+  0% { transform: translateX(0); opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 0.6; }
+  100% { transform: translateX(34px); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .surfWaveFront,
+  .surfWaveBack,
+  .surfShimmer,
+  .fillRise,
+  .ripChevron {
+    animation: none;
+  }
+  .ripChevron { opacity: 0.7; }
+}

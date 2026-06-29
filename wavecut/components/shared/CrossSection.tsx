@@ -120,6 +120,13 @@ export function CrossSection({
     { depth: 1.5, label: "가슴 · 위험" },
   ];
 
+  // 수면 물결 path (드리프트용으로 양옆 1주기씩 넉넉히)
+  const WAVE_P = 80;
+  const WAVE_AMP = 3.5;
+  const waveSegs = Math.ceil((X1 - X0 + 4 * WAVE_P) / WAVE_P);
+  let surfPath = `M ${X0 - 2 * WAVE_P} ${SURFACE_Y} q ${WAVE_P / 2} ${-WAVE_AMP} ${WAVE_P} 0`;
+  for (let i = 0; i < waveSegs; i++) surfPath += ` t ${WAVE_P} 0`;
+
   return (
     <div className={styles.xsec}>
       {/* 시간대 탭 */}
@@ -196,6 +203,19 @@ export function CrossSection({
           className={styles.profileSvg}
           preserveAspectRatio="none"
         >
+          {/* 조위 차오름 clip — tideKey 변경 시 재생 */}
+          <defs>
+            <clipPath id={`xsecFill-${tideKey}`}>
+              <rect
+                key={tideKey}
+                className={styles.fillRise}
+                x={X0}
+                y={SURFACE_Y}
+                width={X1 - X0}
+                height={VB_H - SURFACE_Y}
+              />
+            </clipPath>
+          </defs>
           {/* 수면 사각형 */}
           <rect
             x={X0}
@@ -204,23 +224,61 @@ export function CrossSection({
             height={VB_H - 34 - SURFACE_Y}
             fill="var(--sky-50)"
           />
-          {/* 수심 컬럼 */}
-          {cols.map((c, i) => (
-            <rect key={i} x={c.x} y={c.y} width={c.w} height={c.h} fill={c.color} />
-          ))}
+          {/* 수심 컬럼 (조위 clip 적용) */}
+          <g clipPath={`url(#xsecFill-${tideKey})`}>
+            {cols.map((c, i) => (
+              <rect key={i} x={c.x} y={c.y} width={c.w} height={c.h} fill={c.color} />
+            ))}
+          </g>
           {/* 해저 채움 */}
           <path d={groundPath} fill="#E4D2B0" />
           {/* 해저선 */}
           <path d={bedLine} fill="none" stroke="#B79B68" strokeWidth="2" />
-          {/* 수면선 */}
+          {/* 수면선 (잔잔한 베이스) */}
           <line
             x1={X0}
             y1={SURFACE_Y}
             x2={X1}
             y2={SURFACE_Y}
             stroke="#2f86f0"
-            strokeWidth="2"
+            strokeWidth="1.2"
+            opacity="0.4"
           />
+          {/* 물결치는 수면 + shimmer */}
+          <g clipPath={`url(#xsecClipBox)`}>
+            <path
+              className={styles.surfWaveBack}
+              d={surfPath}
+              fill="none"
+              stroke="#7FC6EE"
+              strokeWidth="2"
+              strokeLinecap="round"
+              opacity="0.55"
+            />
+            <path
+              className={styles.surfWaveFront}
+              d={surfPath}
+              fill="none"
+              stroke="#2f86f0"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+            <line
+              className={styles.surfShimmer}
+              x1={X0 - 2 * WAVE_P}
+              y1={SURFACE_Y + 14}
+              x2={X1 + 2 * WAVE_P}
+              y2={SURFACE_Y + 14}
+              stroke="rgba(255,255,255,0.55)"
+              strokeWidth="1.5"
+              strokeDasharray="2 26"
+            />
+          </g>
+          <defs>
+            <clipPath id="xsecClipBox">
+              <rect x={X0} y={SURFACE_Y - 12} width={X1 - X0} height={VB_H - SURFACE_Y} />
+            </clipPath>
+          </defs>
           {/* Y축 가이드 */}
           {guides.map((g, i) => (
             <g key={i}>
@@ -264,6 +322,29 @@ export function CrossSection({
               >
                 {a.dangerStart}m 급경사
               </text>
+              {/* 이안류 흐름 — 바다 쪽(+x)으로 흐르는 화살표 */}
+              <g
+                className={styles.ripFlowG}
+                clipPath="url(#xsecClipBox)"
+                stroke="var(--danger)"
+                strokeWidth="2"
+                strokeLinecap="round"
+                fill="none"
+                opacity="0.8"
+              >
+                {[0, 1, 2].map((k) => {
+                  const bx = xOf(a.dangerStart!) + 14;
+                  const by = SURFACE_Y + 8;
+                  return (
+                    <path
+                      key={k}
+                      className={styles.ripChevron}
+                      style={{ animationDelay: `${k * 0.5}s` }}
+                      d={`M ${bx} ${by - 4} l 6 4 l -6 4`}
+                    />
+                  );
+                })}
+              </g>
             </g>
           )}
           {/* 추천 입수 구간 */}
