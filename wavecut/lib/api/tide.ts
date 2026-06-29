@@ -1,5 +1,5 @@
 import type { BeachId } from "@/lib/data/fallback";
-import { getEnv } from "./env";
+import { getEnvOptional } from "./env";
 import { STATIONS } from "./stations";
 
 export interface TideResult {
@@ -68,9 +68,10 @@ export function parseTide(json: unknown, nowTime: string): TideResult | null {
 export async function fetchTide(id: BeachId): Promise<TideResult | null> {
   try {
     const st = STATIONS[id];
-    const key = getEnv("DATA_GO_KR_KEY");
-    // TODO: confirm real API schema — endpoint confirmed with KHOA; date param may be required
-    const url = `https://www.khoa.go.kr/api/oceangrid/tideObs/search.do?ServiceKey=${key}&ObsCode=${st.tideObsCode}&ResultType=json`;
+    // KHOA(바다누리) 는 data.go.kr 키가 아닌 자체 발급 키가 필요. 없으면 폴백.
+    const key = getEnvOptional("KHOA_API_KEY");
+    if (!key) return null;
+    const url = `https://www.khoa.go.kr/api/oceangrid/tideObs/search.do?ServiceKey=${encodeURIComponent(key)}&ObsCode=${st.tideObsCode}&ResultType=json`;
     const res = await fetch(url, { next: { revalidate: 3600 } });
     if (!res.ok) return null;
     const json = await res.json();

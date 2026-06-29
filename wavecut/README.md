@@ -25,8 +25,16 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ### 1. 키 발급
 - **data.go.kr** (기상청 단기예보, 조위, 해수욕장/이안류/수질 등): 공공데이터포털에서
   회원가입 후 해당 API 활용신청 → **Decoding 키** 사용.
-- 모든 페처가 **`DATA_GO_KR_KEY` 하나**를 사용합니다(기상청 단기예보 포함).
-  `KMA_API_KEY` 는 현재 코드에서 사용하지 않습니다.
+- **날씨**(기온·하늘·풍속)는 `DATA_GO_KR_KEY` 로 **실연동 검증 완료**.
+- **조위·파고**는 KHOA(바다누리) 자체 키가 필요합니다. 무료로 발급
+  (https://www.khoa.go.kr 오픈API) 후 `.env.local`·Vercel 에 `KHOA_API_KEY` 추가하면
+  활성화됩니다. 없으면 그 항목만 폴백.
+- **수심 단면**: 근접 연안 정밀 수심은 공개 API가 없어 **대표 예시 프로파일**을 사용하며
+  화면에 그렇게 명시합니다.
+- `KMA_API_KEY` 는 현재 코드에서 사용하지 않습니다.
+
+진단: `node scripts/probe-apis.mjs` 를 wavecut 폴더에서 실행하면 `.env.local` 키로
+각 엔드포인트를 실제 호출해 어떤 소스가 실데이터를 주는지 확인합니다(키는 마스킹).
 
 ### 2. 로컬 설정
 `wavecut/.env.local` 파일을 만들고(`.env.local.example` 참고):

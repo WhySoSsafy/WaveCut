@@ -1,5 +1,5 @@
 import type { BeachId } from "@/lib/data/fallback";
-import { getEnv } from "./env";
+import { getEnvOptional } from "./env";
 import { STATIONS } from "./stations";
 
 export interface WaveResult {
@@ -39,9 +39,10 @@ export function parseWave(json: unknown): WaveResult | null {
 export async function fetchWave(id: BeachId): Promise<WaveResult | null> {
   try {
     const st = STATIONS[id];
-    const key = getEnv("DATA_GO_KR_KEY");
-    // TODO: confirm real API schema — KHOA wave forecast grid endpoint; waveGrid code pending
-    const url = `https://www.khoa.go.kr/api/oceangrid/waveForcast/search.do?ServiceKey=${key}&GridCode=${st.waveGrid}&ResultType=json`;
+    // KHOA(바다누리) 자체 키 필요 + waveGrid 코드 필요. 없으면 폴백.
+    const key = getEnvOptional("KHOA_API_KEY");
+    if (!key || !st.waveGrid) return null;
+    const url = `https://www.khoa.go.kr/api/oceangrid/waveForcast/search.do?ServiceKey=${encodeURIComponent(key)}&GridCode=${st.waveGrid}&ResultType=json`;
     const res = await fetch(url, { next: { revalidate: 3600 } });
     if (!res.ok) return null;
     return parseWave(await res.json());
