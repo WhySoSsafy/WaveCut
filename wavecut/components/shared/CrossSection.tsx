@@ -14,12 +14,13 @@ import type { TideKey } from "@/lib/bsm/types";
 import type { BeachDetail } from "@/lib/api/aggregate";
 import { DepthLegend } from "./DepthLegend";
 import { AiCommentCard } from "./AiCommentCard";
+import { useT } from "@/lib/i18n/LocaleProvider";
 import styles from "./crossSection.module.css";
 
-const TIMES: { key: TideKey; label: string; clock: string }[] = [
-  { key: "now", label: "현재", clock: "14:00" },
-  { key: "t1", label: "1시간 후", clock: "15:00" },
-  { key: "t2", label: "2시간 후", clock: "16:00" },
+const TIMES: { key: TideKey; clock: string }[] = [
+  { key: "now", clock: "14:00" },
+  { key: "t1", clock: "15:00" },
+  { key: "t2", clock: "16:00" },
 ];
 
 export function CrossSection({
@@ -31,6 +32,8 @@ export function CrossSection({
   compact?: boolean;
   showAI?: boolean;
 }) {
+  const dict = useT();
+  const Tx = dict.xsec;
   const [p, setP] = useState(0.5);
   const [tideKey, setTideKey] = useState<TideKey>("now");
   const [drag, setDrag] = useState(false);
@@ -159,14 +162,15 @@ export function CrossSection({
     bedPts.map((pt) => `${pt[0].toFixed(1)} ${pt[1].toFixed(1)}`).join(" L ");
 
   const a = analyze(bed, tideOffset);
-  const posName = p < 0.34 ? "좌측" : p < 0.67 ? "중앙" : "우측";
+  const posName =
+    p < 0.34 ? Tx.sectionLeft : p < 0.67 ? Tx.sectionCenter : Tx.sectionRight;
 
   // Y축 체감수심 가이드
   const guides = [
-    { depth: 0.3, label: "발목" },
-    { depth: 0.6, label: "무릎" },
-    { depth: 1.0, label: "허리" },
-    { depth: 1.5, label: "가슴 · 위험" },
+    { depth: 0.3, label: dict.common.levels.ankle },
+    { depth: 0.6, label: dict.common.levels.knee },
+    { depth: 1.0, label: dict.common.levels.waist },
+    { depth: 1.5, label: Tx.chestDanger },
   ];
 
   // 수면 물결 path (드리프트용으로 양옆 1주기씩 넉넉히)
@@ -180,16 +184,16 @@ export function CrossSection({
     <div className={styles.xsec}>
       {/* 시간대 탭 */}
       <div className={styles.xsecTimes}>
-        <span className={`${styles.xsecTimesLabel} mono`}>조위 시뮬레이션</span>
+        <span className={`${styles.xsecTimesLabel} mono`}>{Tx.tideSim}</span>
         <div className={styles.seg}>
-          {TIMES.map((t) => (
+          {TIMES.map((time) => (
             <button
-              key={t.key}
-              className={`${styles.segBtn}${tideKey === t.key ? ` ${styles.on}` : ""}`}
-              onClick={() => setTideKey(t.key)}
+              key={time.key}
+              className={`${styles.segBtn}${tideKey === time.key ? ` ${styles.on}` : ""}`}
+              onClick={() => setTideKey(time.key)}
             >
-              {t.label}
-              <em className="mono">{t.clock}</em>
+              {Tx[time.key]}
+              <em className="mono">{time.clock}</em>
             </button>
           ))}
         </div>
@@ -202,14 +206,14 @@ export function CrossSection({
         onPointerDown={(e) => startDrag(e.clientX)}
       >
         <div className={styles.planSand}>
-          <span>모래사장</span>
+          <span>{Tx.sand}</span>
         </div>
         <div className={styles.planShore}>
-          <span>해안선</span>
+          <span>{Tx.shore}</span>
         </div>
         <div className={styles.planSea}>
-          <span className={`${styles.planTag} ${styles.tagL}`}>얕은 바다</span>
-          <span className={`${styles.planTag} ${styles.tagR}`}>깊은 바다</span>
+          <span className={`${styles.planTag} ${styles.tagL}`}>{Tx.shallow}</span>
+          <span className={`${styles.planTag} ${styles.tagR}`}>{Tx.deep}</span>
         </div>
         {[0.16, 0.5, 0.84].map((m, i) => (
           <div
@@ -217,14 +221,14 @@ export function CrossSection({
             className={styles.planTick}
             style={{ left: m * 100 + "%" }}
           >
-            {["좌", "중앙", "우"][i]}
+            {[Tx.left, Tx.center, Tx.right][i]}
           </div>
         ))}
         {/* 드래그 가능 힌트 — 첫 조작 전까지 표시 */}
         {!interacted && (
           <div className={styles.planHint} aria-hidden="true">
             <span className={styles.planHintArrow}>‹</span>
-            좌우로 드래그해 단면 위치를 바꿔보세요
+            {Tx.dragHint}
             <span className={styles.planHintArrow}>›</span>
           </div>
         )}
@@ -242,16 +246,16 @@ export function CrossSection({
               />
             </svg>
           </div>
-          <div className={styles.planLineCap}>↔ 단면선</div>
+          <div className={styles.planLineCap}>↔ {Tx.transectLine}</div>
         </div>
       </div>
 
       {/* 수직 단면도 */}
       <div className={styles.profile}>
         <div className={styles.profileHead}>
-          <strong>수직 단면도</strong>
+          <strong>{Tx.vProfile}</strong>
           <span className="mono">
-            {posName} 단면 · 해안선 기준 {D_MAX}m
+            {posName} · {Tx.baseline} {D_MAX}m
           </span>
         </div>
         <svg
@@ -376,7 +380,7 @@ export function CrossSection({
                 y={SURFACE_Y - 13}
                 className={styles.profileFlag}
               >
-                {a.dangerStart}m 급경사
+                {a.dangerStart}m {Tx.steep}
               </text>
               {/* 이안류 흐름 — 바다 쪽(+x)으로 흐르는 화살표 */}
               <g
@@ -418,7 +422,7 @@ export function CrossSection({
             y={VB_H - 9}
             className={styles.profileRec}
           >
-            추천 입수 구간 0–{a.kneeEnd}m
+            {Tx.recoZone} 0–{a.kneeEnd}m
           </text>
           {/* 거리 눈금 */}
           {[0, 20, 40, 60, 80].map((d) => (
@@ -433,10 +437,7 @@ export function CrossSection({
           ))}
         </svg>
         <DepthLegend />
-        <p className={styles.profileNote}>
-          ※ 수심 단면은 실측이 아닌 <b>대표 예시 프로파일</b>입니다. 조위는 시뮬레이션
-          값이며, 실제 입수 전 현장 안전요원의 안내를 따르세요.
-        </p>
+        <p className={styles.profileNote}>{Tx.note}</p>
       </div>
 
       {showAI && (
