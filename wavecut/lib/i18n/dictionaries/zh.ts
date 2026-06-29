@@ -23,6 +23,8 @@ export const zh: Dict = {
     operator: "运营者仪表盘",
     transit: "交通与无障碍",
     live: "实时 · 06:00 更新",
+    noticeH: "预测信息提示",
+    noticeBody: "本信息为基于公共数据的估算值。下水前请遵从现场安全员的指引。",
     demo: "估算数据 · 演示",
   },
   landing: {

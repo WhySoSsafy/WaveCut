@@ -23,6 +23,8 @@ export const ja: Dict = {
     operator: "運営者ダッシュボード",
     transit: "交通・アクセス",
     live: "リアルタイム · 06:00 更新",
+    noticeH: "予測情報のご案内",
+    noticeBody: "本情報は公共データに基づく推定値です。入水前に現場の安全要員の案内に従ってください。",
     demo: "推定データ · デモ",
   },
   landing: {

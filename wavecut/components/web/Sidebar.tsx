@@ -3,23 +3,26 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Icon, IconName } from "@/components/shared/Icon";
+import { useT } from "@/lib/i18n/LocaleProvider";
+import type { Dict } from "@/lib/i18n/dictionaries";
 import styles from "./web.module.css";
 
 interface NavItem {
-  label: string;
+  key: keyof Dict["nav"];
   href: string;
   icon: IconName;
   exact?: boolean;
 }
 
 const NAV: NavItem[] = [
-  { label: "메인 대시보드", href: "/dashboard",              icon: "grid",    exact: true },
-  { label: "단면 수심 뷰",   href: "/beach/haeundae/xsec",   icon: "layers"  },
-  { label: "운영자 대시보드", href: "/operator",               icon: "users"   },
-  { label: "교통·접근성",    href: "/transit",                icon: "transit" },
+  { key: "dashboard", href: "/dashboard",            icon: "grid",    exact: true },
+  { key: "xsec",      href: "/beach/haeundae/xsec",  icon: "layers"  },
+  { key: "operator",  href: "/operator",             icon: "users"   },
+  { key: "transit",   href: "/transit",              icon: "transit" },
 ];
 
 export function Sidebar() {
+  const t = useT();
   const pathname = usePathname();
 
   const isActive = (item: NavItem) => {
@@ -37,15 +40,15 @@ export function Sidebar() {
           className={`${styles.sideItem}${isActive(item) ? ` ${styles.sideItemOn}` : ""}`}
         >
           <Icon name={item.icon} size={17} />
-          {item.label}
+          {t.nav[item.key]}
         </Link>
       ))}
       <div className={styles.sideNote}>
         <div className={styles.sideNoteH}>
           <Icon name="alert" size={14} color="var(--caution)" />
-          예측 정보 안내
+          {t.nav.noticeH}
         </div>
-        본 정보는 공공데이터 기반 추정값입니다. 입수 전 현장 안전요원의 안내를 따르세요.
+        {t.nav.noticeBody}
       </div>
     </aside>
   );

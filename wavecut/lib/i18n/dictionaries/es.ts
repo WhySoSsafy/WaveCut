@@ -23,6 +23,8 @@ export const es: Dict = {
     operator: "Panel del operador",
     transit: "Transporte y acceso",
     live: "En vivo · actualizado 06:00",
+    noticeH: "Aviso de pronóstico",
+    noticeBody: "Esta información es una estimación basada en datos públicos. Siga a los socorristas antes de entrar al agua.",
     demo: "Datos estimados · demo",
   },
   landing: {

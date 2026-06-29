@@ -21,6 +21,8 @@ export const ko = {
     operator: "운영자 대시보드",
     transit: "교통·접근성",
     live: "실시간 · 06:00 갱신",
+    noticeH: "예측 정보 안내",
+    noticeBody: "본 정보는 공공데이터 기반 추정값입니다. 입수 전 현장 안전요원의 안내를 따르세요.",
     demo: "추정 데이터 · 데모",
   },
   landing: {
