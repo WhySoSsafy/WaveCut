@@ -3,6 +3,7 @@ import { BeachCard } from "@/components/shared/BeachCard";
 import { HeroCard } from "@/components/web/HeroCard";
 import { FeatureRow } from "@/components/web/FeatureRow";
 import { StatusDonut } from "@/components/web/StatusDonut";
+import { NearbyBeach } from "@/components/shared/NearbyBeach";
 import styles from "@/components/web/web.module.css";
 
 export default async function Dashboard() {
@@ -25,6 +26,14 @@ export default async function Dashboard() {
           <span>부산 주요 5개 해수욕장 실시간 안전 등급</span>
         </div>
         <StatusDonut counts={counts} />
+      </section>
+
+      <section>
+        <div className={styles.secHead}>
+          <h3>내 주변 해수욕장</h3>
+          <span>위치를 허용하면 가까운 순으로 안내합니다</span>
+        </div>
+        <NearbyBeach hrefBase="/beach" />
       </section>
 
       <section>

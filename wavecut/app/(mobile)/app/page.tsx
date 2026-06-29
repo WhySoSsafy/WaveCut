@@ -5,6 +5,7 @@ import { beachPhotoSrc } from "@/lib/data/beachPhoto";
 import { AppBeachCard } from "@/components/mobile/AppBeachCard";
 import { StatusPill } from "@/components/shared/StatusPill";
 import { Icon } from "@/components/shared/Icon";
+import { NearbyBeach } from "@/components/shared/NearbyBeach";
 import styles from "@/components/mobile/mobile.module.css";
 
 export default async function AppHomePage() {
@@ -17,6 +18,11 @@ export default async function AppHomePage() {
       <div className={styles.aHeroTop}>
         <span className={styles.aHelloLabel}>부산 · 오늘</span>
         <h2>안전한 바다, 지금 확인하세요</h2>
+      </div>
+
+      {/* 내 위치 기반 가까운 해변 */}
+      <div className={styles.aNearby}>
+        <NearbyBeach hrefBase="/app/beach" />
       </div>
 
       {/* 오늘의 추천 카드 — easy info only */}
