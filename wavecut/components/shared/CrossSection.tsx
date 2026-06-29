@@ -212,7 +212,9 @@ export function CrossSection({
         {/* 드래그 가능 힌트 — 첫 조작 전까지 표시 */}
         {!interacted && (
           <div className={styles.planHint} aria-hidden="true">
-            좌우로 드래그해 보세요
+            <span className={styles.planHintArrow}>‹</span>
+            좌우로 드래그해 단면 위치를 바꿔보세요
+            <span className={styles.planHintArrow}>›</span>
           </div>
         )}
         <div className={styles.planLine} style={{ left: p * 100 + "%" }}>
