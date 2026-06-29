@@ -10,7 +10,7 @@ import styles from "./web.module.css";
 
 export function FeatureRow({ beach }: { beach: BeachSummary }) {
   return (
-    <div className={styles.featRow}>
+    <Link href={`/beach/${beach.id}`} className={styles.featRow}>
       <div className={styles.featImg}>
         <Image
           src={beachPhotoSrc(beach.id)}
@@ -61,12 +61,12 @@ export function FeatureRow({ beach }: { beach: BeachSummary }) {
             value={beach.region}
           />
         </div>
-        <Link href={`/beach/${beach.id}`} className={styles.btnPrimary}>
+        <span className={styles.btnPrimary}>
           상세 보기
           <Icon name="chevron" size={14} color="#fff" />
-        </Link>
+        </span>
       </div>
       <ScoreGauge score={beach.score} status={beach.status} size={120} />
-    </div>
+    </Link>
   );
 }

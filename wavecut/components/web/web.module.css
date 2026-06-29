@@ -324,6 +324,15 @@
   display: flex;
   gap: 24px;
   align-items: center;
+  text-decoration: none;
+  color: inherit;
+  transition: 0.16s;
+}
+
+.featRow:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--sky-300);
 }
 
 .featImg {

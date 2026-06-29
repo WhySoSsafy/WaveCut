@@ -23,24 +23,31 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 흐르고 "실시간"으로 표시됩니다(코드 변경 불필요).
 
 ### 1. 키 발급
-- **data.go.kr** (국립해양조사원 조위, 해수욕장/이안류/수질 등): 공공데이터포털에서
+- **data.go.kr** (기상청 단기예보, 조위, 해수욕장/이안류/수질 등): 공공데이터포털에서
   회원가입 후 해당 API 활용신청 → **Decoding 키** 사용.
-- **기상청(KMA)** 단기예보: data.go.kr 또는 KMA API 허브에서 키 발급.
+- 모든 페처가 **`DATA_GO_KR_KEY` 하나**를 사용합니다(기상청 단기예보 포함).
+  `KMA_API_KEY` 는 현재 코드에서 사용하지 않습니다.
 
 ### 2. 로컬 설정
 `wavecut/.env.local` 파일을 만들고(`.env.local.example` 참고):
 
 ```bash
 DATA_GO_KR_KEY=발급받은_디코딩_키
-KMA_API_KEY=발급받은_키
 ```
 
 `npm run dev` 재시작 후 상단이 "실시간"으로 바뀌면 연동 성공.
 
 ### 3. Vercel(배포) 설정
-Vercel 프로젝트 → **Settings → Environment Variables** 에 `DATA_GO_KR_KEY`,
-`KMA_API_KEY` 를 추가하고 재배포(redeploy)하세요. (키는 절대 리포에 커밋하지 않습니다 —
-`.env.local` 은 `.gitignore` 처리됨.)
+Vercel 프로젝트 → **Settings → Environment Variables** 에 `DATA_GO_KR_KEY` 를
+추가하고 **반드시 재배포(redeploy)** 하세요. 환경변수는 재배포해야 적용됩니다.
+(키는 절대 리포에 커밋하지 않습니다 — `.env.local` 은 `.gitignore` 처리됨.)
+
+### 동작 방식 메모
+- 해변 페이지는 정적 생성 + 페처가 `revalidate: 3600`(1시간) ISR을 사용합니다.
+  즉 키를 넣고 재배포하면 **빌드 시점 또는 1시간 내 재검증 때** 실데이터로 채워집니다.
+- 각 데이터 소스는 독립적으로 폴백합니다. 특정 API가 승인 대기/스키마 상이/오류면
+  그 항목만 추정값으로 표시됩니다. 실패 원인은 **Vercel 함수 로그**에서 확인하세요.
+- data.go.kr 은 해외(Vercel) 서버에서도 일반적으로 호출됩니다(국가 차단 아님).
 
 > 교통(부산교통공사) 실연동은 별도 키가 필요해 현재는 목업이며, 화면에 "API 연동 예정"으로
 > 명시되어 있습니다. 위치(가까운 해변) 기능은 키 없이 브라우저 위치만으로 동작합니다.
