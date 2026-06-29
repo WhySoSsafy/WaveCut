@@ -1,5 +1,10 @@
+"use client";
+
 import type { BeachSummary } from "@/lib/api/aggregate";
+import type { BeachId } from "@/lib/data/fallback";
 import { StatusPill } from "@/components/shared/StatusPill";
+import { useT } from "@/lib/i18n/LocaleProvider";
+import { tv } from "@/lib/i18n/values";
 import styles from "./web.module.css";
 
 interface OperatorTableProps {
@@ -7,19 +12,20 @@ interface OperatorTableProps {
 }
 
 export function OperatorTable({ beaches }: OperatorTableProps) {
+  const t = useT();
   return (
     <div className={styles.opTable}>
       <table className={styles.opTableEl}>
         <thead>
           <tr>
-            <th>해수욕장</th>
-            <th>지역</th>
-            <th>상태</th>
-            <th>안전점수</th>
-            <th>날씨</th>
-            <th>기온</th>
-            <th>자외선</th>
-            <th>혼잡도</th>
+            <th>{t.op.colBeach}</th>
+            <th>{t.card.region}</th>
+            <th>{t.op.colStatus}</th>
+            <th>{t.op.colScore}</th>
+            <th>{t.card.weather}</th>
+            <th>{t.op.colTemp}</th>
+            <th>{t.card.uv}</th>
+            <th>{t.card.crowd}</th>
           </tr>
         </thead>
         <tbody>
@@ -27,7 +33,7 @@ export function OperatorTable({ beaches }: OperatorTableProps) {
             <tr key={b.id}>
               <td>
                 <a href={`/beach/${b.id}`} className={styles.opBeachLink}>
-                  {b.name}
+                  {t.beaches[b.id as BeachId]}
                 </a>
               </td>
               <td className={styles.opMono}>{b.region}</td>
@@ -35,10 +41,10 @@ export function OperatorTable({ beaches }: OperatorTableProps) {
                 <StatusPill status={b.status} />
               </td>
               <td className={styles.opScore}>{b.score}</td>
-              <td>{b.sky}</td>
+              <td>{tv(t, "sky", b.sky)}</td>
               <td className={styles.opMono}>{b.air}℃</td>
-              <td>{b.uv}</td>
-              <td>{b.crowd}</td>
+              <td>{tv(t, "uv", b.uv)}</td>
+              <td>{tv(t, "crowd", b.crowd)}</td>
             </tr>
           ))}
         </tbody>

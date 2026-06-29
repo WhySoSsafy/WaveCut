@@ -146,6 +146,16 @@ export const es: Dict = {
     crowdShort: "Afluencia", parkingBtn: "Estacionamiento cercano", back: "Volver al inicio",
     favEmpty: "Aún no hay playas favoritas.", mypage: "Mi página",
   },
+  op: {
+    title: "Panel del operador", sub: "Monitoreo de zonas de riesgo · avisos automáticos · despliegue de socorristas",
+    kpiMon: "Playas monitoreadas", kpiRisk: "Zonas de riesgo/precaución", kpiUrgent: "Respuesta urgente", kpiUpdated: "Última actualización",
+    statusTitle: "Estado de las playas", statusSub: "Basado en datos en vivo",
+    monTitle: "Monitoreo de zonas de riesgo en vivo",
+    deployTitle: "Despliegue de socorristas", deployRec: "Recomendado", personUnit: "",
+    noticeTitle: "Aviso automático IA", noticeSub: "Borrador para transmisión / cartelería", noticeAuto: "Autogenerado",
+    colBeach: "Playa", colStatus: "Estado", colScore: "Puntuación", colTemp: "Temp",
+    broadcast: "Transmitir", board: "Publicar en pantalla", regen: "Regenerar texto",
+  },
   xsec: {
     tideSim: "Simulación de marea",
     now: "Ahora", t1: "+1 hora", t2: "+2 horas",

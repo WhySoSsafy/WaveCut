@@ -146,6 +146,16 @@ export const zh: Dict = {
     crowdShort: "拥挤", parkingBtn: "附近停车场", back: "返回首页",
     favEmpty: "还没有收藏的海滩。", mypage: "我的",
   },
+  op: {
+    title: "运营者仪表盘", sub: "危险区段监控 · 自动生成通告 · 救生员部署参考",
+    kpiMon: "监测中的海滩", kpiRisk: "危险/注意区段", kpiUrgent: "需紧急响应", kpiUpdated: "最后数据更新",
+    statusTitle: "海滩现况", statusSub: "基于实时数据",
+    monTitle: "实时危险区段监控",
+    deployTitle: "救生员部署参考", deployRec: "建议人数", personUnit: "名",
+    noticeTitle: "AI 自动生成通告", noticeSub: "现场广播·公告草稿", noticeAuto: "自动生成",
+    colBeach: "海滩", colStatus: "状态", colScore: "安全评分", colTemp: "气温",
+    broadcast: "广播发布", board: "电子屏发布", regen: "重新生成文案",
+  },
   xsec: {
     tideSim: "潮位模拟",
     now: "现在", t1: "1小时后", t2: "2小时后",

@@ -146,6 +146,16 @@ export const ja: Dict = {
     crowdShort: "混雑", parkingBtn: "近くの駐車場", back: "ホームに戻る",
     favEmpty: "お気に入りのビーチはまだありません。", mypage: "マイページ",
   },
+  op: {
+    title: "運営者ダッシュボード", sub: "危険区間モニタリング · 案内文自動生成 · 安全要員配置の参考",
+    kpiMon: "モニタリング中のビーチ", kpiRisk: "危険・注意区間", kpiUrgent: "緊急対応が必要", kpiUpdated: "最終データ更新",
+    statusTitle: "ビーチ状況", statusSub: "リアルタイムデータに基づく",
+    monTitle: "リアルタイム危険区間モニタリング",
+    deployTitle: "安全要員配置の参考", deployRec: "推奨人数", personUnit: "名",
+    noticeTitle: "AI 案内文自動生成", noticeSub: "現場放送・掲示用の下書き", noticeAuto: "自動生成",
+    colBeach: "ビーチ", colStatus: "状態", colScore: "安全スコア", colTemp: "気温",
+    broadcast: "放送送出", board: "電光掲示板に掲示", regen: "文面を再生成",
+  },
   xsec: {
     tideSim: "潮位シミュレーション",
     now: "現在", t1: "1時間後", t2: "2時間後",

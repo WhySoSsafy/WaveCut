@@ -146,6 +146,16 @@ export const en: Dict = {
     crowdShort: "Crowd", parkingBtn: "Nearby parking", back: "Back to home",
     favEmpty: "No favorite beaches yet.", mypage: "My page",
   },
+  op: {
+    title: "Operator dashboard", sub: "Risk-zone monitoring · auto notices · lifeguard deployment",
+    kpiMon: "Monitored beaches", kpiRisk: "Risk/caution zones", kpiUrgent: "Urgent response", kpiUpdated: "Last data update",
+    statusTitle: "Beach status", statusSub: "Based on live data",
+    monTitle: "Live risk-zone monitoring",
+    deployTitle: "Lifeguard deployment", deployRec: "Recommended", personUnit: "",
+    noticeTitle: "AI auto notice", noticeSub: "Draft for broadcast / signage", noticeAuto: "Auto-generated",
+    colBeach: "Beach", colStatus: "Status", colScore: "Safety score", colTemp: "Temp",
+    broadcast: "Broadcast", board: "Post to board", regen: "Regenerate",
+  },
   xsec: {
     tideSim: "Tide simulation",
     now: "Now", t1: "+1 hour", t2: "+2 hours",

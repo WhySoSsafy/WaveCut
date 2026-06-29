@@ -143,6 +143,16 @@ export const ko = {
     crowdShort: "혼잡", parkingBtn: "근처 주차장 보기", back: "홈으로 돌아가기",
     favEmpty: "아직 즐겨찾기한 해변이 없어요.", mypage: "마이페이지",
   },
+  op: {
+    title: "운영자 대시보드", sub: "위험 구간 모니터링 · 안내문 자동 생성 · 안전요원 배치 참고",
+    kpiMon: "모니터링 해수욕장", kpiRisk: "위험·주의 구간", kpiUrgent: "긴급 대응 필요", kpiUpdated: "마지막 데이터 갱신",
+    statusTitle: "해수욕장 현황", statusSub: "실시간 데이터 기반",
+    monTitle: "실시간 위험 구간 모니터링",
+    deployTitle: "안전요원 배치 참고", deployRec: "권장 인원", personUnit: "명",
+    noticeTitle: "AI 안내문 자동 생성", noticeSub: "현장 방송·게시용 초안", noticeAuto: "자동 생성",
+    colBeach: "해수욕장", colStatus: "상태", colScore: "안전점수", colTemp: "기온",
+    broadcast: "방송 송출", board: "전광판 게시", regen: "문안 다시 생성",
+  },
   xsec: {
     tideSim: "조위 시뮬레이션",
     now: "현재", t1: "1시간 후", t2: "2시간 후",
