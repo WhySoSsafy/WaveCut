@@ -3,6 +3,7 @@ import Image from "next/image";
 import { getBeachDetail } from "@/lib/api/aggregate";
 import { BEACH_IDS } from "@/lib/data/fallback";
 import { beachPhotoSrc } from "@/lib/data/beachPhoto";
+import { WaveDivider } from "@/components/shared/WaveDivider";
 import { analyze, profileFromTransect, transectAt } from "@/lib/bsm/profile";
 import { situationTips } from "@/lib/bsm/aiComment";
 import { ScoreGauge } from "@/components/shared/ScoreGauge";
@@ -63,6 +64,7 @@ export default async function BeachDetailPage({
             <ScoreGauge score={beach.score} status={beach.status} size={80} />
           </div>
         </div>
+        <WaveDivider z={1} height={28} color="rgba(255, 255, 255, 0.22)" />
       </div>
 
       {/* 2-컬럼: 메인(단면 수심 뷰 진입 패널 + SituationTips) / 사이드(expert panels) */}

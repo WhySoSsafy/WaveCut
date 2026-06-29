@@ -1,0 +1,42 @@
+.waves {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.svg {
+  display: block;
+  width: 200%;
+  height: 100%;
+}
+
+/* The path data spans two full periods (0..2400) inside a 1200 viewBox,
+   so translating by one period (-600) loops seamlessly. */
+.waveBack {
+  animation: waveDrift 11s linear infinite;
+}
+
+.waveFront {
+  animation: waveDrift 7s linear infinite;
+}
+
+@keyframes waveDrift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-600px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .waveBack,
+  .waveFront {
+    animation: none;
+  }
+}

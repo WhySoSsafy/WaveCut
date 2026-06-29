@@ -248,3 +248,26 @@
   font-weight: 700;
   color: var(--blue-600);
 }
+
+/* ===== Status dot pulse (caution/danger) ===== */
+.dotPulse {
+  animation: dotPulse 1.8s ease-out infinite;
+}
+
+@keyframes dotPulse {
+  0% {
+    box-shadow: 0 0 0 0 var(--pulse-color, currentColor);
+  }
+  70% {
+    box-shadow: 0 0 0 6px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dotPulse {
+    animation: none;
+  }
+}

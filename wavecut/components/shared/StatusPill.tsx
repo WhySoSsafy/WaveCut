@@ -28,12 +28,21 @@ export function StatusPill({
   children?: React.ReactNode;
   big?: boolean;
 }) {
+  const pulse = status !== "safe";
   return (
     <span
       className={`${styles.pill}${big ? ` ${styles.pillBig}` : ""}`}
       style={{ color: SC[status], background: SBG[status] }}
     >
-      <i className="dot" style={{ background: SC[status] }} />
+      <i
+        className={`dot${pulse ? ` ${styles.dotPulse}` : ""}`}
+        style={
+          {
+            background: SC[status],
+            "--pulse-color": SC[status],
+          } as React.CSSProperties
+        }
+      />
       {children ?? SLABEL[status]}
     </span>
   );

@@ -33,6 +33,17 @@ export function TransitCard({ beachName, data }: TransitCardProps) {
         </div>
       </div>
 
+      {/* 역 → 해변 이동 애니메이션 */}
+      <div className={styles.aTransitTrack} aria-hidden="true">
+        <span className={styles.aTransitTrackEnd}>역</span>
+        <span className={styles.aTransitRail}>
+          <span className={styles.aTransitVehicle}>
+            <Icon name="transit" size={11} color="#fff" />
+          </span>
+        </span>
+        <span className={styles.aTransitTrackEnd}>해변</span>
+      </div>
+
       <div className={styles.aTransitDivider} />
 
       {/* Recommended exit */}

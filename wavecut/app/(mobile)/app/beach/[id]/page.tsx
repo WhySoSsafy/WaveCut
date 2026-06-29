@@ -10,6 +10,7 @@ import { ScoreGauge } from "@/components/shared/ScoreGauge";
 import { Icon } from "@/components/shared/Icon";
 import { AppOceanPanel } from "@/components/mobile/AppOceanPanel";
 import { FavoriteButton } from "@/components/mobile/FavoriteButton";
+import { WaveDivider } from "@/components/shared/WaveDivider";
 import styles from "@/components/mobile/mobile.module.css";
 
 export function generateStaticParams() {
@@ -59,6 +60,7 @@ export default async function AppBeachDetailPage({
           <StatusPill status={beach.status} big />
           <ScoreGauge score={beach.score} status={beach.status} size={72} />
         </div>
+        <WaveDivider z={1} height={26} color="rgba(255, 255, 255, 0.22)" />
       </div>
 
       {/* 쉬운 정보 3칸 — 날씨, 자외선, 혼잡도 */}

@@ -815,3 +815,74 @@
   line-height: 1.6;
   font-family: var(--mono, monospace);
 }
+
+/* ===== Transit vehicle animation (역 → 해변) ===== */
+.aTransitTrack {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0 2px;
+  padding-left: 40px;
+}
+
+.aTransitTrackEnd {
+  font-size: 10.5px;
+  color: var(--ink-3);
+  flex-shrink: 0;
+  font-family: var(--mono, monospace);
+}
+
+.aTransitRail {
+  position: relative;
+  flex: 1;
+  height: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.aTransitRail::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 0;
+  border-top: 2px dashed var(--sky-100);
+}
+
+.aTransitVehicle {
+  position: absolute;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--blue-600);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 1px 4px rgba(29, 111, 224, 0.4);
+  transform: translate(0, -50%);
+  animation: aTransitMove 3.4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+@keyframes aTransitMove {
+  0% {
+    left: 0;
+    transform: translate(0, -50%);
+  }
+  85% {
+    left: 100%;
+    transform: translate(-100%, -50%);
+  }
+  100% {
+    left: 100%;
+    transform: translate(-100%, -50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aTransitVehicle {
+    animation: none;
+    left: 100%;
+    transform: translate(-100%, -50%);
+  }
+}

@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { beachPhotoSrc } from "@/lib/data/beachPhoto";
+import { CountUp } from "@/components/shared/CountUp";
+import { WaveDivider } from "@/components/shared/WaveDivider";
 import styles from "./web.module.css";
 
 interface HeroCounts {
@@ -30,22 +32,23 @@ export function HeroCard({ counts }: { counts: HeroCounts }) {
       </div>
       <div className={styles.heroSummary}>
         <div className={styles.hsum}>
-          <b className={styles.sSafe}>{counts.safe}</b>
+          <b className={styles.sSafe}><CountUp value={counts.safe} /></b>
           <span>안전</span>
         </div>
         <div className={styles.hsum}>
-          <b className={styles.sCaution}>{counts.caution}</b>
+          <b className={styles.sCaution}><CountUp value={counts.caution} /></b>
           <span>주의</span>
         </div>
         <div className={styles.hsum}>
-          <b className={styles.sDanger}>{counts.danger}</b>
+          <b className={styles.sDanger}><CountUp value={counts.danger} /></b>
           <span>위험</span>
         </div>
         <div className={`${styles.hsum} ${styles.hsumDiv}`}>
-          <b>{counts.total}</b>
+          <b><CountUp value={counts.total} /></b>
           <span>모니터링</span>
         </div>
       </div>
+      <WaveDivider height={40} color="rgba(255, 255, 255, 0.32)" />
     </div>
   );
 }

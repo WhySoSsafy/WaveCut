@@ -1156,3 +1156,132 @@
   font-weight: 700;
   color: var(--danger);
 }
+
+/* ===== Tide sparkline (animated) ===== */
+.tideSpark {
+  display: block;
+  width: 100%;
+  height: 88px;
+  margin: 2px 0 14px;
+}
+
+/* ===== Rip-current flow indicator (caution/danger) ===== */
+.ripFlow {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ripFlowTrack {
+  height: 8px;
+  border-radius: 5px;
+  background: repeating-linear-gradient(
+    -65deg,
+    var(--caution) 0 8px,
+    transparent 8px 20px
+  );
+  background-size: 28px 100%;
+  opacity: 0.65;
+  animation: ripFlow 0.9s linear infinite;
+}
+
+.ripFlowDanger .ripFlowTrack {
+  background: repeating-linear-gradient(
+    -65deg,
+    var(--danger) 0 8px,
+    transparent 8px 20px
+  );
+  background-size: 28px 100%;
+}
+
+.ripFlowLabel {
+  font-size: 11.5px;
+  color: var(--ink-2);
+}
+
+@keyframes ripFlow {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -28px 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ripFlowTrack {
+    animation: none;
+  }
+}
+
+/* ===== Transit vehicle animation (역 → 해변) ===== */
+.wtransitTrack {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0 2px;
+  padding-left: 44px;
+}
+
+.wtransitTrackEnd {
+  font-size: 10.5px;
+  color: var(--ink-3);
+  flex-shrink: 0;
+  font-family: var(--mono, monospace);
+}
+
+.wtransitRail {
+  position: relative;
+  flex: 1;
+  height: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.wtransitRail::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 0;
+  border-top: 2px dashed var(--sky-100);
+}
+
+.wtransitVehicle {
+  position: absolute;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--blue-600);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 1px 4px rgba(29, 111, 224, 0.4);
+  transform: translate(0, -50%);
+  animation: transitMove 3.4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+@keyframes transitMove {
+  0% {
+    left: 0;
+    transform: translate(0, -50%);
+  }
+  85% {
+    left: 100%;
+    transform: translate(-100%, -50%);
+  }
+  100% {
+    left: 100%;
+    transform: translate(-100%, -50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wtransitVehicle {
+    animation: none;
+    left: 100%;
+    transform: translate(-100%, -50%);
+  }
+}

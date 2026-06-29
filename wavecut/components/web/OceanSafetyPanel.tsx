@@ -38,6 +38,16 @@ export function OceanSafetyPanel({ wave, tide, tideTrend, rip, family }: OceanSa
           status={famStatus}
         />
       </div>
+      {ripS !== "safe" && (
+        <div
+          className={`${styles.ripFlow}${ripS === "danger" ? " " + styles.ripFlowDanger : ""}`}
+        >
+          <span className={styles.ripFlowTrack} aria-hidden="true" />
+          <span className={styles.ripFlowLabel}>
+            이안류 흐름 {rip} — 바다 쪽으로 빠르게 빠지는 흐름에 주의
+          </span>
+        </div>
+      )}
     </div>
   );
 }

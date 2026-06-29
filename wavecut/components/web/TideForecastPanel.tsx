@@ -1,4 +1,5 @@
 import { Icon } from "@/components/shared/Icon";
+import { TideSparkline } from "./TideSparkline";
 import styles from "./web.module.css";
 
 interface TideOffsets {
@@ -44,6 +45,12 @@ export function TideForecastPanel({ offsets }: TideForecastPanelProps) {
         <strong>시간대별 체감 수심</strong>
         <span className="mono">조위 예측</span>
       </div>
+      <TideSparkline
+        points={rows.map((r) => ({
+          label: r.label,
+          h: +(0.8 + r.offset).toFixed(2),
+        }))}
+      />
       <div className={styles.tideRows}>
         {rows.map((r, i) => {
           const h = +(0.8 + r.offset).toFixed(2);

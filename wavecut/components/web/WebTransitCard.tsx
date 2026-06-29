@@ -31,6 +31,17 @@ export function WebTransitCard({ beachName, data }: WebTransitCardProps) {
         </div>
       </div>
 
+      {/* 역 → 해변 이동 애니메이션 */}
+      <div className={styles.wtransitTrack} aria-hidden="true">
+        <span className={styles.wtransitTrackEnd}>역</span>
+        <span className={styles.wtransitRail}>
+          <span className={styles.wtransitVehicle}>
+            <Icon name="transit" size={11} color="#fff" />
+          </span>
+        </span>
+        <span className={styles.wtransitTrackEnd}>해변</span>
+      </div>
+
       <div className={styles.wtransitDivider} />
 
       {/* 추천 출구 */}
