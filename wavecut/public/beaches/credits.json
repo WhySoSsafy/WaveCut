@@ -1,0 +1,47 @@
+{
+  "haeundae": {
+    "author": "StephNurnberg",
+    "license": "CC-BY-2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Haeundae_Beach_in_Busan.jpg",
+    "title": "Haeundae Beach in Busan.jpg",
+    "width": 1600,
+    "height": 925
+  },
+  "gwangalli": {
+    "author": "Masterhatch",
+    "license": "CC-BY-SA-4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Gwangalli_Beach_and_Gwangan_Bridge_Busan.jpg",
+    "title": "Gwangalli Beach and Gwangan Bridge Busan.jpg",
+    "width": 1600,
+    "height": 901
+  },
+  "songjeong": {
+    "author": "Andrewssi2",
+    "license": "CC-BY-SA-3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Songjeong_Beach.jpg",
+    "title": "Songjeong Beach.jpg",
+    "width": 1600,
+    "height": 901
+  },
+  "songdo": {
+    "author": "S h y numis",
+    "license": "CC-BY-4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Songdo_Beach_Area_and_Namhang_Bridge_in_Busan.jpg",
+    "title": "Songdo Beach Area and Namhang Bridge in Busan.jpg",
+    "width": 1600,
+    "height": 1067
+  },
+  "dadaepo": {
+    "author": "Ken Eckert",
+    "license": "CC-BY-SA-4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Dadaepo_Beach,_Busan,_Korea.jpg",
+    "title": "Dadaepo Beach, Busan, Korea.jpg",
+    "width": 1600,
+    "height": 1200
+  }
+}

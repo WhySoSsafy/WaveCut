@@ -4,3 +4,4 @@ node_modules/
 .next/
 # SDD scratch (ledger, briefs, reports, review packages) — regenerable
 .superpowers/
+.gstack/

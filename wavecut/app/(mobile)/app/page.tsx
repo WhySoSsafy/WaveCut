@@ -1,5 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getAllSummaries } from "@/lib/api/aggregate";
+import { beachPhotoSrc } from "@/lib/data/beachPhoto";
 import { AppBeachCard } from "@/components/mobile/AppBeachCard";
 import { StatusPill } from "@/components/shared/StatusPill";
 import { Icon } from "@/components/shared/Icon";
@@ -20,8 +22,16 @@ export default async function AppHomePage() {
       {/* 오늘의 추천 카드 — easy info only */}
       <Link href={`/app/beach/${rec.id}`} className={styles.aRec}>
         <div className={styles.aRecImg}>
+          <Image
+            src={beachPhotoSrc(rec.id)}
+            alt={rec.name}
+            fill
+            sizes="(max-width: 480px) 100vw, 430px"
+            priority
+            className={styles.aRecImgPhoto}
+            style={{ objectFit: "cover" }}
+          />
           <span className={styles.aRecFlag}>오늘의 추천</span>
-          <span className={styles.aRecImgTag}>해변 이미지</span>
         </div>
         <div className={styles.aRecBody}>
           <div className={styles.aRecTop}>

@@ -190,11 +190,30 @@
   overflow: hidden;
 }
 
+.heroImg {
+  z-index: 0;
+}
+
+/* Dark overlay over the photo so the white heading/summary stay readable */
+.pageHero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    120deg,
+    rgba(13, 27, 53, 0.88),
+    rgba(13, 27, 53, 0.62) 60%,
+    rgba(13, 27, 53, 0.5)
+  );
+}
+
 .pageHero::after {
   content: "";
   position: absolute;
   right: -60px;
   top: -40px;
+  z-index: 2;
   width: 280px;
   height: 280px;
   border-radius: 50%;
@@ -203,6 +222,11 @@
     rgba(57, 183, 240, 0.4),
     transparent 70%
   );
+}
+
+.heroText {
+  position: relative;
+  z-index: 3;
 }
 
 .pageHero h1 {
@@ -224,7 +248,7 @@
   display: flex;
   gap: 8px;
   position: relative;
-  z-index: 1;
+  z-index: 3;
 }
 
 .hsum {
@@ -311,28 +335,6 @@
   position: relative;
   background: linear-gradient(160deg, #173f72, #2f86f0 70%, #39b7f0);
   overflow: hidden;
-}
-
-.featImgGrid {
-  position: absolute;
-  inset: 0;
-  background-image: repeating-linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.07) 0 1px,
-    transparent 1px 11px
-  );
-}
-
-.featImgTag {
-  position: absolute;
-  left: 12px;
-  bottom: 10px;
-  font-size: 10.5px;
-  color: rgba(255, 255, 255, 0.82);
-  background: rgba(10, 35, 66, 0.32);
-  padding: 3px 8px;
-  border-radius: 6px;
-  font-family: var(--mono);
 }
 
 .featInfo {

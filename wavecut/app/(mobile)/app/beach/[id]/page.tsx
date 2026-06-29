@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { getBeachDetail } from "@/lib/api/aggregate";
+import { beachPhotoSrc } from "@/lib/data/beachPhoto";
 import { BEACH_IDS } from "@/lib/data/fallback";
 import type { BeachId } from "@/lib/data/fallback";
 import { StatusPill } from "@/components/shared/StatusPill";
@@ -44,6 +46,15 @@ export default async function AppBeachDetailPage({
 
       {/* Hero strip with status + score */}
       <div className={styles.aDetailHero}>
+        <Image
+          src={beachPhotoSrc(id)}
+          alt={beach.name}
+          fill
+          sizes="(max-width: 480px) 100vw, 430px"
+          priority
+          className={styles.aDetailHeroImg}
+          style={{ objectFit: "cover" }}
+        />
         <div className={styles.aDetailHeroB}>
           <StatusPill status={beach.status} big />
           <ScoreGauge score={beach.score} status={beach.status} size={72} />

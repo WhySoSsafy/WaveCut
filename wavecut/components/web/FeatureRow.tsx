@@ -1,17 +1,24 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { BeachSummary } from "@/lib/api/aggregate";
 import { StatusPill } from "@/components/shared/StatusPill";
 import { Stat } from "@/components/shared/Stat";
 import { ScoreGauge } from "@/components/shared/ScoreGauge";
 import { Icon } from "@/components/shared/Icon";
+import { beachPhotoSrc } from "@/lib/data/beachPhoto";
 import styles from "./web.module.css";
 
 export function FeatureRow({ beach }: { beach: BeachSummary }) {
   return (
     <div className={styles.featRow}>
       <div className={styles.featImg}>
-        <div className={styles.featImgGrid} />
-        <span className={styles.featImgTag}>{beach.name} 해변 전경</span>
+        <Image
+          src={beachPhotoSrc(beach.id)}
+          alt={`${beach.name} 해변 전경`}
+          fill
+          sizes="280px"
+          style={{ objectFit: "cover" }}
+        />
       </div>
       <div className={styles.featInfo}>
         <div className={styles.featTop}>
