@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import { getBeachDetail } from "@/lib/api/aggregate";
 import { BEACH_IDS } from "@/lib/data/fallback";
+import { beachPhotoSrc } from "@/lib/data/beachPhoto";
 import { analyze, profileFromTransect, transectAt } from "@/lib/bsm/profile";
 import { situationTips } from "@/lib/bsm/aiComment";
 import { ScoreGauge } from "@/components/shared/ScoreGauge";
@@ -33,23 +35,33 @@ export default async function BeachDetailPage({
 
   return (
     <div className={styles.page}>
-      {/* 헤더: 이름 + 메타(지역·길이·날씨·자외선·혼잡) + ScoreGauge(80px) */}
-      <div className={styles.detailHead}>
-        <div className={styles.detailHeadLeft}>
-          <div className={styles.dhName}>
-            <h1>{beach.name}</h1>
-            <StatusPill status={beach.status} big />
+      {/* 히어로 배너: 해변 사진 위에 이름 + 메타 + ScoreGauge */}
+      <div className={styles.detailHero}>
+        <Image
+          src={beachPhotoSrc(id)}
+          alt={`${beach.name} 해변 전경`}
+          fill
+          sizes="(max-width: 1100px) 100vw, 980px"
+          style={{ objectFit: "cover" }}
+          priority
+        />
+        <div className={styles.detailHead}>
+          <div className={styles.detailHeadLeft}>
+            <div className={styles.dhName}>
+              <h1>{beach.name}</h1>
+              <StatusPill status={beach.status} big />
+            </div>
+            <div className={styles.dhMeta}>
+              <Icon name="pin" size={14} color="rgba(255,255,255,0.8)" />
+              {beach.region} · 해안선 길이 {beach.length}km ·{" "}
+              <Icon name="sun" size={14} color="rgba(255,255,255,0.8)" />
+              {beach.sky} {beach.air}℃ · 자외선 {beach.uv} · 예상 혼잡도{" "}
+              {beach.crowd}
+            </div>
           </div>
-          <div className={styles.dhMeta}>
-            <Icon name="pin" size={14} color="var(--ink-3)" />
-            {beach.region} · 해안선 길이 {beach.length}km ·{" "}
-            <Icon name="sun" size={14} color="var(--ink-3)" />
-            {beach.sky} {beach.air}℃ · 자외선 {beach.uv} · 예상 혼잡도{" "}
-            {beach.crowd}
+          <div className={styles.dhStats}>
+            <ScoreGauge score={beach.score} status={beach.status} size={80} />
           </div>
-        </div>
-        <div className={styles.dhStats}>
-          <ScoreGauge score={beach.score} status={beach.status} size={80} />
         </div>
       </div>
 

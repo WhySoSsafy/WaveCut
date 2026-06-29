@@ -416,15 +416,38 @@
 }
 
 /* ===== Beach Detail Page ===== */
-.detailHead {
+.detailHero {
+  position: relative;
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
+  min-height: 220px;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  background: linear-gradient(120deg, var(--navy-900), var(--navy-700) 60%, var(--blue-700));
+}
+
+.detailHero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(8, 22, 44, 0.15) 0%,
+    rgba(8, 22, 44, 0.35) 55%,
+    rgba(8, 22, 44, 0.78) 100%
+  );
+}
+
+.detailHead {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
   justify-content: space-between;
   gap: 20px;
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: var(--r-lg);
-  box-shadow: var(--shadow-sm);
   padding: 24px 28px;
 }
 
@@ -445,8 +468,9 @@
   font-size: 26px;
   font-weight: 800;
   margin: 0;
-  color: var(--navy-900);
+  color: #fff;
   letter-spacing: -0.02em;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
 }
 
 .dhMeta {
@@ -454,8 +478,9 @@
   align-items: center;
   gap: 5px;
   font-size: 13.5px;
-  color: var(--ink-2);
+  color: rgba(255, 255, 255, 0.9);
   flex-wrap: wrap;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
 
 .dhStats {
@@ -1022,4 +1047,112 @@
   white-space: nowrap;
   flex-shrink: 0;
   margin-top: 2px;
+}
+
+/* ===== Transit / accessibility tab ===== */
+.wtransitNote {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  background: var(--sky-50);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 11px 14px;
+  margin: 0 0 18px;
+}
+
+.wtransitGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 18px;
+}
+
+.wtransitCard {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 18px 20px;
+}
+
+.wtransitName {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--navy-900);
+  margin-bottom: 14px;
+  letter-spacing: -0.01em;
+}
+
+.wtransitRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.wtransitIc {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: var(--sky-50);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.wtransitBody {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.wtransitLabel {
+  font-size: 11.5px;
+  color: var(--ink-3);
+}
+
+.wtransitValue {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy-900);
+}
+
+.wtransitBadge {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--blue-700);
+  background: var(--sky-50);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 1px 7px;
+  font-family: var(--mono, monospace);
+}
+
+.wtransitSub {
+  font-size: 12.5px;
+  color: var(--ink-2);
+}
+
+.wtransitDivider {
+  height: 1px;
+  background: var(--line);
+  margin: 12px 0;
+}
+
+.wtransitAccessOk {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--safe);
+}
+
+.wtransitAccessNo {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--danger);
 }

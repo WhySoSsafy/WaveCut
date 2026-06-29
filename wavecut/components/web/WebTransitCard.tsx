@@ -1,0 +1,70 @@
+import { Icon } from "@/components/shared/Icon";
+import type { TransitData } from "@/lib/data/transit";
+import styles from "./web.module.css";
+
+interface WebTransitCardProps {
+  beachName: string;
+  data: TransitData;
+}
+
+export function WebTransitCard({ beachName, data }: WebTransitCardProps) {
+  const { station, exit, accessible } = data;
+
+  return (
+    <article className={styles.wtransitCard}>
+      <div className={styles.wtransitName}>{beachName}</div>
+
+      {/* 가장 가까운 역 */}
+      <div className={styles.wtransitRow}>
+        <span className={styles.wtransitIc}>
+          <Icon name="transit" size={16} color="var(--blue-600)" />
+        </span>
+        <div className={styles.wtransitBody}>
+          <span className={styles.wtransitLabel}>가장 가까운 역</span>
+          <span className={styles.wtransitValue}>
+            {station.name}
+            <span className={styles.wtransitBadge}>{station.line}</span>
+          </span>
+          <span className={styles.wtransitSub}>
+            도보 {station.walkMin}분{station.note ? ` · ${station.note}` : ""}
+          </span>
+        </div>
+      </div>
+
+      <div className={styles.wtransitDivider} />
+
+      {/* 추천 출구 */}
+      <div className={styles.wtransitRow}>
+        <span className={styles.wtransitIc}>
+          <Icon name="pin" size={16} color="var(--blue-600)" />
+        </span>
+        <div className={styles.wtransitBody}>
+          <span className={styles.wtransitLabel}>추천 출구</span>
+          <span className={styles.wtransitValue}>{exit.no} 출구</span>
+          <span className={styles.wtransitSub}>{exit.toward}</span>
+        </div>
+      </div>
+
+      <div className={styles.wtransitDivider} />
+
+      {/* 교통약자 접근성 */}
+      <div className={styles.wtransitRow}>
+        <span className={styles.wtransitIc}>
+          <Icon name="family" size={16} color="var(--blue-600)" />
+        </span>
+        <div className={styles.wtransitBody}>
+          <span className={styles.wtransitLabel}>교통약자 접근성</span>
+          {accessible.elevator ? (
+            <span className={styles.wtransitAccessOk}>✅ 엘리베이터 있음</span>
+          ) : (
+            <span className={styles.wtransitAccessNo}>❌ 엘리베이터 없음</span>
+          )}
+          {accessible.exitNo && (
+            <span className={styles.wtransitSub}>{accessible.exitNo}</span>
+          )}
+          <span className={styles.wtransitSub}>{accessible.note}</span>
+        </div>
+      </div>
+    </article>
+  );
+}
