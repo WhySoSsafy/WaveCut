@@ -1,11 +1,10 @@
 import Link from "next/link";
-import Image from "next/image";
 import { LandingHero } from "@/components/landing/LandingHero";
 import { Reveal } from "@/components/landing/Reveal";
 import { Icon, type IconName } from "@/components/shared/Icon";
 import { LEVELS } from "@/lib/bsm/levels";
 import { BEACH_IDS, FALLBACK } from "@/lib/data/fallback";
-import { beachPhotoSrc } from "@/lib/data/beachPhoto";
+import { BeachPhoto } from "@/components/shared/BeachPhoto";
 import styles from "@/components/landing/landing.module.css";
 
 const FEATURES: { icon: IconName; title: string; desc: string }[] = [
@@ -118,23 +117,21 @@ export default function LandingPage() {
         </Reveal>
       </section>
 
-      {/* 부산 5개 해변 */}
+      {/* 부산 7개 해변 */}
       <section className={styles.sec}>
         <Reveal>
           <span className={styles.secKicker}>어디를 볼 수 있나요</span>
-          <h2 className={styles.secTitle}>부산 대표 5개 해수욕장</h2>
+          <h2 className={styles.secTitle}>부산 6개 해수욕장</h2>
         </Reveal>
         <div className={styles.beachGrid}>
           {BEACH_IDS.map((id, i) => (
             <Reveal key={id} delay={i * 70}>
               <Link href={`/beach/${id}`} className={styles.beachCard}>
                 <div className={styles.beachImg}>
-                  <Image
-                    src={beachPhotoSrc(id)}
+                  <BeachPhoto
+                    id={id}
                     alt={FALLBACK[id].name}
-                    fill
                     sizes="(max-width: 900px) 50vw, 220px"
-                    style={{ objectFit: "cover" }}
                   />
                 </div>
                 <div className={styles.beachName}>

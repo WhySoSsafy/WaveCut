@@ -1,9 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
 import type { BeachSummary } from "@/lib/api/aggregate";
 import { StatusPill } from "@/components/shared/StatusPill";
 import { Icon } from "@/components/shared/Icon";
-import { beachPhotoSrc } from "@/lib/data/beachPhoto";
+import { BeachPhoto } from "@/components/shared/BeachPhoto";
 import { FavoriteButton } from "./FavoriteButton";
 import styles from "./mobile.module.css";
 
@@ -12,13 +11,7 @@ export function AppBeachCard({ beach }: { beach: BeachSummary }) {
     <Link href={`/app/beach/${beach.id}`} className={styles.arow}>
       {/* Thumbnail */}
       <span className={styles.arowThumb}>
-        <Image
-          src={beachPhotoSrc(beach.id)}
-          alt={beach.name}
-          fill
-          sizes="44px"
-          style={{ objectFit: "cover" }}
-        />
+        <BeachPhoto id={beach.id} alt={beach.name} sizes="44px" />
       </span>
 
       {/* Main info — easy info only (날씨, 자외선, 혼잡도) */}

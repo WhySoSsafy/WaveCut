@@ -1,8 +1,7 @@
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import { getBeachDetail } from "@/lib/api/aggregate";
 import { BEACH_IDS } from "@/lib/data/fallback";
-import { beachPhotoSrc } from "@/lib/data/beachPhoto";
+import { BeachPhoto } from "@/components/shared/BeachPhoto";
 import { WaveDivider } from "@/components/shared/WaveDivider";
 import { analyze, profileFromTransect, transectAt } from "@/lib/bsm/profile";
 import { situationTips } from "@/lib/bsm/aiComment";
@@ -38,12 +37,10 @@ export default async function BeachDetailPage({
     <div className={styles.page}>
       {/* 히어로 배너: 해변 사진 위에 이름 + 메타 + ScoreGauge */}
       <div className={styles.detailHero}>
-        <Image
-          src={beachPhotoSrc(id)}
+        <BeachPhoto
+          id={id}
           alt={`${beach.name} 해변 전경`}
-          fill
           sizes="(max-width: 1100px) 100vw, 980px"
-          style={{ objectFit: "cover" }}
           priority
         />
         <div className={styles.detailHead}>

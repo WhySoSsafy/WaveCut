@@ -76,6 +76,18 @@ const SOURCES = {
       title: "Dadaepo Beach, Busan, Korea.jpg",
     },
   },
+  ilgwang: {
+    download:
+      "https://upload.wikimedia.org/wikipedia/commons/2/2e/%EC%9D%BC%EA%B4%91%ED%95%B4%EC%88%98%EC%9A%95%EC%9E%A5.jpg",
+    credit: {
+      author: "Kma80jihun",
+      license: "CC-BY-SA-3.0",
+      licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0",
+      source: "https://commons.wikimedia.org/wiki/File:%EC%9D%BC%EA%B4%91%ED%95%B4%EC%88%98%EC%9A%95%EC%9E%A5.jpg",
+      title: "일광해수욕장.jpg",
+    },
+  },
+  // 임랑해수욕장: 위키미디어에 자유 라이선스 사진 없음 → 사진 없이 폴백 처리.
 };
 
 async function main() {

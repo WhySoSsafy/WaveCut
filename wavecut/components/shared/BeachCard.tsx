@@ -1,7 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
+import { BeachPhoto } from "./BeachPhoto";
 import type { BeachSummary } from "@/lib/api/aggregate";
-import { beachPhotoSrc } from "@/lib/data/beachPhoto";
 import { StatusPill } from "./StatusPill";
 import { Stat } from "./Stat";
 import { ScoreGauge } from "./ScoreGauge";
@@ -26,12 +25,10 @@ export function BeachCard({
         <span className={styles.bcardFlag}>MVP 대표</span>
       )}
       <div className={styles.bcardImg}>
-        <Image
-          src={beachPhotoSrc(beach.id)}
+        <BeachPhoto
+          id={beach.id}
           alt={`${beach.name} 해변 전경`}
-          fill
           sizes="(max-width: 900px) 100vw, 380px"
-          style={{ objectFit: "cover" }}
         />
         <div className={styles.bcardStatus}>
           <StatusPill status={beach.status} />

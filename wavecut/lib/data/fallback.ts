@@ -12,7 +12,7 @@ export interface BeachFallback extends BeachStatic {
   crowd: string; sky: string; air: number; uv: string;
 }
 
-export const BEACH_IDS = ["haeundae", "gwangalli", "songjeong", "songdo", "dadaepo"] as const;
+export const BEACH_IDS = ["haeundae", "gwangalli", "songjeong", "songdo", "dadaepo", "ilgwang"] as const;
 export type BeachId = typeof BEACH_IDS[number];
 
 export const FALLBACK_TIDE_OFFSETS = { now: 0, t1: 0.35, t2: 0.70 };
@@ -78,6 +78,18 @@ export const FALLBACK: Record<BeachId, BeachFallback> = {
       { shelf: 40, shelfDepth: 0.6, slope: 0.04, rip: true },
       { shelf: 14, shelfDepth: 1.1, slope: 0.16, rip: true },
       { shelf: 36, shelfDepth: 0.65, slope: 0.05, rip: true },
+    ],
+  },
+  ilgwang: {
+    id: "ilgwang", name: "일광 해수욕장", region: "부산 기장군",
+    score: 80, status: "safe", wave: 0.3, rip: "안전", tide: "중조", tideTrend: "상승",
+    water: 22.4, family: true, feature: false, length: 0.8, crowd: "여유",
+    sky: "맑음", air: 24, uv: "보통", parking: "일광해수욕장 공영주차장", parkDist: "도보 3분",
+    summary: "수심이 완만하고 잔잔해 가족·아이 물놀이에 좋습니다.",
+    transects: [
+      { shelf: 36, shelfDepth: 0.6, slope: 0.05, rip: false },
+      { shelf: 40, shelfDepth: 0.65, slope: 0.04, rip: false },
+      { shelf: 30, shelfDepth: 0.7, slope: 0.06, rip: false },
     ],
   },
 };

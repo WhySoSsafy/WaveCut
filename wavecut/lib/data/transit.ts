@@ -114,4 +114,21 @@ export const TRANSIT: Record<BeachId, TransitData> = {
       note: "전 출구 엘리베이터 설치 — 유모차·휠체어·고령층 이용 편리",
     },
   },
+  ilgwang: {
+    station: {
+      name: "일광역",
+      line: "동해선",
+      walkMin: 8,
+      tel: "1544-7788",
+    },
+    exit: {
+      no: "1번",
+      toward: "일광해변 방향",
+    },
+    accessible: {
+      elevator: true,
+      note: "유모차·휠체어 이용 가능",
+      exitNo: "1번 출구",
+    },
+  },
 };

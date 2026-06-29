@@ -23,7 +23,7 @@ export default async function Dashboard() {
       <section>
         <div className={styles.secHead}>
           <h3>오늘의 안전 분포</h3>
-          <span>부산 주요 5개 해수욕장 실시간 안전 등급</span>
+          <span>부산 주요 6개 해수욕장 실시간 안전 등급</span>
         </div>
         <StatusDonut counts={counts} />
       </section>

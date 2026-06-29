@@ -13,6 +13,7 @@ const NAME_TO_ID: Record<string, BeachId> = {
   송정해수욕장: "songjeong",
   송도해수욕장: "songdo",
   다대포해수욕장: "dadaepo",
+  일광해수욕장: "ilgwang",
 };
 
 export interface FcstBeachResult {

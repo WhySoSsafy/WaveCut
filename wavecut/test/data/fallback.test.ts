@@ -4,8 +4,8 @@ import { getEnv, getEnvOptional } from "@/lib/api/env";
 import { STATIONS } from "@/lib/api/stations";
 
 describe("fallback 데이터", () => {
-  it("부산 5개 해변을 가진다", () => {
-    expect(BEACH_IDS).toEqual(["haeundae", "gwangalli", "songjeong", "songdo", "dadaepo"]);
+  it("부산 6개 해변을 가진다", () => {
+    expect(BEACH_IDS).toEqual(["haeundae", "gwangalli", "songjeong", "songdo", "dadaepo", "ilgwang"]);
   });
   it("각 해변은 3개 transect를 가진다", () => {
     for (const id of BEACH_IDS) {

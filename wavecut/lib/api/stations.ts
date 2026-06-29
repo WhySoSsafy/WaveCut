@@ -17,4 +17,5 @@ export const STATIONS: Record<BeachId, StationMap> = {
   songjeong: { lat: 35.1786, lon: 129.2003, tideObsCode: "DT_0063", gridX: 100, gridY: 76, waveGrid: "", ripCode: "", beachInfoCode: "", qualityCode: "" },
   songdo:    { lat: 35.0758, lon: 129.0166, tideObsCode: "DT_0051", gridX: 97, gridY: 74, waveGrid: "", ripCode: "", beachInfoCode: "", qualityCode: "" },
   dadaepo:   { lat: 35.0494, lon: 128.9663, tideObsCode: "DT_0051", gridX: 96, gridY: 73, waveGrid: "", ripCode: "", beachInfoCode: "", qualityCode: "" },
+  ilgwang:   { lat: 35.2621, lon: 129.2362, tideObsCode: "DT_0005", gridX: 100, gridY: 77, waveGrid: "", ripCode: "", beachInfoCode: "", qualityCode: "" },
 };
