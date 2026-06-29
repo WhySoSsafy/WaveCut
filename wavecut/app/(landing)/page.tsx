@@ -5,6 +5,7 @@ import { Icon, type IconName } from "@/components/shared/Icon";
 import { LEVELS } from "@/lib/bsm/levels";
 import { BEACH_IDS, FALLBACK } from "@/lib/data/fallback";
 import { BeachPhoto } from "@/components/shared/BeachPhoto";
+import { getBeachDetail } from "@/lib/api/aggregate";
 import styles from "@/components/landing/landing.module.css";
 
 const FEATURES: { icon: IconName; title: string; desc: string }[] = [
@@ -32,10 +33,11 @@ const FEATURES: { icon: IconName; title: string; desc: string }[] = [
 
 const SOURCES = ["기상청", "국립해양조사원", "해양수산부", "공공데이터포털"];
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const heroBeach = await getBeachDetail("haeundae");
   return (
     <main>
-      <LandingHero />
+      <LandingHero beach={heroBeach} />
 
       {/* 문제 제기 */}
       <section className={styles.sec}>
@@ -117,7 +119,28 @@ export default function LandingPage() {
         </Reveal>
       </section>
 
-      {/* 부산 7개 해변 */}
+      {/* 관광객 — 오는 길 안내 */}
+      <section className={styles.secAlt}>
+        <Reveal className={styles.tourist}>
+          <div>
+            <span className={styles.secKicker}>부산이 처음이세요?</span>
+            <h2 className={styles.secTitle}>오는 길까지 해변별로 안내합니다.</h2>
+            <p className={styles.secLede}>
+              가장 가까운 지하철역·추천 출구·교통약자 엘리베이터, 그리고 카카오·네이버
+              지도 길찾기까지. 관광객도 부산 해변을 쉽게 찾아갈 수 있어요.
+            </p>
+            <Link href="/transit" className={styles.touristLink}>
+              교통·접근성 보기{" "}
+              <Icon name="chevron" size={15} color="var(--blue-600)" />
+            </Link>
+          </div>
+          <div className={styles.touristIc} aria-hidden="true">
+            <Icon name="transit" size={56} color="var(--blue-600)" />
+          </div>
+        </Reveal>
+      </section>
+
+      {/* 부산 6개 해변 */}
       <section className={styles.sec}>
         <Reveal>
           <span className={styles.secKicker}>어디를 볼 수 있나요</span>
