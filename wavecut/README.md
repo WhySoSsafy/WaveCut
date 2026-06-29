@@ -25,10 +25,16 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ### 1. 키 발급
 - **data.go.kr** (기상청 단기예보, 조위, 해수욕장/이안류/수질 등): 공공데이터포털에서
   회원가입 후 해당 API 활용신청 → **Decoding 키** 사용.
-- **날씨**(기온·하늘·풍속)는 `DATA_GO_KR_KEY` 로 **실연동 검증 완료**.
-- **조위·파고**는 KHOA(바다누리) 자체 키가 필요합니다. 무료로 발급
-  (https://www.khoa.go.kr 오픈API) 후 `.env.local`·Vercel 에 `KHOA_API_KEY` 추가하면
-  활성화됩니다. 없으면 그 항목만 폴백.
+- **날씨**(기온·하늘·풍속): 기상청 단기예보 — `DATA_GO_KR_KEY` 로 **실연동 검증 완료**.
+- **파고·수온·풍속·해수욕지수**: 국립해양조사원_해수욕지수 조회
+  (`apis.data.go.kr/1192136/fcstBeachv2`) — 부산 5개 해변 **실연동 검증 완료**
+  (`lib/api/fcstBeach.ts`). 같은 `DATA_GO_KR_KEY` 사용. 단 공공데이터포털에서
+  **해당 API를 활용신청**해야 열립니다(API별 개별 신청).
+- **조위**: 국립해양조사원_조위관측소 실측·예측
+  (`apis.data.go.kr/1192136/surveyTideLevel`) — 엔드포인트 확인됨(`obsCode`,`date`),
+  관측소 코드 매핑 작업 후 연동 예정.
+- ⚠️ 구 KHOA `khoa.go.kr/oceangrid/...` 오픈API(35종)는 **제공중단(404)**. 모두
+  공공데이터포털 신규 API로 대체됨. `KHOA_API_KEY` 는 더 이상 필요 없음.
 - **수심 단면**: 근접 연안 정밀 수심은 공개 API가 없어 **대표 예시 프로파일**을 사용하며
   화면에 그렇게 명시합니다.
 - `KMA_API_KEY` 는 현재 코드에서 사용하지 않습니다.

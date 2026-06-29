@@ -18,6 +18,8 @@ import { fetchQuality } from "./quality";
 import type { QualityResult } from "./quality";
 import { fetchBathymetry } from "./bathymetry";
 import type { BathymetryResult } from "./bathymetry";
+import { fetchFcstBeach } from "./fcstBeach";
+import type { FcstBeachResult } from "./fcstBeach";
 
 export interface BeachSummary {
   id: string; name: string; region: string;
@@ -47,8 +49,9 @@ export async function getBeachDetail(id: BeachId): Promise<BeachDetail> {
   const results = await Promise.allSettled([
     fetchTide(id), fetchWeather(id), fetchBeachInfo(id),
     fetchRip(id), fetchWave(id), fetchQuality(id), fetchBathymetry(id),
+    fetchFcstBeach(id),
   ] as const);
-  const [tideResult, weatherResult, infoResult, ripResult, waveResult, qualityResult, gridResult] = results as [
+  const [tideResult, weatherResult, infoResult, ripResult, waveResult, qualityResult, gridResult, fcstResult] = results as [
     PromiseSettledResult<TideResult | null>,
     PromiseSettledResult<WeatherResult | null>,
     PromiseSettledResult<BeachInfoResult | null>,
@@ -56,12 +59,14 @@ export async function getBeachDetail(id: BeachId): Promise<BeachDetail> {
     PromiseSettledResult<WaveResult | null>,
     PromiseSettledResult<QualityResult | null>,
     PromiseSettledResult<BathymetryResult | null>,
+    PromiseSettledResult<FcstBeachResult | null>,
   ];
 
   const tide = settled(tideResult, null);
   const weather = settled(weatherResult, null);
   const info = settled(infoResult, null);
   const rip = settled(ripResult, null);
+  const fcst = settled(fcstResult, null);
   const wave = settled(waveResult, null);
   const quality = settled(qualityResult, null);
   const grid = settled(gridResult, null);
@@ -71,10 +76,14 @@ export async function getBeachDetail(id: BeachId): Promise<BeachDetail> {
     t1: tide?.t1Offset ?? FALLBACK_TIDE_OFFSETS.t1,
     t2: tide?.t2Offset ?? FALLBACK_TIDE_OFFSETS.t2,
   };
-  const waveHeight = wave?.height ?? info?.waveHeight ?? fb.wave;
+  const waveHeight =
+    (Number.isFinite(fcst?.wave) ? fcst!.wave : undefined) ??
+    wave?.height ?? info?.waveHeight ?? fb.wave;
   const ripLabel = rip ? rip.level : fb.rip;
   const qualityGrade = quality?.grade ?? FALLBACK_QUALITY;
-  const windSpeed = info?.windSpeed ?? weather?.windSpeed ?? FALLBACK_WIND_SPEED;
+  const windSpeed =
+    (Number.isFinite(fcst?.wind) ? fcst!.wind : undefined) ??
+    info?.windSpeed ?? weather?.windSpeed ?? FALLBACK_WIND_SPEED;
   const tideRising = tide?.rising ?? (fb.tideTrend === "상승");
 
   // 중앙 단면 기준 위험시작으로 점수 산정
@@ -92,7 +101,7 @@ export async function getBeachDetail(id: BeachId): Promise<BeachDetail> {
     uv: weather?.uv ?? fb.uv, crowd: fb.crowd,
     wave: waveHeight, tide: tide?.label ?? fb.tide,
     tideTrend: tideRising ? "상승" : "하강", rip: ripLabel,
-    water: info?.water ?? fb.water, family: fb.family,
+    water: (Number.isFinite(fcst?.water) ? fcst!.water : undefined) ?? info?.water ?? fb.water, family: fb.family,
     parking: fb.parking, parkDist: fb.parkDist, length: fb.length,
     summary: fb.summary, windSpeed, quality: qualityGrade,
     tideOffsets, transects: fb.transects,
