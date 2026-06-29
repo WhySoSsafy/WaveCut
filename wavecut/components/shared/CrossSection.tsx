@@ -420,6 +420,10 @@ export function CrossSection({
           ))}
         </svg>
         <DepthLegend />
+        <p className={styles.profileNote}>
+          ※ 수심 단면은 실측이 아닌 <b>대표 예시 프로파일</b>입니다. 조위는 시뮬레이션
+          값이며, 실제 입수 전 현장 안전요원의 안내를 따르세요.
+        </p>
       </div>
 
       {showAI && (
