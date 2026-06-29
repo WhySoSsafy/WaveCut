@@ -13,7 +13,7 @@ interface NavItem {
 }
 
 const NAV: NavItem[] = [
-  { label: "메인 대시보드", href: "/",                       icon: "grid",    exact: true },
+  { label: "메인 대시보드", href: "/dashboard",              icon: "grid",    exact: true },
   { label: "단면 수심 뷰",   href: "/beach/haeundae/xsec",   icon: "layers"  },
   { label: "운영자 대시보드", href: "/operator",               icon: "users"   },
   { label: "교통·접근성",    href: "/transit",                icon: "transit" },

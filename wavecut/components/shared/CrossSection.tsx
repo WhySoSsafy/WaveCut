@@ -74,13 +74,15 @@ export function CrossSection({
     };
   }, [drag, move]);
 
-  // 첫 진입 시 단면선을 한 번 좌우로 살짝 움직여 "드래그 가능"을 시연
+  // 첫 진입 시 단면선을 1/4 → 3/4 로 부드럽게 한 번 훑어 "드래그 가능"을 시연
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let raf = 0;
     let start = 0;
     let cancelled = false;
-    const DUR = 1700;
+    const DUR = 2600;
+    const easeInOut = (x: number) =>
+      x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
     const tick = (t: number) => {
       if (cancelled) return;
       if (!start) start = t;
@@ -89,9 +91,18 @@ export function CrossSection({
         setP(0.5);
         return;
       }
-      // 0.5 → 좌 → 우 → 0.5 (감쇠 사인 1.5주기)
-      const wig = Math.sin(el * Math.PI * 3) * (1 - el) * 0.16;
-      setP(0.5 + wig);
+      // 0.5 →(살짝 좌) 0.25 → 0.75 →(안착) 0.5 — 전 구간 부드럽게, 점프 없음
+      const seg = (from: number, to: number, k: number) =>
+        from + (to - from) * easeInOut(k);
+      let p: number;
+      if (el < 0.18) {
+        p = seg(0.5, 0.25, el / 0.18);
+      } else if (el < 0.78) {
+        p = seg(0.25, 0.75, (el - 0.18) / 0.6);
+      } else {
+        p = seg(0.75, 0.5, (el - 0.78) / 0.22);
+      }
+      setP(p);
       raf = requestAnimationFrame(tick);
     };
     const startId = window.setTimeout(() => {
