@@ -134,7 +134,17 @@ export const es: Dict = {
     detailHead: "Transporte y acceso", routeFind: "Cómo llegar", externalMap: "Mapa externo",
     kakao: "Abrir en KakaoMap", naver: "Abrir en Naver Map", more: "Detalles",
     minUnit: " min",
+    backList: "Volver a transporte", around: "Cercano",
     subway: "Metro",
+  },
+  mobile: {
+    tabHome: "Inicio", tabFav: "Favoritos", tabTransit: "Transporte", tabMy: "Mi página",
+    greetLabel: "Busan · Hoy", greetTitle: "Comprueba un mar seguro, ahora",
+    recToday: "Recomendado hoy", mainBeaches: "Playas principales", beachesUnit: "",
+    favLabel: "Visitadas con frecuencia", favTitle: "Favoritos", favEmptyT: "Aún no hay playas favoritas", favEmptyB: "Guarda las playas que visitas a menudo para ver su seguridad más rápido.", favHome: "Ver playas en Inicio",
+    myUser: "Ciudadano de Busan", mySub: "Usuario familiar", myFav: "Gestionar favoritos", myData: "Fuentes de datos", myGuide: "Cómo usar", myDisc: "Aviso legal · seguridad", myLegal: "La información de seguridad es una estimación de IA basada en datos públicos y puede diferir de la realidad.",
+    crowdShort: "Afluencia", parkingBtn: "Estacionamiento cercano", back: "Volver al inicio",
+    favEmpty: "Aún no hay playas favoritas.", mypage: "Mi página",
   },
   xsec: {
     tideSim: "Simulación de marea",

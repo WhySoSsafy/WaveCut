@@ -134,7 +134,17 @@ export const ja: Dict = {
     detailHead: "交通・アクセス", routeFind: "ルート", externalMap: "外部地図",
     kakao: "Kakaoマップで見る", naver: "Naver地図で見る", more: "詳細",
     minUnit: "分",
+    backList: "交通一覧へ", around: "周辺",
     subway: "地下鉄",
+  },
+  mobile: {
+    tabHome: "ホーム", tabFav: "お気に入り", tabTransit: "交通", tabMy: "マイページ",
+    greetLabel: "釜山 · 今日", greetTitle: "安全な海を今すぐ確認",
+    recToday: "今日のおすすめ", mainBeaches: "主要ビーチ", beachesUnit: "か所",
+    favLabel: "よく行くビーチ", favTitle: "お気に入り", favEmptyT: "お気に入りのビーチはまだありません", favEmptyB: "よく行くビーチを保存すると、安全情報をより早く確認できます。", favHome: "ホームでビーチを見る",
+    myUser: "釜山市民", mySub: "家族利用者", myFav: "お気に入り管理", myData: "データ出典", myGuide: "ご利用案内", myDisc: "免責 · 安全上の注意", myLegal: "本サービスの安全情報は公共データに基づくAI推定結果で、実際と異なる場合があります。",
+    crowdShort: "混雑", parkingBtn: "近くの駐車場", back: "ホームに戻る",
+    favEmpty: "お気に入りのビーチはまだありません。", mypage: "マイページ",
   },
   xsec: {
     tideSim: "潮位シミュレーション",

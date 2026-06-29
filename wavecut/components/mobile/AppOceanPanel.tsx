@@ -1,5 +1,9 @@
+"use client";
+
 import { Stat } from "@/components/shared/Stat";
 import { waveStatus, ripStatus, familyStatus } from "@/lib/bsm/safety";
+import { useT } from "@/lib/i18n/LocaleProvider";
+import { tv } from "@/lib/i18n/values";
 import styles from "./mobile.module.css";
 
 interface AppOceanPanelProps {
@@ -11,6 +15,8 @@ interface AppOceanPanelProps {
 }
 
 export function AppOceanPanel({ wave, tide, tideTrend, rip, family }: AppOceanPanelProps) {
+  const t = useT();
+  const P = t.panel;
   const waveS = waveStatus(wave);
   const ripS = ripStatus(rip);
   const famStatus = familyStatus(family);
@@ -18,24 +24,24 @@ export function AppOceanPanel({ wave, tide, tideTrend, rip, family }: AppOceanPa
   return (
     <div className={styles.aPanel}>
       <div className={styles.aPanelH}>
-        <strong>해양 안전 분석</strong>
-        <span className={styles.aPanelTag}>전문 지표</span>
+        <strong>{P.oceanTitle}</strong>
+        <span className={styles.aPanelTag}>{P.oceanExpert}</span>
       </div>
       {/* 2×2 grid — mirrors web OceanSafetyPanel */}
       <div className={styles.aMetricGrid}>
-        <Stat icon="wave" label="파고" value={wave} unit="m" status={waveS} />
+        <Stat icon="wave" label={P.wave} value={wave} unit="m" status={waveS} />
         <Stat
           icon="tide"
-          label="조위"
-          value={tide}
-          unit={tideTrend ? " · " + tideTrend : undefined}
+          label={P.tide}
+          value={tv(t, "tide", tide)}
+          unit={tideTrend ? " · " + tv(t, "tideTrend", tideTrend) : undefined}
           status="safe"
         />
-        <Stat icon="rip" label="이안류" value={rip} status={ripS} />
+        <Stat icon="rip" label={P.rip} value={tv(t, "rip", rip)} status={ripS} />
         <Stat
           icon="family"
-          label="가족 이용"
-          value={family ? "추천" : "주의"}
+          label={P.family}
+          value={tv(t, "family", family ? "추천" : "주의")}
           status={famStatus}
         />
       </div>

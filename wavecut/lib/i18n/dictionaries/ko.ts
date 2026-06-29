@@ -131,7 +131,17 @@ export const ko = {
     detailHead: "교통·접근성", routeFind: "길찾기", externalMap: "외부 지도",
     kakao: "카카오맵에서 보기", naver: "네이버지도에서 보기", more: "상세",
     minUnit: "분",
+    backList: "교통 목록으로", around: "주변",
     subway: "지하철",
+  },
+  mobile: {
+    tabHome: "홈", tabFav: "즐겨찾기", tabTransit: "교통", tabMy: "마이페이지",
+    greetLabel: "부산 · 오늘", greetTitle: "안전한 바다, 지금 확인하세요",
+    recToday: "오늘의 추천", mainBeaches: "주요 해수욕장", beachesUnit: "곳",
+    favLabel: "자주 찾는 해수욕장", favTitle: "즐겨찾기", favEmptyT: "아직 즐겨찾기한 해수욕장이 없습니다", favEmptyB: "자주 방문하는 해수욕장을 저장하면 안전 정보를 더 빠르게 확인할 수 있어요.", favHome: "홈에서 해수욕장 보기",
+    myUser: "부산 시민", mySub: "가족 단위 이용자", myFav: "즐겨찾기 관리", myData: "데이터 출처 안내", myGuide: "서비스 이용 안내", myDisc: "면책 · 안전 유의사항", myLegal: "본 서비스의 안전 정보는 공공데이터 기반 AI 추정 결과로 실제와 다를 수 있습니다.",
+    crowdShort: "혼잡", parkingBtn: "근처 주차장 보기", back: "홈으로 돌아가기",
+    favEmpty: "아직 즐겨찾기한 해변이 없어요.", mypage: "마이페이지",
   },
   xsec: {
     tideSim: "조위 시뮬레이션",

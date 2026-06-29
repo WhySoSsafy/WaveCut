@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import { Icon } from "@/components/shared/Icon";
 import type { TransitData } from "@/lib/data/transit";
+import { useT } from "@/lib/i18n/LocaleProvider";
 import styles from "./mobile.module.css";
 
 interface TransitCardProps {
@@ -10,6 +13,7 @@ interface TransitCardProps {
 }
 
 export function TransitCard({ id, beachName, data }: TransitCardProps) {
+  const T = useT().transit;
   const { station, exit, accessible } = data;
 
   return (
@@ -26,13 +30,14 @@ export function TransitCard({ id, beachName, data }: TransitCardProps) {
           <Icon name="transit" size={16} color="var(--blue-600)" />
         </span>
         <div className={styles.aTransitRowBody}>
-          <span className={styles.aTransitRowLabel}>가장 가까운 역</span>
+          <span className={styles.aTransitRowLabel}>{T.nearestStation}</span>
           <span className={styles.aTransitRowValue}>
             {station.name}
             <span className={styles.aTransitLineBadge}>{station.line}</span>
           </span>
           <span className={styles.aTransitRowSub}>
-            도보 {station.walkMin}분
+            {T.walk} {station.walkMin}
+            {T.minUnit}
             {station.note ? ` · ${station.note}` : ""}
           </span>
         </div>
@@ -40,13 +45,13 @@ export function TransitCard({ id, beachName, data }: TransitCardProps) {
 
       {/* 역 → 해변 이동 애니메이션 */}
       <div className={styles.aTransitTrack} aria-hidden="true">
-        <span className={styles.aTransitTrackEnd}>역</span>
+        <span className={styles.aTransitTrackEnd}>{T.toStation}</span>
         <span className={styles.aTransitRail}>
           <span className={styles.aTransitVehicle}>
             <Icon name="transit" size={11} color="#fff" />
           </span>
         </span>
-        <span className={styles.aTransitTrackEnd}>해변</span>
+        <span className={styles.aTransitTrackEnd}>{T.toBeach}</span>
       </div>
 
       <div className={styles.aTransitDivider} />
@@ -57,8 +62,10 @@ export function TransitCard({ id, beachName, data }: TransitCardProps) {
           <Icon name="pin" size={16} color="var(--blue-600)" />
         </span>
         <div className={styles.aTransitRowBody}>
-          <span className={styles.aTransitRowLabel}>추천 출구</span>
-          <span className={styles.aTransitRowValue}>{exit.no} 출구</span>
+          <span className={styles.aTransitRowLabel}>{T.recExit}</span>
+          <span className={styles.aTransitRowValue}>
+            {exit.no} {T.exit}
+          </span>
           <span className={styles.aTransitRowSub}>{exit.toward}</span>
         </div>
       </div>
@@ -71,20 +78,14 @@ export function TransitCard({ id, beachName, data }: TransitCardProps) {
           <Icon name="family" size={16} color="var(--blue-600)" />
         </span>
         <div className={styles.aTransitRowBody}>
-          <span className={styles.aTransitRowLabel}>교통약자 접근성</span>
+          <span className={styles.aTransitRowLabel}>{T.access}</span>
           {accessible.elevator ? (
-            <span className={styles.aTransitAccessBadge}>
-              ✅ 엘리베이터 있음
-            </span>
+            <span className={styles.aTransitAccessBadge}>{T.elevatorYes}</span>
           ) : (
-            <span className={styles.aTransitAccessBadgeNo}>
-              ❌ 엘리베이터 없음
-            </span>
+            <span className={styles.aTransitAccessBadgeNo}>{T.elevatorNo}</span>
           )}
           {accessible.exitNo && (
-            <span className={styles.aTransitRowSub}>
-              {accessible.exitNo}
-            </span>
+            <span className={styles.aTransitRowSub}>{accessible.exitNo}</span>
           )}
           <span className={styles.aTransitRowSub}>{accessible.note}</span>
         </div>

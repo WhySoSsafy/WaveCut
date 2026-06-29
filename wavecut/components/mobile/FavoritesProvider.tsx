@@ -23,7 +23,8 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
       if (raw) {
         const parsed = JSON.parse(raw);
         if (Array.isArray(parsed)) {
-          setFavorites(parsed.filter((x): x is string => typeof x === "string"));
+          const next = parsed.filter((x): x is string => typeof x === "string");
+          requestAnimationFrame(() => setFavorites(next));
         }
       }
     } catch {

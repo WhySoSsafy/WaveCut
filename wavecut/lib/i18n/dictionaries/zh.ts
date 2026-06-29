@@ -134,7 +134,17 @@ export const zh: Dict = {
     detailHead: "交通与无障碍", routeFind: "路线", externalMap: "外部地图",
     kakao: "在 Kakao 地图查看", naver: "在 Naver 地图查看", more: "详情",
     minUnit: " 分钟",
+    backList: "返回交通列表", around: "周边",
     subway: "地铁",
+  },
+  mobile: {
+    tabHome: "首页", tabFav: "收藏", tabTransit: "交通", tabMy: "我的",
+    greetLabel: "釜山 · 今天", greetTitle: "立即查看安全的大海",
+    recToday: "今日推荐", mainBeaches: "主要海滩", beachesUnit: "处",
+    favLabel: "常去的海滩", favTitle: "收藏", favEmptyT: "还没有收藏的海滩", favEmptyB: "保存常去的海滩，可更快查看安全信息。", favHome: "在首页浏览海滩",
+    myUser: "釜山市民", mySub: "家庭用户", myFav: "管理收藏", myData: "数据来源", myGuide: "使用说明", myDisc: "免责 · 安全须知", myLegal: "本服务的安全信息为基于公共数据的 AI 估算结果，可能与实际不同。",
+    crowdShort: "拥挤", parkingBtn: "附近停车场", back: "返回首页",
+    favEmpty: "还没有收藏的海滩。", mypage: "我的",
   },
   xsec: {
     tideSim: "潮位模拟",
