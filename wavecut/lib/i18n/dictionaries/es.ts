@@ -102,6 +102,7 @@ export const es: Dict = {
   },
   nearby: {
     find: "Encontrar la playa más cercana", locating: "Localizando…", retry: "Reintentar",
+    fallbackNote: "La ubicación está desactivada; se muestran todas las playas de Busan. Actívala para ordenar por cercanía.",
     nearest: "Playa más cercana",
     errDenied: "Se denegó el permiso de ubicación. Actívalo desde el icono de ubicación en la barra de direcciones e inténtalo de nuevo.",
     errTimeout: "La localización tarda demasiado. Inténtalo de nuevo en un momento.",

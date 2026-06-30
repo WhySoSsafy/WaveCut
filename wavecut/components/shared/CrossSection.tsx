@@ -27,10 +27,13 @@ export function CrossSection({
   beach,
   compact = false,
   showAI = true,
+  hero = false,
 }: {
   beach: BeachDetail;
   compact?: boolean;
   showAI?: boolean;
+  /** Landing showcase: hide time tabs + hints, auto-sweep the transect smoothly. */
+  hero?: boolean;
 }) {
   const dict = useT();
   const Tx = dict.xsec;
@@ -77,8 +80,35 @@ export function CrossSection({
     };
   }, [drag, move]);
 
+  // 랜딩 히어로: 단면선을 왼쪽 1/5 ↔ 오른쪽 4/5 사이에서 끊김 없이 부드럽게 왕복
+  useEffect(() => {
+    if (!hero) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      requestAnimationFrame(() => setP(0.5));
+      return;
+    }
+    let raf = 0;
+    let start = 0;
+    let cancelled = false;
+    const PERIOD = 11000; // 좌→우→좌 한 바퀴(ms) — 느리고 차분하게
+    const tick = (t: number) => {
+      if (cancelled) return;
+      if (!start) start = t;
+      const phase = ((t - start) / PERIOD) * Math.PI * 2;
+      // cos(0)=1 → 0.2(좌 1/5), cos(π)=-1 → 0.8(우 4/5). 양 끝에서 자연스럽게 감속.
+      setP(0.5 - 0.3 * Math.cos(phase));
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => {
+      cancelled = true;
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [hero]);
+
   // 첫 진입 시 단면선을 1/4 → 3/4 로 부드럽게 한 번 훑어 "드래그 가능"을 시연
   useEffect(() => {
+    if (hero) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let raf = 0;
     let start = 0;
@@ -117,7 +147,7 @@ export function CrossSection({
       if (raf) cancelAnimationFrame(raf);
     };
     // 마운트 1회만 시연
-  }, []);
+  }, [hero]);
 
   const startDrag = (clientX: number) => {
     setInteracted(true);
@@ -182,28 +212,31 @@ export function CrossSection({
 
   return (
     <div className={styles.xsec}>
-      {/* 시간대 탭 */}
-      <div className={styles.xsecTimes}>
-        <span className={`${styles.xsecTimesLabel} mono`}>{Tx.tideSim}</span>
-        <div className={styles.seg}>
-          {TIMES.map((time) => (
-            <button
-              key={time.key}
-              className={`${styles.segBtn}${tideKey === time.key ? ` ${styles.on}` : ""}`}
-              onClick={() => setTideKey(time.key)}
-            >
-              {Tx[time.key]}
-              <em className="mono">{time.clock}</em>
-            </button>
-          ))}
+      {/* 시간대 탭 — 히어로(랜딩)에서는 숨김 */}
+      {!hero && (
+        <div className={styles.xsecTimes}>
+          <span className={`${styles.xsecTimesLabel} mono`}>{Tx.tideSim}</span>
+          <div className={styles.seg}>
+            {TIMES.map((time) => (
+              <button
+                key={time.key}
+                className={`${styles.segBtn}${tideKey === time.key ? ` ${styles.on}` : ""}`}
+                onClick={() => setTideKey(time.key)}
+              >
+                {Tx[time.key]}
+                <em className="mono">{time.clock}</em>
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* 평면도 — 단면선 드래그 */}
+      {/* 평면도 — 단면선 드래그 (히어로에서는 자동 이동, 조작 비활성) */}
       <div
         className={styles.plan}
         ref={planRef}
-        onPointerDown={(e) => startDrag(e.clientX)}
+        onPointerDown={hero ? undefined : (e) => startDrag(e.clientX)}
+        style={hero ? { cursor: "default" } : undefined}
       >
         <div className={styles.planSand}>
           <span>{Tx.sand}</span>
@@ -224,8 +257,8 @@ export function CrossSection({
             {[Tx.left, Tx.center, Tx.right][i]}
           </div>
         ))}
-        {/* 드래그 가능 힌트 — 첫 조작 전까지 표시 */}
-        {!interacted && (
+        {/* 드래그 가능 힌트 — 첫 조작 전까지 표시 (히어로에서는 숨김) */}
+        {!hero && !interacted && (
           <div className={styles.planHint} aria-hidden="true">
             <span className={styles.planHintArrow}>‹</span>
             {Tx.dragHint}
@@ -234,7 +267,7 @@ export function CrossSection({
         )}
         <div className={styles.planLine} style={{ left: p * 100 + "%" }}>
           <div
-            className={`${styles.planKnob}${interacted ? "" : ` ${styles.planKnobHint}`}`}
+            className={`${styles.planKnob}${interacted || hero ? "" : ` ${styles.planKnobHint}`}`}
           >
             <svg width="14" height="14" viewBox="0 0 14 14">
               <path

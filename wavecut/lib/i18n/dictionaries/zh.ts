@@ -102,6 +102,7 @@ export const zh: Dict = {
   },
   nearby: {
     find: "查找离我最近的海滩", locating: "定位中…", retry: "重试",
+    fallbackNote: "未开启定位，已显示全部釜山海滩。允许定位后将按距离排序。",
     nearest: "最近的海滩",
     errDenied: "定位权限被拒绝。请在地址栏的位置图标处允许后重试。",
     errTimeout: "定位耗时较长，请稍后重试。",

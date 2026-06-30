@@ -102,6 +102,7 @@ export const en: Dict = {
   },
   nearby: {
     find: "Find the nearest beach to me", locating: "Locating…", retry: "Try again",
+    fallbackNote: "Location is off, so all Busan beaches are shown. Allow location to sort by nearest.",
     nearest: "Nearest beach",
     errDenied: "Location permission was denied. Allow it from the location icon in the address bar, then try again.",
     errTimeout: "Locating is taking too long. Please try again shortly.",

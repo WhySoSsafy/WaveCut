@@ -84,6 +84,17 @@
   flex-direction: column;
   gap: 18px;
 }
+/* 마스코트를 키커 옆에 배치 — 제목을 아래로 밀지 않도록 */
+.kickerRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.mascotInline {
+  display: inline-flex;
+  flex: none;
+  margin: -6px 0;
+}
 .kicker {
   font-size: 13px;
   font-weight: 700;

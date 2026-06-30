@@ -28,8 +28,12 @@ export function LandingHero({ beach, t }: { beach: BeachDetail; t: Dict }) {
 
       <div className={styles.heroInner}>
         <div className={styles.heroCopy}>
-          <MascotGaze size={116} />
-          <span className={styles.kicker}>{L.kicker}</span>
+          <div className={styles.kickerRow}>
+            <span className={styles.mascotInline} aria-hidden="true">
+              <MascotGaze size={78} />
+            </span>
+            <span className={styles.kicker}>{L.kicker}</span>
+          </div>
           <h1 className={styles.title}>
             {L.titleA}
             <br />
@@ -49,9 +53,9 @@ export function LandingHero({ beach, t }: { beach: BeachDetail; t: Dict }) {
 
         <div className={styles.heroScene}>
           <div className={styles.sceneTag}>
-            {t.beaches.haeundae} · {L.sceneTag}
+            {t.beaches.haeundae} · {t.panel.detailXsec}
           </div>
-          <CrossSection beach={beach} compact showAI={false} />
+          <CrossSection beach={beach} compact showAI={false} hero />
         </div>
       </div>
     </section>

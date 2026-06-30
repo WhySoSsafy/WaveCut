@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { nearestBeaches, type NearbyBeach as Nearby } from "@/lib/data/geo";
+import { BEACH_IDS } from "@/lib/data/fallback";
 import { useT } from "@/lib/i18n/LocaleProvider";
 import { Icon } from "./Icon";
 import styles from "./NearbyBeach.module.css";
@@ -14,20 +15,20 @@ function fmt(km: number): string {
 /**
  * Geolocation-powered "nearest beach" finder. Works without any API key.
  * `hrefBase` lets web (/beach) and mobile (/app/beach) link correctly.
+ * When location is denied/unavailable it gracefully falls back to the full
+ * beach list so the button is never a dead end.
  */
 export function NearbyBeach({ hrefBase = "/beach" }: { hrefBase?: string }) {
   const dict = useT();
   const N = dict.nearby;
-  const [state, setState] = useState<"idle" | "loading" | "done" | "error">(
-    "idle"
-  );
+  const [state, setState] = useState<
+    "idle" | "loading" | "done" | "fallback"
+  >("idle");
   const [list, setList] = useState<Nearby[]>([]);
-  const [msg, setMsg] = useState("");
 
   const locate = () => {
     if (typeof navigator === "undefined" || !("geolocation" in navigator)) {
-      setState("error");
-      setMsg(N.unsupported);
+      setState("fallback");
       return;
     }
     setState("loading");
@@ -36,16 +37,12 @@ export function NearbyBeach({ hrefBase = "/beach" }: { hrefBase?: string }) {
         setList(nearestBeaches(pos.coords.latitude, pos.coords.longitude));
         setState("done");
       },
-      (err) => {
-        setState("error");
-        if (err.code === err.PERMISSION_DENIED) setMsg(N.errDenied);
-        else if (err.code === err.TIMEOUT) setMsg(N.errTimeout);
-        else setMsg(N.errUnavail);
-      },
+      () => setState("fallback"),
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 300000 }
     );
   };
 
+  // 위치를 받은 경우 — 가까운 순 정렬
   if (state === "done" && list.length > 0) {
     const [top, ...rest] = list;
     return (
@@ -74,6 +71,27 @@ export function NearbyBeach({ hrefBase = "/beach" }: { hrefBase?: string }) {
     );
   }
 
+  // 위치를 못 받은 경우 — 전체 해변 목록으로 폴백 (막다른 오류 대신)
+  if (state === "fallback") {
+    return (
+      <div className={styles.box}>
+        <p className={styles.note}>{N.fallbackNote}</p>
+        <div className={styles.rest}>
+          {BEACH_IDS.map((id) => (
+            <Link key={id} href={`${hrefBase}/${id}`} className={styles.restItem}>
+              {dict.beaches[id]}
+              <Icon name="chevron" size={14} color="var(--ink-3)" />
+            </Link>
+          ))}
+        </div>
+        <button className={styles.retry} onClick={locate}>
+          <Icon name="pin" size={14} color="var(--blue-600)" />
+          {N.retry}
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.box}>
       <button
@@ -82,13 +100,8 @@ export function NearbyBeach({ hrefBase = "/beach" }: { hrefBase?: string }) {
         disabled={state === "loading"}
       >
         <Icon name="pin" size={16} color="var(--blue-600)" />
-        {state === "loading"
-          ? N.locating
-          : state === "error"
-            ? N.retry
-            : N.find}
+        {state === "loading" ? N.locating : N.find}
       </button>
-      {state === "error" && <p className={styles.err}>{msg}</p>}
     </div>
   );
 }
